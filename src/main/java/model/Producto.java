@@ -1,5 +1,7 @@
 package main.java.model;
 
+import java.util.Objects;
+
 public class Producto {
 	private String codigo;
 	private String nombre;
@@ -9,7 +11,9 @@ public class Producto {
 	
 	
 	public Producto(String codigo, String nombre, String color, String familia, String genero) {
-		super();
+		if (codigo == null || codigo.isBlank()) {
+			throw new IllegalArgumentException("El código del producto es obligatorio");
+		}
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.color = color;
@@ -65,6 +69,10 @@ public class Producto {
 
 	public void setGenero(String genero) {
 		this.genero = genero;
+	}
+	
+	public int hashCode() {
+	    return Objects.hash(codigo);
 	}
 	
 
