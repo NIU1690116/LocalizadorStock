@@ -19,7 +19,7 @@ class ProductoTest {
         Producto a = new Producto("P001", "Camiseta", "rojo", "camisetas", "hombre");
         Producto b = new Producto("P001", "Camiseta básica", "azul", "camisetas", "hombre");
         
-        assertEquals(a.getCodigo(), b.getCodigo());
+        assertEquals(a.hashCode(), b.hashCode());
     }
 	
 	
@@ -32,5 +32,11 @@ class ProductoTest {
         assertEquals("rojo", p.getColor());
         assertEquals("camisetas", p.getFamilia());
         assertEquals("mujer", p.getGenero());
+    }
+	
+	@Test
+    void elCodigoNoPuedeSerNuloNiVacio() {
+        assertThrows(IllegalArgumentException.class, () -> new Producto(null, "Camiseta", "rojo", "camisetas", "unisex"));
+        assertThrows(IllegalArgumentException.class, () -> new Producto("  ", "Camiseta", "rojo", "camisetas", "unisex"));
     }
 }
