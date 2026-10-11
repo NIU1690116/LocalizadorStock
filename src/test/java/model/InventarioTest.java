@@ -18,16 +18,9 @@ class InventarioTest {
 		producto = new Producto("P001", "Camiseta", "rojo", "camisetas", "unisex");
         inventario = new Inventario();
 	}
-	
-	@Test
-	void añadirProductosActualizaElStock() {
-        inventario.añadirProductos(producto, 10);
-
-        assertEquals(10, inventario.consultarStock(producto));
-    }
 
     @Test
-    void añadirProductosDoVecesAcumulaElStock() {
+    void añadirProductosAcumulaElStock() {
         inventario.añadirProductos(producto, 10);
         inventario.añadirProductos(producto, 5);
 
@@ -35,12 +28,20 @@ class InventarioTest {
     }
     
     @Test
-    void tieneStockTestDevuelveTrueSiHayCantidadSuficiente() {
-        inventario.añadirProductos(producto, 5); 
+    void tieneStockHaySuficientesUnidades() {
+        inventario.añadirProductos(producto, 10);
 
-        assertTrue(inventario.tieneStock(producto, 3));
-        assertTrue(inventario.tieneStock(producto, 5));
-        assertFalse(inventario.tieneStock(producto, 6));
+        assertTrue(inventario.tieneStock(producto, 5));//tiene suficientes unidades
+        assertFalse(inventario.tieneStock(producto, 15));//no tiene suficientes unidades
+    }
+
+    @Test
+    void retirarStockReduceLaCantidadDisponible() {
+        inventario.añadirProductos(producto, 10);
+
+        inventario.retirarStock(producto, 4);
+
+        assertEquals(6, inventario.consultarStock(producto));
     }
 
 
