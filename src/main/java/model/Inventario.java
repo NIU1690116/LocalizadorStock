@@ -6,22 +6,31 @@ import java.util.Map;
 
 public class Inventario {
 	
-	private final Map<Producto, Integer> stock = new HashMap<>();
+	private final Map<Producto, Integer> stock;
 	
-	
-	public void añadirProductos() {
-		
+	public Inventario() {
+		this.stock = new HashMap<>();
 	}
+	
+	public void añadirProductos(Producto producto, int cantidad) {
+		if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad ha de ser positiva");
+        }
+        stock.merge(producto, cantidad, Integer::sum);
+    }
 	
 	public void retirarStock() {
 		
 	}
 	
-	public void consultarstock() {
-		
+	public int consultarStock(Producto producto) {
+		return stock.getOrDefault(producto, 0);
 	}
 	
-	public void tieneStock() {
-		
+	public boolean tieneStock(Producto producto, int cantidad) {
+	if (cantidad < 0) {
+		throw new IllegalArgumentException("La cantidad no podue ser negativa");
+	    }
+	    return consultarStock(producto) >= cantidad;
 	}
 }
