@@ -19,6 +19,7 @@ class InventarioTest {
         inventario = new Inventario();
 	}
 	
+	@Test
 	void añadirProductosActualizaElStock() {
         inventario.añadirProductos(producto, 10);
 
@@ -33,12 +34,13 @@ class InventarioTest {
         assertEquals(15, inventario.consultarStock(producto));
     }
     
+    @Test
     void tieneStockTestDevuelveTrueSiHayCantidadSuficiente() {
-        inventario.añadirProductos(camiseta, 5); 
+        inventario.añadirProductos(producto, 5); 
 
-        assertTrue(inventario.tieneStock(camiseta, 3));
-        assertTrue(inventario.tieneStock(camiseta, 5));
-        assertFalse(inventario.tieneStock(camiseta, 6));
+        assertTrue(inventario.tieneStock(producto, 3));
+        assertTrue(inventario.tieneStock(producto, 5));
+        assertFalse(inventario.tieneStock(producto, 6));
     }
 
 
