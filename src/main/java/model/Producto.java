@@ -2,6 +2,7 @@ package main.java.model;
 
 import java.util.Objects;
 
+// producto del catálogo
 public class Producto {
 	private String codigo;
 	private String nombre;
@@ -9,7 +10,7 @@ public class Producto {
 	private String familia;
 	private String genero;
 	
-	
+	//atributo codigo no puede ser nulo ni vacio
 	public Producto(String codigo, String nombre, String color, String familia, String genero) {
 		if (codigo == null || codigo.isBlank()) {
 			throw new IllegalArgumentException("El código del producto es obligatorio");
@@ -71,6 +72,9 @@ public class Producto {
 		this.genero = genero;
 	}
 	
+	
+	//si dos objetos son iguales se devuelve el mismo hashCode
+	@Override
 	public int hashCode() {
 	    return Objects.hash(codigo);
 	}
