@@ -19,7 +19,12 @@ public class Inventario {
         stock.merge(producto, cantidad, Integer::sum);
     }
 	
-	public void retirarStock() {
+	public void retirarStock(Producto producto, int cantidad) {
+		if (cantidad <= 0) {
+	        throw new IllegalArgumentException("La quantitat ha de ser positiva");
+		}
+		int stockActual = consultarStock(producto);
+	    stock.put(producto, stockActual - cantidad);
 		
 	}
 	
