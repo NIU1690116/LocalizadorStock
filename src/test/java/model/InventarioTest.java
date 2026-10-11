@@ -44,6 +44,27 @@ class InventarioTest {
         assertEquals(6, inventario.consultarStock(producto));
     }
 
+    @Test
+    void retirarMasUnidadesDeLasDisponiblesLanzaExcepcion() {
+        inventario.añadirProductos(producto, 3);
 
+        assertThrows(IllegalArgumentException.class, () -> inventario.retirarStock(producto, 5));
+
+        // El stock debe permanecer intacto tras el error.
+        assertEquals(3, inventario.consultarStock(producto));
+    }
+
+    @Test
+    void agregarCantidadNoPermitidaLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, 0));
+        assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, -5));
+    }
+
+    @Test
+    void consultarStockDeProductoNoRegistrado() {
+        Producto productoNoRegistrado = new Producto("P002", "Pantalón", "Negro", "Adulto", "Ropa");
+
+        assertEquals(0, inventario.consultarStock(productoNoRegistrado));
+    }
 
 }
