@@ -1,0 +1,1 @@
+Problema concreto: Un cliente solicita uno o varios productos. El sistema debe determinar si puede satisfacer la solicitud desde la tienda actual y, si no es posible, encontrar la alternativa disponible que cumpla las restricciones de distancia, stock y tiempo.
