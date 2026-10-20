@@ -25,6 +25,12 @@ class InventarioTest {
         inventario.añadirProductos(producto, 5);
 
         assertEquals(15, inventario.consultarStock(producto));
+        
+        inventario.añadirProductos(producto, 1);
+        assertEquals(16, inventario.consultarStock(producto));
+        // solo se permiten cantidades positivas mayores a 0
+        assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, 0));
+        assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, -1));
     }
     
     @Test
@@ -33,6 +39,7 @@ class InventarioTest {
 
         assertTrue(inventario.tieneStock(producto, 5));//tiene suficientes unidades
         assertFalse(inventario.tieneStock(producto, 15));//no tiene suficientes unidades
+        assertTrue(inventario.tieneStock(producto, 10)); // cantidad exacta
     }
 
     @Test
