@@ -79,5 +79,11 @@ class InventarioTest {
         inventario.setStockMaximo(producto, 50);
         assertEquals(50, inventario.consultarStockMaximo(producto));
     }
+    
+    @Test
+    void establecerStockMaximoNegativoLanzaExcepcion() {
+        // Valor inválido 
+        assertThrows(IllegalArgumentException.class, () -> inventario.setStockMaximo(producto, -5));
+    }
 
 }
