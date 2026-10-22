@@ -1,18 +1,25 @@
 package test.java.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import main.java.model.Inventario;
 import main.java.model.Producto;
 
 public class InventarioMock extends Inventario {
-	private final int stockARetornar;
+	private final Map<Producto, Integer> stockSimulado = new HashMap<>();
 
-    public InventarioMock(int stockARetornar) {
-        this.stockARetornar = stockARetornar;
+    @Override
+    public void añadirProductos(Producto producto, int cantidad) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("Cantidad inválida");
+        }
+        stockSimulado.put(producto, stockSimulado.getOrDefault(producto, 0) + cantidad);
     }
 
     @Override
     public int consultarStock(Producto producto) {
-        return this.stockARetornar;
+        return stockSimulado.getOrDefault(producto, 0);
     }
 
 }
