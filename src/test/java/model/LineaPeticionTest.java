@@ -27,7 +27,8 @@ class LineaPeticionTest {
 	
 	@Test
     void testCantidadValida() {
-
+		assertThrows(IllegalArgumentException.class, () -> new LineaPeticion(producto, 0));
+		assertThrows(IllegalArgumentException.class, () -> new LineaPeticion(producto, -1));
     }
 
 }
