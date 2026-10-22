@@ -64,4 +64,11 @@ class TiendaTest {
         assertDoesNotThrow(() -> new Tienda("T001", "Tienda Este", 0, 180.0, inventarioMock));
     }
 	
+	@Test
+    void inventarioNuloLanzaExcepcion() {
+        
+    }
+	
+	
+	
 }
