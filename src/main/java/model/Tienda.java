@@ -8,12 +8,6 @@ public class Tienda {
 	private final Inventario inventario;
 	
 	public Tienda(String id, String nombre, double latitud, double longitud, Inventario inventario) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.latitud = latitud;
-		this.longitud = longitud;
-		this.inventario = inventario;
 		
 		if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El id es obligatorio");
@@ -33,6 +27,12 @@ public class Tienda {
                 "El inventario no puede ser null"
             );
         }
+		
+		this.id = id;
+		this.nombre = nombre;
+		this.latitud = latitud;
+		this.longitud = longitud;
+		this.inventario = inventario;
 	}
 	
 	
