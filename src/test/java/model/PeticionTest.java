@@ -29,8 +29,12 @@ class PeticionTest {
 	}
 	
 	@Test
-	void testAgregarLineasValidas() {
-		
+	void testAgregarLineas() {
+		assertTrue(peticion.getLineas().isEmpty());
+		LineaPeticion linea = new LineaPeticion(camiseta, 2);
+
+        peticion.agregarLinea(linea);
+        assertEquals(1, peticion.getLineas().size());
 	}
 
 }
