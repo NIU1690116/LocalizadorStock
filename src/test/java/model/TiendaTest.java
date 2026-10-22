@@ -69,6 +69,11 @@ class TiendaTest {
 		assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "Tienda", 0, 0, null));
     }
 	
+	@Test 
+	void testConsultarStockInventario() {
+		
+	}
+	
 	
 	
 }
