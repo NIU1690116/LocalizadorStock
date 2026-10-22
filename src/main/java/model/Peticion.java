@@ -22,6 +22,20 @@ public class Peticion {
         this.fechaSolicitud = fechaSolicitud;
         this.lineas = new ArrayList<>();
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public LocalDateTime getFechaSolicitud() {
+		return fechaSolicitud;
+	}
+
+	public List<LineaPeticion> getLineas() {
+		return lineas;
+	}
+    
+    
     
 
 }
