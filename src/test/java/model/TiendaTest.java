@@ -53,4 +53,10 @@ class TiendaTest {
         assertDoesNotThrow(() -> new Tienda("T001", "Tienda Sur", -90.0, 0, inventarioMock));
         assertDoesNotThrow(() -> new Tienda("T001", "Tienda Norte", 90.0, 0, inventarioMock)); 
     }
+	
+	@Test
+    void testLongitudRangosPermitidos() {
+       
+    }
+	
 }
