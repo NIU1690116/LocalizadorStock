@@ -9,4 +9,14 @@ public class LineaPeticion {
 		this.cantidad = cantidad;
     }
 
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+    
+
+
 }
