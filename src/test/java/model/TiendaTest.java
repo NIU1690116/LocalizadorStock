@@ -59,6 +59,9 @@ class TiendaTest {
 		// Valores por debajo y por encima de los límites permitidos
         assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "Tienda", 0, -180.1, inventarioMock));
         assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "Tienda", 0, 180.1, inventarioMock));
+        // Valores límite exactos (-180 y 180)
+        assertDoesNotThrow(() -> new Tienda("T001", "Tienda Oeste", 0, -180.0, inventarioMock));
+        assertDoesNotThrow(() -> new Tienda("T001", "Tienda Este", 0, 180.0, inventarioMock));
     }
 	
 }
