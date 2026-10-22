@@ -23,7 +23,10 @@ class ReposicionTest {
     
     @Test
     void rechazaProductoFechaCantidadInvalidos() {
-
+        assertThrows(IllegalArgumentException.class, () -> new Reposicion(null, 1, prevista));
+        assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, 0, prevista));
+        assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, -1, prevista));
+        assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, 1, null));
     }
 
 }
