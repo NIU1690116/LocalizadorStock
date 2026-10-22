@@ -24,6 +24,9 @@ public class Tienda {
 		if (latitud < -90 || latitud > 90) {
             throw new IllegalArgumentException("Latitud no válida");
         }
+		if (longitud < -180 || longitud > 180) {
+            throw new IllegalArgumentException("Longitud no válida");
+        }
 	}
 	
 	
