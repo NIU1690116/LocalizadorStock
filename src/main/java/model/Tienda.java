@@ -58,6 +58,8 @@ public class Tienda {
 		return inventario;
 	}
 	
-	
+	public int consultarStock(Producto producto) {
+        return inventario.consultarStock(producto);
+    }	
 
 }
