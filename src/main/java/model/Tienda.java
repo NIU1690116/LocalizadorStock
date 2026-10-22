@@ -14,6 +14,10 @@ public class Tienda {
 		this.latitud = latitud;
 		this.longitud = longitud;
 		this.inventario = inventario;
+		
+		if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("El id es obligatorio");
+        }
 	}
 	
 	
