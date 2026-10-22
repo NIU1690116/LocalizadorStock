@@ -43,4 +43,9 @@ class TiendaTest {
 		assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "", 0, 0, inventarioMock));
 		assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "   ", 0, 0, inventarioMock));
 	}
+	
+	@Test
+    void latitudFueraDeRangoLanzaExcepcion() {
+        
+    }
 }
