@@ -14,5 +14,17 @@ public class Reposicion {
         this.fechaPrevista = fechaPrevista;
     }
 
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public LocalDateTime getFechaPrevista() {
+		return fechaPrevista;
+	}
+
     
 }
