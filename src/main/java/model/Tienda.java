@@ -21,6 +21,9 @@ public class Tienda {
 		if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre es obligatorio");
         }
+		if (latitud < -90 || latitud > 90) {
+            throw new IllegalArgumentException("Latitud no válida");
+        }
 	}
 	
 	
