@@ -39,8 +39,11 @@ public class Inventario {
 		return stock.getOrDefault(producto, 0);
 	}
 	
-	public void setStockMaximo(Producto producto, int cantidad) {
-		
+	public void setStockMaximo(Producto producto, int maximo) {
+		if (maximo < 0) {
+            throw new IllegalArgumentException("El stock máximo no puede ser negativo");
+        }
+        stockMaximo.put(producto, maximo);
 	}
 	
 	public int consultarStockMaximo(Producto producto) {
