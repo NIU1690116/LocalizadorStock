@@ -28,6 +28,11 @@ class TiendaTest {
 		assertEquals(41.3851, tienda.getLatitud());
         assertEquals(2.1734, tienda.getLongitud());
         assertEquals(inventarioMock, tienda.getInventario());
+
 	}
+	@Test
+    void idInvalidoLanzaExcepcion() {
+
+    }
 
 }
