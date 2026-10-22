@@ -10,12 +10,15 @@ import main.java.model.Producto;
 import main.java.model.Reposicion;
 
 class ReposicionTest {
-    private Producto producto = new Producto("P1", "Camisa", "Rojo", "Camisa", "Unisex");
+    private Producto producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Unisex");
     private LocalDateTime prevista = LocalDateTime.of(2026, 10, 22, 11, 0);
 
     @Test
     void testCreaReposicionValida() {
-       
+    	Reposicion reposicion = new Reposicion(producto, 1, prevista);
+        assertEquals(producto.getCodigo(), reposicion.getProducto().getCodigo()S);
+        assertEquals(1, reposicion.getCantidad());
+        assertEquals(prevista, reposicion.getFechaPrevista());
     }
 
 }
