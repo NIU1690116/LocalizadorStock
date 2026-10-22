@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import main.java.model.LineaPeticion;
 import main.java.model.Peticion;
 import main.java.model.Producto;
 
@@ -35,6 +36,9 @@ class PeticionTest {
 
         peticion.agregarLinea(linea);
         assertEquals(1, peticion.getLineas().size());
+        
+        assertThrows(IllegalArgumentException.class () -> peticion.agregarLinea(null));
 	}
+	
 
 }
