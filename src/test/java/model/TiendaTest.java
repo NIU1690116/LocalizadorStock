@@ -32,7 +32,9 @@ class TiendaTest {
 	}
 	@Test
     void idInvalidoLanzaExcepcion() {
-
+		assertThrows(IllegalArgumentException.class, () -> new Tienda(null, "Tienda", 0, 0, inventarioMock));
+        assertThrows(IllegalArgumentException.class, () -> new Tienda("", "Tienda", 0, 0, inventarioMock));
+        assertThrows(IllegalArgumentException.class, () -> new Tienda("   ", "Tienda", 0, 0, inventarioMock));
     }
 
 }
