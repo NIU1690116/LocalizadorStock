@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class Inventario {
 	
+	
 	private final Map<Producto, Integer> stock;
 	
 	public Inventario() {
@@ -24,7 +25,7 @@ public class Inventario {
 	        throw new IllegalArgumentException("La quantitat ha de ser positiva");
 		}
 	    
-	    if (!tieneStock(producto, cantidad)) {
+	    if (!hayStockSuficiente(producto, cantidad)) {
 	        throw new IllegalArgumentException("No hay suficiente stock disponible");
 	    }
 		int stockActual = consultarStock(producto);
@@ -36,7 +37,7 @@ public class Inventario {
 		return stock.getOrDefault(producto, 0);
 	}
 	
-	public boolean tieneStock(Producto producto, int cantidad) {
+	public boolean hayStockSuficiente(Producto producto, int cantidad) {
 		if (cantidad < 0) {
 			throw new IllegalArgumentException("La cantidad no podue ser negativa");
 		    }

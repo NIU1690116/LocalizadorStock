@@ -34,12 +34,12 @@ class InventarioTest {
     }
     
     @Test
-    void tieneStockHaySuficientesUnidades() {
+    void testHaySuficientesUnidades() {
         inventario.añadirProductos(producto, 10);
 
-        assertTrue(inventario.tieneStock(producto, 5));//tiene suficientes unidades
-        assertFalse(inventario.tieneStock(producto, 15));//no tiene suficientes unidades
-        assertTrue(inventario.tieneStock(producto, 10)); // cantidad exacta
+        assertTrue(inventario.hayStockSuficiente(producto, 5));//tiene suficientes unidades
+        assertFalse(inventario.hayStockSuficiente(producto, 15));//no tiene suficientes unidades
+        assertTrue(inventario.hayStockSuficiente(producto, 10)); // cantidad exacta
     }
 
     @Test
