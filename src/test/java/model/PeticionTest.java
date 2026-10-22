@@ -2,18 +2,29 @@ package test.java.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import main.java.model.Peticion;
+import main.java.model.Producto;
+
 class PeticionTest {
+	private Peticion peticion;
+    private Producto camiseta;
+    private Producto pantalon;
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp() {
+		peticion = new Peticion("SOL001", LocalDateTime.of(2026, 10, 22, 10, 0));
+		camiseta = new Producto("P001", "Camiseta", "Rojo", "camisetas", "mujer");
+        pantalon = new Producto("P002", "Pantalon", "Azul", "pantalones", "mujer");
 	}
 
 	@Test
-	void test() {
-		fail("Not yet implemented");
+	void testCrearPeticion() {
+		
 	}
 
 }
