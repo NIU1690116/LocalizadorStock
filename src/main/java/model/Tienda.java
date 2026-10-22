@@ -27,6 +27,12 @@ public class Tienda {
 		if (longitud < -180 || longitud > 180) {
             throw new IllegalArgumentException("Longitud no válida");
         }
+		
+		if (inventario == null) {
+            throw new IllegalArgumentException(
+                "El inventario no puede ser null"
+            );
+        }
 	}
 	
 	
