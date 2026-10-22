@@ -8,6 +8,9 @@ public class LineaPeticion {
     	if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
         }
+    	 if (producto == null) {
+    		 throw new IllegalArgumentException("El producto no puede ser null");
+         }
 
 		this.producto = producto;
 		this.cantidad = cantidad;
