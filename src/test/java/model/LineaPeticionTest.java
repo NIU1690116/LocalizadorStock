@@ -24,5 +24,10 @@ class LineaPeticionTest {
         assertEquals(producto.getCodigo(), linea.getProducto().getCodigo());
         assertEquals(3, linea.getCantidad());
 	}
+	
+	@Test
+    void testCantidadValida() {
+
+    }
 
 }
