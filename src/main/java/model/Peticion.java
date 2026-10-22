@@ -34,6 +34,13 @@ public class Peticion {
 	public List<LineaPeticion> getLineas() {
 		return lineas;
 	}
+	
+	public void agregarLinea(LineaPeticion linea) {
+        if (linea == null) {
+            throw new IllegalArgumentException("La línea no puede ser null");
+        }
+        lineas.add(linea);
+    }
     
     
     
