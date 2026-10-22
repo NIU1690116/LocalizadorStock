@@ -36,5 +36,9 @@ class TiendaTest {
         assertThrows(IllegalArgumentException.class, () -> new Tienda("", "Tienda", 0, 0, inventarioMock));
         assertThrows(IllegalArgumentException.class, () -> new Tienda("   ", "Tienda", 0, 0, inventarioMock));
     }
+	
+	@Test
+	void nombreNuloOVacioLanzaExcepcion() {
 
+	}
 }
