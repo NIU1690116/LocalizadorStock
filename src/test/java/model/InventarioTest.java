@@ -85,5 +85,16 @@ class InventarioTest {
         // Valor inválido 
         assertThrows(IllegalArgumentException.class, () -> inventario.setStockMaximo(producto, -5));
     }
+    
+    @Test
+    void añadirProductosDentroDelStockMaximoPermiteOperacion() {
+        inventario.setStockMaximo(producto, 20);
+        
+        inventario.añadirProductos(producto, 10); // Añadir por debajo del máximo
+        assertEquals(10, inventario.consultarStock(producto));
+
+        inventario.añadirProductos(producto, 10);// llegar exactamente al máximo 10 + 10 = 20
+        assertEquals(20, inventario.consultarStock(producto));
+    }
 
 }
