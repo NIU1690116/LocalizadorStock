@@ -25,8 +25,12 @@ class PeticionTest {
 	@Test
 	void testCrearPeticion() {
 		assertEquals("SOL001", peticion.getId());
-
         assertEquals(LocalDateTime.of(2026, 10, 22, 10, 0), peticion.getFechaSolicitud());
+	}
+	
+	@Test
+	void testAgregarLineasValidas() {
+		
 	}
 
 }
