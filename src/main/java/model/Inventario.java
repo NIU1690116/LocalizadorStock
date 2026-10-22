@@ -18,8 +18,14 @@ public class Inventario {
 		if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad ha de ser positiva");
         }
+		int stockActual = consultarStock(producto);
+        int maximoPermitido = consultarStockMaximo(producto);
+        // Si hay un stock máximo definido comprobamos que no se supere
+        if (maximoPermitido > 0 && (stockActual + cantidad) > maximoPermitido) {
+            throw new IllegalArgumentException("La cantidad supera el stock máximo permitido");
+        }// si no se supera lo podemos añadir
         stock.merge(producto, cantidad, Integer::sum);
-        stockMaximo.merge(producto, null, null);
+        
     }
 	
 	public void retirarStock(Producto producto, int cantidad) {
