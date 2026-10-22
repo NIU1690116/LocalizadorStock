@@ -56,7 +56,9 @@ class TiendaTest {
 	
 	@Test
     void testLongitudRangosPermitidos() {
-       
+		// Valores por debajo y por encima de los límites permitidos
+        assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "Tienda", 0, -180.1, inventarioMock));
+        assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "Tienda", 0, 180.1, inventarioMock));
     }
 	
 }
