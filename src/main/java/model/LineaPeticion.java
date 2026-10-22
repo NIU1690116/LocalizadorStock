@@ -5,6 +5,10 @@ public class LineaPeticion {
     private final int cantidad;
     
     public LineaPeticion(Producto producto, int cantidad) {
+    	if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
+        }
+
 		this.producto = producto;
 		this.cantidad = cantidad;
     }
