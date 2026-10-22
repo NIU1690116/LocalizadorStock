@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - '**'
   push:
     branches:
       - '**'
@@ -14,10 +15,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -35,3 +36,6 @@ jobs:
 
       - name: Run tests
         run: mvn test
+			
+      - name: Run Checkstyle
+        run: mvn checkstyle:check
