@@ -18,6 +18,9 @@ public class Tienda {
 		if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El id es obligatorio");
         }
+		if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre es obligatorio");
+        }
 	}
 	
 	
