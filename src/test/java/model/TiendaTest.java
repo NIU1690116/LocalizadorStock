@@ -45,9 +45,12 @@ class TiendaTest {
 	}
 	
 	@Test
-    void latitudFueraDeRangoLanzaExcepcion() {
+    void testLatitudRangosPermitidos() {
 		// Valores por debajo y por encima de los límites permitidos
         assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "Tienda", -90.1, 0, inventarioMock));
         assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "Tienda", 90.1, 0, inventarioMock));
+        // Valores límite exactos (-90 y 90)
+        assertDoesNotThrow(() -> new Tienda("T001", "Tienda Sur", -90.0, 0, inventarioMock));
+        assertDoesNotThrow(() -> new Tienda("T001", "Tienda Norte", 90.0, 0, inventarioMock)); 
     }
 }
