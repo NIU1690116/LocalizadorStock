@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import main.java.model.LineaPeticion;
@@ -37,8 +38,19 @@ class PeticionTest {
         peticion.agregarLinea(linea);
         assertEquals(1, peticion.getLineas().size());
         
-        assertThrows(IllegalArgumentException.class () -> peticion.agregarLinea(null));
+        assertThrows(IllegalArgumentException.class, () -> peticion.agregarLinea(null));
 	}
+	
+	@Test
+    void peticionPuedeContenerVariosProductos() {
+        peticion.agregarLinea(new LineaPeticion(camiseta, 2));
+        peticion.agregarLinea(new LineaPeticion(pantalon, 1));
+
+        assertEquals(2, peticion.getLineas().size());
+        assertSame(camiseta, peticion.getLineas().get(0).getProducto());
+        assertSame(pantalon, peticion.getLineas().get(1).getProducto());
+    }
+	
 	
 
 }
