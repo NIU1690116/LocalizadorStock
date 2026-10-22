@@ -16,9 +16,14 @@ class ReposicionTest {
     @Test
     void testCreaReposicionValida() {
     	Reposicion reposicion = new Reposicion(producto, 1, prevista);
-        assertEquals(producto.getCodigo(), reposicion.getProducto().getCodigo()S);
+        assertEquals(producto.getCodigo(), reposicion.getProducto().getCodigo());
         assertEquals(1, reposicion.getCantidad());
         assertEquals(prevista, reposicion.getFechaPrevista());
+    }
+    
+    @Test
+    void rechazaProductoFechaCantidadInvalidos() {
+
     }
 
 }
