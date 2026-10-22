@@ -6,15 +6,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.java.model.Inventario;
+import main.java.model.Producto;
 import main.java.model.Tienda;
 
 class TiendaTest {
 	
-	private Inventario inventarioMock;
+	private InventarioMock inventarioMock;
 	
 	@BeforeEach
 	public void setUp() {
-		inventarioMock = new Inventario();
+		inventarioMock = new InventarioMock();
 		
 	}
 
@@ -71,7 +72,11 @@ class TiendaTest {
 	
 	@Test 
 	void testConsultarStockInventario() {
-		
+		Producto producto = new Producto("P001", "Camisa", "Azul", "M", "Ropa");
+		inventarioMock.añadirProductos(producto, 12);
+        Tienda tienda = new Tienda("T001", "Tienda Barcelona", 0, 0, inventarioMock);
+        
+        assertEquals(12, tienda.consultarStock(producto));
 	}
 	
 	
