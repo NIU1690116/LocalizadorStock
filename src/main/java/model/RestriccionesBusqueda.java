@@ -15,8 +15,10 @@ public class RestriccionesBusqueda {
     }
     
     public boolean permiteDistancia(Double distancia) {
-
-    	return false;
+    	if(distancia > distanciaMaximaKm || distancia <= 0) {
+    		return false;
+    	}
+    	return true;
     }
     
 	public double getDistanciaMaximaKm() {
