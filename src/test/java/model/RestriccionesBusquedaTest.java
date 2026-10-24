@@ -18,7 +18,7 @@ class RestriccionesBusquedaTest {
     }
     
     @Test
-    void testLimitesPermitidos() {
+    void testLimitesDistanciasPermitidos() {
     	assertTrue(restricciones.permiteDistancia(8.5));//inferior al limite
     	assertTrue(restricciones.permiteDistancia(10.0));//justo en el limite
         assertFalse(restricciones.permiteDistancia(10.1)); // superior al limite
@@ -31,6 +31,14 @@ class RestriccionesBusquedaTest {
     
     
     @Test
-    void 
+    void testLimiteEsperaPermitida() {
+    	assertTrue(restricciones.permiteEsperaMin(60));//inferior al limite
+    	assertTrue(restricciones.permiteEspera(120));//justo en el limite
+    	assertFalse(restricciones.permiteEspera(121)); // superior al limite
+    	
+    	assertFalse(restricciones.permiteEspera(null));// valor nulo
+        assertFalse(restricciones.permiteEspera(-60));// valor negativo
+        assertFalse(restricciones.permiteEspera(0));// valor 0 			
+    }
 
 }
