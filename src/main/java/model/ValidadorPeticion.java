@@ -18,5 +18,9 @@ public class ValidadorPeticion {
         }
         return true;
     }
+    
+    public boolean validarReposicion() {
+    	return false;
+    }
 
 }
