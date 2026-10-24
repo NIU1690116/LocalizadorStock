@@ -32,7 +32,7 @@ class RestriccionesBusquedaTest {
     
     @Test
     void testLimiteEsperaPermitida() {
-    	assertTrue(restricciones.permiteEsperaMin(60));//inferior al limite
+    	assertTrue(restricciones.permiteEspera(60));//inferior al limite
     	assertTrue(restricciones.permiteEspera(120));//justo en el limite
     	assertFalse(restricciones.permiteEspera(121)); // superior al limite
     	
