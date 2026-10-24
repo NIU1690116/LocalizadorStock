@@ -13,6 +13,23 @@ public class RestriccionesBusqueda {
         this.esperaMaximaMinutos = esperaMaximaMinutos;
         this.fechaLimite = fechaLimite;
     }
+    
+    public boolean permiteDistancia(Double distancia) {
+
+    	return false;
+    }
+    
+	public double getDistanciaMaximaKm() {
+		return distanciaMaximaKm;
+	}
+
+	public int getEsperaMaximaMinutos() {
+		return esperaMaximaMinutos;
+	}
+
+	public LocalDateTime getFechaLimite() {
+		return fechaLimite;
+	}
 
 
 }
