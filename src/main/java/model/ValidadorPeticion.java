@@ -6,10 +6,17 @@ import java.time.LocalDateTime;
 public class ValidadorPeticion {
 
     // Comprueba que la petición existe y contiene líneas válidas.
-    public boolean validarPetición(Peticion peticion) {
-       if (peticion == null) {
-    	   return false;
-       }
-       return true;
+    public boolean validarPeticion(Peticion peticion) {
+        if (peticion == null || peticion.getLineas() == null || peticion.getLineas().isEmpty()) {
+            return false;
+        }
+        
+        for (LineaPeticion linea : peticion.getLineas()) {
+            if (linea == null) {
+                return false;
+            }
+        }
+        return true;
     }
+
 }
