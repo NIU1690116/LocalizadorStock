@@ -20,7 +20,7 @@ public class ValidadorPeticion {
     }
     
     public boolean validarReposicion(Peticion peticion, LineaPeticion linea, Reposicion reposicion, RestriccionesBusqueda restricciones) {
-    	if (!validarPeticion(peticion) || linea == null || reposicion == null || restricciones == null) {
+    	if (!validarPeticion(peticion) || linea == null || reposicion == null || restricciones == null || !peticion.getLineas().contains(linea)) {
             return false;
         }
     	return true;
