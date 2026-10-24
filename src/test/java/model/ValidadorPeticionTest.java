@@ -16,6 +16,7 @@ import main.java.model.ValidadorPeticion;
 
 class ValidadorPeticionTest {
 	Producto producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Hombre");
+	Producto producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Hombre");
 	private final LocalDateTime solicitud = LocalDateTime.of(2026, 10, 22, 10, 0);
 	
 	ValidadorPeticion validador;
@@ -35,8 +36,17 @@ class ValidadorPeticionTest {
         assertFalse(validador.validarPeticion(nuevaPeticion()));//petició vacia
         
         Peticion conLineaNula = nuevaPeticion();
-        conLineaNula.getLineas().add(null);
+        conLineaNula.agregarLinea(null); 
         assertFalse(validador.validarPeticion(conLineaNula));//petició con linea a null
+    }
+    
+    void testValidaPeticionDosLineas() {
+        Peticion peticion = nuevaPeticion();
+        peticion.agregarLinea(new LineaPeticion(producto, 2)); 
+        peticion.agregarLinea(null); 
+        assertFalse(validador.validarPeticion(peticion));//linea valida
+        
+       
     }
     
     
