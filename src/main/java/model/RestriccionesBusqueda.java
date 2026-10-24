@@ -2,7 +2,7 @@ package main.java.model;
 
 import java.time.LocalDateTime;
 
-// Define las condiciones de búsqueda: distancia máxima de 10 km, espera máxima de reposición de 120 minutos y fecha límite
+// Define las condiciones de búsqueda como la distancia máxima de 10 km, espera máxima de reposición de 120 minutos y fecha límite
 public class RestriccionesBusqueda {
     private final double distanciaMaximaKm;
     private final int esperaMaximaMinutos;
