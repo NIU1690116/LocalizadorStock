@@ -27,6 +27,7 @@ class ValidadorPeticionTest {
 	@BeforeEach
 	public void setUp() {
 		validador = new ValidadorPeticion();
+		restricciones = new RestriccionesBusqueda();
 	}
 
     @Test
@@ -65,7 +66,7 @@ class ValidadorPeticionTest {
     	peticion.agregarLinea(linea);
     	Reposicion reposicion = new Reposicion(producto, 3, solicitud.plusMinutes(120));
     	
-    	assertTrue(validador.validarReposicion(peticion, linea, reposicion, restricciones);
+    	assertTrue(validador.validarReposicion(peticion, linea, reposicion, restricciones));
     	
     }
 
