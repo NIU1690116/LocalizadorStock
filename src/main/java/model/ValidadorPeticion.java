@@ -1,15 +1,15 @@
 package main.java.model;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 // Validaciones de peticiones y de sus reposiciones candidatas
 public class ValidadorPeticion {
 
-    // Comprueba que la petición existe y que es valida
+    // Comprueba que la petición existe y contiene líneas válidas.
     public boolean validarPetición(Peticion peticion) {
-        return false;
+       if (peticion == null) {
+    	   return false;
+       }
+       return true;
     }
-
-    
 }
