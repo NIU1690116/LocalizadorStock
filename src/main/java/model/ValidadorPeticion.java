@@ -10,9 +10,9 @@ public class ValidadorPeticion {
         if (peticion == null || peticion.getLineas() == null || peticion.getLineas().isEmpty()) {
             return false;
         }
-        
+       
         for (LineaPeticion linea : peticion.getLineas()) {
-            if (linea == null) {
+            if (linea == null || linea.getProducto() == null || linea.getCantidad() <= 0) {
                 return false;
             }
         }
