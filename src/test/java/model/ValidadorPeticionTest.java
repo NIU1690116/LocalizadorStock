@@ -21,6 +21,8 @@ class ValidadorPeticionTest {
 	private final LocalDateTime solicitud = LocalDateTime.of(2026, 10, 22, 10, 0);
 	
 	ValidadorPeticion validador;
+	RestriccionesBusqueda restricciones;
+	
 	
 	@BeforeEach
 	public void setUp() {
