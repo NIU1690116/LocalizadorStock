@@ -22,7 +22,7 @@ class ValidadorPeticionTest {
 	
 	@BeforeEach
 	public void setUp() {
-		Peticion peticion = nuevaPeticion();
+		validador = new ValidadorPeticion();
 	}
 
     @Test
@@ -30,7 +30,7 @@ class ValidadorPeticionTest {
         Peticion peticion = nuevaPeticion();
         peticion.agregarLinea(new LineaPeticion(producto, 2));
         
-        assertTrue(validador.validarPetición(peticion));
+        assertTrue(validador.validarPeticion(peticion));
     }
     
     private Peticion nuevaPeticion() {
