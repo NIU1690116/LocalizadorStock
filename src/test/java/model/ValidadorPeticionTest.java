@@ -17,6 +17,7 @@ import main.java.model.ValidadorPeticion;
 class ValidadorPeticionTest {
 	Producto producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Hombre");
 	Producto producto_1 = new Producto("P002", "Camisa", "Negra", "Camisa", "Hombre");
+	
 	private final LocalDateTime solicitud = LocalDateTime.of(2026, 10, 22, 10, 0);
 	
 	ValidadorPeticion validador;
@@ -53,6 +54,17 @@ class ValidadorPeticionTest {
     
     private Peticion nuevaPeticion() {
         return new Peticion("R001", solicitud);
+    }
+    
+    @Test 
+    void testReposicionValida() {
+    	Peticion peticion = nuevaPeticion();
+    	LineaPeticion linea = new LineaPeticion(producto, 3);
+    	peticion.agregarLinea(linea);
+    	Reposicion reposicion = new Reposicion(producto, 3, solicitud.plusMinutes(120));
+    	
+    	assertTrue(validador.validarReposicion(peticion, linea, reposicion, restricciones);
+    	
     }
 
 }
