@@ -19,8 +19,11 @@ public class ValidadorPeticion {
         return true;
     }
     
-    public boolean validarReposicion() {
-    	return false;
+    public boolean validarReposicion(Peticion peticion, LineaPeticion linea, Reposicion reposicion, RestriccionesBusqueda restricciones) {
+    	if (!validarPeticion(peticion) || linea == null || reposicion == null || restricciones == null) {
+            return false;
+        }
+    	return true;
     }
 
 }
