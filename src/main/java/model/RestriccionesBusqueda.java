@@ -17,6 +17,9 @@ public class RestriccionesBusqueda {
     }
     
     public boolean permiteEspera(Integer EsperaMinutos) {
+    	if (EsperaMinutos == null || EsperaMinutos > ESPERA_MAXIMA_MINUTOS || EsperaMinutos <= 0) {
+    		return false;
+    	}
     	return true;
 
     }
