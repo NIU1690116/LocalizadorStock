@@ -8,14 +8,17 @@ public class RestriccionesBusqueda {
     private static final int ESPERA_MAXIMA_MINUTOS = 120;
 
     //no neccesitamos que el constructor reciba valores, ya que los limites eran siempre los mismos
-    public RestriccionesBusqueda() {
-    }
-    
+
     public boolean permiteDistancia(Double distancia) {
 	    if (distancia == null || distancia > DISTANCIA_MAXIMA_KM || distancia <= 0) {
     		return false;
     	}
     	return true;
+    }
+    
+    public boolean permiteEspera(Integer EsperaMinutos) {
+    	return true;
+
     }
     
 	public double getDistanciaMaximaKm() {
