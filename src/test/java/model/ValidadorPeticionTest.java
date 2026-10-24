@@ -28,9 +28,15 @@ class ValidadorPeticionTest {
     @Test
     void testValidaPeticionLineasValidas() {
         Peticion peticion = nuevaPeticion();
-        peticion.agregarLinea(new LineaPeticion(producto, 2));
+        peticion.agregarLinea(new LineaPeticion(producto, 2)); 
+        assertTrue(validador.validarPeticion(peticion));//linea valida
         
-        assertTrue(validador.validarPeticion(peticion));
+        assertFalse(validador.validarPeticion(null));//petició null
+        assertFalse(validador.validarPeticion(nuevaPeticion()));//petició vacia
+        
+        Peticion conLineaNula = nuevaPeticion();
+        conLineaNula.getLineas().add(null);
+        assertFalse(validador.validarPeticion(conLineaNula));//petició con linea a null
     }
     
     private Peticion nuevaPeticion() {
