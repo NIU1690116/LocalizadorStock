@@ -10,12 +10,11 @@ import org.junit.jupiter.api.Test;
 import main.java.model.RestriccionesBusqueda;
 
 class RestriccionesBusquedaTest {
-    private final LocalDateTime limite = LocalDateTime.of(2026, 10, 22, 12, 0);
     private RestriccionesBusqueda restricciones;
 
     @BeforeEach
     void setUp() {
-    	restricciones = new RestriccionesBusqueda(10.0, 120, limite);
+    	restricciones = new RestriccionesBusqueda();
     }
     
     @Test
@@ -23,6 +22,15 @@ class RestriccionesBusquedaTest {
     	assertTrue(restricciones.permiteDistancia(8.5));//inferior al limite
     	assertTrue(restricciones.permiteDistancia(10.0));//justo en el limite
         assertFalse(restricciones.permiteDistancia(10.1)); // superior al limite
+        
+        assertFalse(restricciones.permiteDistancia(null));// valor nulo
+        assertFalse(restricciones.permiteDistancia(-1.0));// valor negativo
+        assertFalse(restricciones.permiteDistancia(0.0));// valor 0
+        
     }
+    
+    
+    @Test
+    void 
 
 }
