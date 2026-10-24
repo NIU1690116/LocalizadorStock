@@ -12,7 +12,7 @@ public class RestriccionesBusqueda {
     }
     
     public boolean permiteDistancia(Double distancia) {
-	    if (distancia > DISTANCIA_MAXIMA_KM || distancia <= 0) {
+	    if (distancia == null || distancia > DISTANCIA_MAXIMA_KM || distancia <= 0) {
     		return false;
     	}
     	return true;
@@ -25,6 +25,8 @@ public class RestriccionesBusqueda {
 	public int getEsperaMaximaMinutos() {
 		return ESPERA_MAXIMA_MINUTOS;
 	}
+	
+	
 
 
 }
