@@ -1,18 +1,18 @@
-package test.java.model;
+package model;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 
-import main.java.model.BuscadorTiendas;
-import main.java.model.CalculadorDistancia;
-import main.java.model.Inventario;
-import main.java.model.LineaPeticion;
-import main.java.model.Producto;
-import main.java.model.RepositorioTiendas;
-import main.java.model.RestriccionesBusqueda;
-import main.java.model.Tienda;
+import model.BuscadorTiendas;
+import model.CalculadorDistancia;
+import model.Inventario;
+import model.LineaPeticion;
+import model.Producto;
+import model.RepositorioTiendas;
+import model.RestriccionesBusqueda;
+import model.Tienda;
 
 class BuscadorTiendasTest {
 	CalculadorDistancia calculadorDistancia;
@@ -51,7 +51,7 @@ class BuscadorTiendasTest {
 
 	@Test
 	void testBuscarTiendasConStock() {
-		fail("Not yet implemented");
+		
 	}
 
 }

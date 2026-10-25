@@ -1,4 +1,4 @@
-package test.java.model;
+package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.java.model.Producto;
-import main.java.model.Reposicion;
+import model.Producto;
+import model.Reposicion;
 
 class ReposicionTest {
 	private Producto producto;

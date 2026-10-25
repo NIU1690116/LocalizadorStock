@@ -1,4 +1,4 @@
-package test.java.model;
+package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.java.model.RestriccionesBusqueda;
+import model.RestriccionesBusqueda;
 
 class RestriccionesBusquedaTest {
     private RestriccionesBusqueda restricciones;
