@@ -89,7 +89,24 @@ class ValidadorPeticionTest {
     }
     
     @Test
-    void testInsuficienteProducto() {
+    void testValidarReposion() {
+        Peticion peticion = nuevaPeticion();
+        LineaPeticion linea = new LineaPeticion(producto, 3);
+        peticion.agregarLinea(linea);
+        
+        //reposición de producto solicitado, cantidad sufiente
+        Reposicion reposicion_1 =  new Reposicion(producto, 3, solicitud.plusMinutes(30));
+        assertTrue(validador.validarReposicion(peticion, linea, reposicion_1, restricciones));
+
+        //reposición de producto solicitado, pero cantidad insufiente
+        Reposicion reposicion_2 =  new Reposicion(producto, 2, solicitud.plusMinutes(30));
+        assertFalse(validador.validarReposicion(peticion, linea, reposicion_2, restricciones));
+        
+      //reposición de producto no solicitado
+        Reposicion reposicion_3 = new Reposicion(producto_1, 3, solicitud.plusMinutes(30));
+        assertFalse(validador.validarReposicion(peticion, linea, reposicion_3, restricciones));
+        
+        
         
     }
     
