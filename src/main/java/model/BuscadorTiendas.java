@@ -8,7 +8,13 @@ public class BuscadorTiendas {
 		 // validar dependencias requeridas
 	}
 	
-	
+	public List<Tienda> buscarTiendasConStock(
+            Tienda origen,
+            LineaPeticion linea,
+            RestriccionesBusqueda restricciones) {
+		return null;
+        // filtrar por distancia y stock; ordenar por distancia
+    }
 	
 	
 	
