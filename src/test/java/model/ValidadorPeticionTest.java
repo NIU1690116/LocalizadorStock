@@ -64,10 +64,19 @@ class ValidadorPeticionTest {
     	Peticion peticion = nuevaPeticion();
     	LineaPeticion linea = new LineaPeticion(producto, 3);
     	peticion.agregarLinea(linea);
-    	Reposicion reposicion = new Reposicion(producto, 3, solicitud.plusMinutes(120));
+    	Reposicion reposicion = new Reposicion(producto, 3, solicitud.plusMinutes(120));//en el limite de espera
     	
     	assertTrue(validador.validarReposicion(peticion, linea, reposicion, restricciones));
     	
+    	Reposicion reposicion_1 = new Reposicion(producto, 1, solicitud.minusMinutes(1));//fecha anterior al plazo
+        assertFalse(validador.validarReposicion(peticion, linea, reposicion_1, restricciones));
+        
+        Reposicion reposicion_2 = new Reposicion(producto, 2, solicitud.minusMinutes(121));//fecha posterior al plazo
+        assertFalse(validador.validarReposicion(peticion, linea, reposicion_2, restricciones));
     }
+    
+    
+    
+    
 
 }
