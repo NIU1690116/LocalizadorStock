@@ -88,6 +88,10 @@ class ValidadorPeticionTest {
         assertFalse(validador.validarReposicion(peticion, linea, null, restricciones));
     }
     
-
+    @Test
+    void testInsuficienteProducto() {
+        
+    }
+    
 
 }
