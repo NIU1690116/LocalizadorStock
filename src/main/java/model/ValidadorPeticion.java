@@ -30,6 +30,12 @@ public class ValidadorPeticion {
         if (fechaPrevista.isBefore(fechaSolicitud) || fechaPrevista.isAfter(fechaLimite)) {
             return false;
         }
+        
+        if (reposicion.getProducto() == null
+                || !reposicion.getProducto().getCodigo().equals(linea.getProducto().getCodigo())
+                || reposicion.getCantidad() < linea.getCantidad()) {
+            return false;
+        }
 
         //Calculamos los minutos de diferencia enter las fechas
         long minutosEspera = java.time.Duration.between(fechaSolicitud, fechaPrevista).toMinutes();
