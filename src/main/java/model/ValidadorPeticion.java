@@ -23,7 +23,17 @@ public class ValidadorPeticion {
     	if (!validarPeticion(peticion) || linea == null || reposicion == null || restricciones == null || !peticion.getLineas().contains(linea)) {
             return false;
         }
-    	return true;
+    	
+    	LocalDateTime fechaSolicitud = peticion.getFechaSolicitud();
+        LocalDateTime fechaPrevista = reposicion.getFechaPrevista();
+        LocalDateTime fechaLimite = fechaSolicitud.plusMinutes(restricciones.getEsperaMaximaMinutos());
+        if (fechaPrevista.isBefore(fechaSolicitud) || fechaPrevista.isAfter(fechaLimite)) {
+            return false;
+        }
+
+        return true;
     }
+    
+    
 
 }
