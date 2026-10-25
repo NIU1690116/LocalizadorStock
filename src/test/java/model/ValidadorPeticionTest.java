@@ -15,17 +15,18 @@ import model.RestriccionesBusqueda;
 import model.ValidadorPeticion;
 
 class ValidadorPeticionTest {
-	Producto producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Hombre");
-	Producto producto_1 = new Producto("P002", "Camisa", "Negra", "Camisa", "Hombre");
+	Producto producto;
+	Producto producto_1;
 	
 	private final LocalDateTime solicitud = LocalDateTime.of(2026, 10, 22, 10, 0);
 	
 	ValidadorPeticion validador;
 	RestriccionesBusqueda restricciones;
 	
-	
 	@BeforeEach
 	public void setUp() {
+		producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Hombre");
+		producto_1 = new Producto("P002", "Camisa", "Negra", "Camisa", "Hombre");
 		validador = new ValidadorPeticion();
 		restricciones = new RestriccionesBusqueda();
 	}
@@ -45,7 +46,6 @@ class ValidadorPeticionTest {
         assertFalse(validador.validarPeticion(conLineaNula));//petició con linea a null
     }
     
-    
     @Test
     void testValidaPeticionDosLineas() {
         Peticion peticion = nuevaPeticion();
@@ -53,10 +53,6 @@ class ValidadorPeticionTest {
         
         peticion.getLineas().add(null);
         assertFalse(validador.validarPeticion(peticion));//linea valida y linea a null        
-    }
-    
-    private Peticion nuevaPeticion() {
-        return new Peticion("R001", solicitud);
     }
     
     @Test 
@@ -106,9 +102,10 @@ class ValidadorPeticionTest {
         Reposicion reposicion_3 = new Reposicion(producto_1, 3, solicitud.plusMinutes(30));
         assertFalse(validador.validarReposicion(peticion, linea, reposicion_3, restricciones));
         
-        
-        
     }
     
+    private Peticion nuevaPeticion() {
+        return new Peticion("R001", solicitud);
+    }
 
 }

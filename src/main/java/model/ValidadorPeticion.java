@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDateTime;
 
-// Validaciones de peticiones y de sus reposiciones candidatas
+// Validaciones de peticiones y reposiciones candidatas
 public class ValidadorPeticion {
 
     // Comprueba que la petición existe y contiene líneas válidas.
