@@ -5,15 +5,47 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import main.java.model.BuscadorTiendas;
+import main.java.model.CalculadorDistancia;
+import main.java.model.Inventario;
+import main.java.model.LineaPeticion;
+import main.java.model.Producto;
+import main.java.model.RepositorioTiendas;
+import main.java.model.RestriccionesBusqueda;
+import main.java.model.Tienda;
+
 class BuscadorTiendasTest {
+	CalculadorDistancia calculadorDistancia;
+	RepositorioTiendas repositorio;
+	BuscadorTiendas buscadorTiendas;
+	
+	Producto producto;
+	Tienda origen;
+	Tienda destino;
+	Inventario inventario;
+	
+	private LineaPeticion linea;
+    private RestriccionesBusqueda restricciones;
+	
 
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp(){
+		producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Hombre");
+		Tienda origen = new Tienda(
+		        "T1", "Tienda cercana", 41.4, 2.1, inventario);
+		inventario = new Inventario();
+		inventario.añadirProductos(producto, 3);
+		
+		linea = new LineaPeticion(producto, 3);
+        restricciones = new RestriccionesBusqueda();
+
+		repositorio = new RepositorioTiendasMock();
+		buscadorTiendas = new BuscadorTiendas(repositorio, calculadorDistancia);
 	}
 
 	@Test
 	void testBuscadorTiendas() {
-		fail("Not yet implemented");
+
 	}
 
 	@Test
