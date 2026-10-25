@@ -72,11 +72,22 @@ class ValidadorPeticionTest {
         assertFalse(validador.validarReposicion(peticion, linea, reposicion_1, restricciones));
         
         Reposicion reposicion_2 = new Reposicion(producto, 2, solicitud.minusMinutes(121));//fecha posterior al plazo
-        assertFalse(validador.validarReposicion(peticion, linea, reposicion_2, restricciones));
+        assertFalse(validador.validarReposicion(peticion, linea, reposicion_2, restricciones)); 
     }
     
-    
-    
+    @Test
+    void testArgumentosNulos() {//particiones equivalentes
+    	Peticion peticion = nuevaPeticion();
+        LineaPeticion linea = new LineaPeticion(producto, 1);
+        peticion.agregarLinea(linea);
+        Reposicion reposicion = new Reposicion(producto, 1, solicitud.minusMinutes(1));
+        RestriccionesBusqueda restricciones = new RestriccionesBusqueda();
+
+        assertFalse(validador.validarReposicion(null, linea, reposicion, restricciones));
+        assertFalse(validador.validarReposicion(peticion, null, reposicion, restricciones));
+        assertFalse(validador.validarReposicion(peticion, linea, reposicion, null));
+        assertFalse(validador.validarReposicion(peticion, linea, null, restricciones));
+    }
     
 
 }
