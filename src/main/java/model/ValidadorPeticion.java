@@ -31,7 +31,14 @@ public class ValidadorPeticion {
             return false;
         }
 
-        return true;
+        //Calculamos los minutos de diferencia enter las fechas
+        long minutosEspera = java.time.Duration.between(fechaSolicitud, fechaPrevista).toMinutes();
+
+        //Convertimos el valor a int
+        int minutosInt = (int) minutosEspera;
+
+        //Devolvemos el resultado de la validación
+        return restricciones.permiteEspera(minutosInt);
     }
     
     
