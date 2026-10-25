@@ -81,7 +81,6 @@ class ValidadorPeticionTest {
         LineaPeticion linea = new LineaPeticion(producto, 1);
         peticion.agregarLinea(linea);
         Reposicion reposicion = new Reposicion(producto, 1, solicitud.minusMinutes(1));
-        RestriccionesBusqueda restricciones = new RestriccionesBusqueda();
 
         assertFalse(validador.validarReposicion(null, linea, reposicion, restricciones));
         assertFalse(validador.validarReposicion(peticion, null, reposicion, restricciones));
@@ -89,5 +88,6 @@ class ValidadorPeticionTest {
         assertFalse(validador.validarReposicion(peticion, linea, null, restricciones));
     }
     
+
 
 }
