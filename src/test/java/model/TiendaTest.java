@@ -1,13 +1,13 @@
-package test.java.model;
+package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.java.model.Inventario;
-import main.java.model.Producto;
-import main.java.model.Tienda;
+import model.Inventario;
+import model.Producto;
+import model.Tienda;
 
 class TiendaTest {
 	

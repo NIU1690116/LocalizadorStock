@@ -1,4 +1,4 @@
-package test.java.model;
+package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.java.model.LineaPeticion;
-import main.java.model.Peticion;
-import main.java.model.Producto;
-import main.java.model.Reposicion;
-import main.java.model.RestriccionesBusqueda;
-import main.java.model.ValidadorPeticion;
+import model.LineaPeticion;
+import model.Peticion;
+import model.Producto;
+import model.Reposicion;
+import model.RestriccionesBusqueda;
+import model.ValidadorPeticion;
 
 class ValidadorPeticionTest {
 	Producto producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Hombre");

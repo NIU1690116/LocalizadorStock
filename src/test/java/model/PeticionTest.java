@@ -1,4 +1,4 @@
-package test.java.model;
+package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,9 +8,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import main.java.model.LineaPeticion;
-import main.java.model.Peticion;
-import main.java.model.Producto;
+import model.LineaPeticion;
+import model.Peticion;
+import model.Producto;
 
 class PeticionTest {
 	private Peticion peticion;
