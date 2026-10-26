@@ -6,27 +6,40 @@ public class BuscadorTiendas {
 	private final RepositorioTiendas repositorio;
     private final CalculadorDistancia calculadorDistancia;
     
+    private void Invariante(){
+    	if (repositorio == null || calculadorDistancia == null) {
+            throw new IllegalStateException("Las dependencias del buscador no son válidas");
+        }
+	}
+    
 	public BuscadorTiendas(RepositorioTiendas repositorio,
 			CalculadorDistancia calculadorDistancia) {
-		 // validar dependencias requeridas
-		if(repositorio == null) {
-			throw new IllegalArgumentException("El repositorio no puede ser null");
-		}
-		if(calculadorDistancia == null) {
-			throw new IllegalArgumentException("El calculador no puede ser null");
-		}
 		this.repositorio = repositorio;
         this.calculadorDistancia = calculadorDistancia;
-		
+        
+        //Postcondición
+        Invariante();
 	}
 	
 	public List<Tienda> buscarTiendasConStock(
             Tienda origen,
             LineaPeticion linea,
             RestriccionesBusqueda restricciones) {
+		//Precondiciones: validar dependencias
+		if(origen == null) {
+			throw new IllegalArgumentException("La tienda origen no puede ser null");
+		}
+		if(linea == null) {
+			throw new IllegalArgumentException("LineaPeticion no puede ser null");
+		}
+		if(restricciones == null) {
+			throw new IllegalArgumentException("restricciones no puede ser null");
+		}
+		//Postcondición
+		Invariante();
 		return null;
-        // filtrar por distancia y stock; ordenar por distancia
     }
+
 	
 	
 	
