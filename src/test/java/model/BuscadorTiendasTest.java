@@ -49,6 +49,12 @@ class BuscadorTiendasTest {
 
 	@Test
 	void testBuscarTiendasConStock() {
+		//dentro del limite
+		calculadorDistancia.configurarDistancia(cercana, 2.0);
+        calculadorDistancia.configurarDistancia(lejana, 8.0);
+        calculadorDistancia.configurarDistancia(fueraDelLimite, 10.1);
+        calculadorDistancia.configurarDistancia(sinStock, 1.0);
+		
 	}
 
 }
