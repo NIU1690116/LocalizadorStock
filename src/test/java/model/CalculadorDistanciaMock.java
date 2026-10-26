@@ -8,7 +8,9 @@ public class CalculadorDistanciaMock implements CalculadorDistancia{
 	
 	@Override
 	public double calcularKm(Tienda origen, Tienda destino) {
-		return 0;
+		// Buscamos la distancia configurada para esta tienda en el mapa
+        // Si no se ha configurado ninguna devolvemos 0.0 por defecto
+        return distanciasPorTienda.getOrDefault(destino.getId(), 0.0);
 	}
 	
 	public void configurarDistancia(Tienda tienda, double distanciaKm) {
