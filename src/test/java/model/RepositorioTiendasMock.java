@@ -9,7 +9,7 @@ public class RepositorioTiendasMock implements RepositorioTiendas {
     @Override
     public List<Tienda> obtenerTiendas() {
         return new ArrayList<>(tiendas);
-   
+    } 
     
     public Tienda crearTienda(String id, String nombre) {
         Tienda tienda = new Tienda(
