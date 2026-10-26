@@ -1,5 +1,6 @@
 package model;
 
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 
 import org.junit.jupiter.api.Test;
@@ -37,8 +38,13 @@ class BuscadorTiendasTest {
 	}
 
 	@Test
-	void testBuscadorTiendas() {
-		
+	void testBuscadorTiendasConstructor() {
+		assertThrows(
+				IllegalArgumentException.class, () -> new BuscadorTiendas(null, calculadorDistancia)
+		);
+		assertThrows(
+				IllegalArgumentException.class, () -> new BuscadorTiendas(repositorio, null)
+		);
 	}
 
 	@Test
