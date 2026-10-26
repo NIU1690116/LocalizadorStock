@@ -6,40 +6,34 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 class BuscadorTiendasTest {
-	CalculadorDistancia calculadorDistancia;
-	RepositorioTiendas repositorio;
-	BuscadorTiendas buscadorTiendas;
+	private CalculadorDistancia calculadorDistancia;
+	private RepositorioTiendas repositorio;
+	private BuscadorTiendas buscadorTiendas;
 	
-	Producto producto;
-	Tienda origen;
-	Tienda destino;
-	Inventario inventario;
-	
-	private LineaPeticion linea;
-    private RestriccionesBusqueda restricciones;
-	
+	private Producto producto;
+	private Tienda origen;
+	private Tienda cercana;
+	private Tienda lejana;
+	private Tienda fueraDelLimite;
+    private Tienda sinStock;
 
 	@BeforeEach
 	void setUp(){
-		producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Hombre");
-		
-		inventario = new Inventario();
-		inventario.añadirProductos(producto, 3);
-		Tienda origen = new Tienda(
-		        "T001", "Tienda cercana", 41.4, 2.1, inventario);
-		
-		linea = new LineaPeticion(producto, 3);
-        restricciones = new RestriccionesBusqueda();
-
 		repositorio = new RepositorioTiendasMock();
-
-		calculadorDistancia = mock(CalculadorDistancia.class);//mockito
+		calculadorDistancia = new CalculadorDistanciaMock();
 		buscadorTiendas = new BuscadorTiendas(repositorio, calculadorDistancia);
+		
+		producto = new Producto("P001", "Leche", "Blanco", "Alimento", "Adulto");
+	    origen = new Tienda("O", "Origen", 41.0, 2.0, new Inventario());
+	    cercana = crearTiendaConStock("T1", producto, 3);
+	    lejana = crearTiendaConStock("T2", producto, 3);
+	    fueraDelLimite = crearTiendaConStock("T3", "Fuera del límite", 3);
+        sinStock = crearTienda("T4", "Sin stock");
 	}
 
 	@Test
 	void testBuscadorTiendas() {
-
+		
 	}
 
 	@Test
