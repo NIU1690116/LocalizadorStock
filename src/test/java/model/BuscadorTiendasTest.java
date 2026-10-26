@@ -58,11 +58,18 @@ class BuscadorTiendasTest {
         calculadorDistancia.configurarDistancia(fueraDelLimite, 10.1);
         calculadorDistancia.configurarDistancia(sinStock, 1.0);
 		
-        List<Tienda> resultado = buscadorTiendas.buscarTiendasConStock(
+        List<BuscadorTiendas.TiendaConDistancia> resultado = buscadorTiendas.buscarTiendasConStock(
         		origen, 
         		new LineaPeticion(producto, 2), 
         		new RestriccionesBusqueda());
-        assertEquals(List.of(cercana, lejana), resultado);
+        
+        assertEquals(2, resultado.size());
+        
+        // Verificamos las tiendas y su distancia
+        assertEquals(cercana, resultado.get(0).tienda());
+        assertEquals(2.0, resultado.get(0).distancia(), 0.001);
+        assertEquals(lejana, resultado.get(1).tienda());
+        assertEquals(8.0, resultado.get(1).distancia(), 0.001);
 	}
 
 }
