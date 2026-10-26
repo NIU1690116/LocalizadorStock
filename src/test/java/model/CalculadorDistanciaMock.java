@@ -1,11 +1,18 @@
 package model;
 
-public class CalculadorDistanciaMock implements CalculadorDistancia{
+import java.util.HashMap;
+import java.util.Map;
 
+public class CalculadorDistanciaMock implements CalculadorDistancia{
+	private final Map<String, Double> distanciasPorTienda = new HashMap<>();
+	
 	@Override
 	public double calcularKm(Tienda origen, Tienda destino) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	public void configurarDistancia(Tienda tienda, double distanciaKm) {
+        distanciasPorTienda.put(tienda.getId(), distanciaKm);
+    }
 
 }
