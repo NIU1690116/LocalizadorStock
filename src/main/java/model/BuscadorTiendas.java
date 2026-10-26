@@ -9,10 +9,10 @@ public class BuscadorTiendas {
 
     public BuscadorTiendas(RepositorioTiendas repositorio, CalculadorDistancia calculadorDistancia) {
     	if (repositorio == null) {
-            throw new IllegalStateException("El repositorio no puede ser nulo");
+            throw new IllegalArgumentException("El repositorio no puede ser nulo");
         }
     	if (calculadorDistancia == null) {
-            throw new IllegalStateException("El calculador no puede ser nulo");
+            throw new IllegalArgumentException("El calculador no puede ser nulo");
         }
         this.repositorio = repositorio;
         this.calculadorDistancia = calculadorDistancia;
