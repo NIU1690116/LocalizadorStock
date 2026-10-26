@@ -2,7 +2,6 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 
 import java.util.List;
 
@@ -49,7 +48,24 @@ class BuscadorTiendasTest {
 				IllegalArgumentException.class, () -> new BuscadorTiendas(repositorio, null)
 		);
 	}
+	
+	@Test
+	void testBuscadorTiendasConStockParametrosNulos() {
+		LineaPeticion lineaValida = new LineaPeticion(producto, 2);
+        RestriccionesBusqueda restriccionesValidas = new RestriccionesBusqueda();
 
+        // Validamos que el método buscarTiendasConStock lanza IllegalArgumentException si le pasas nulls
+        assertThrows(IllegalArgumentException.class, () -> 
+            buscadorTiendas.buscarTiendasConStock(null, lineaValida, restriccionesValidas)
+        );
+        assertThrows(IllegalArgumentException.class, () -> 
+            buscadorTiendas.buscarTiendasConStock(origen, null, restriccionesValidas)
+        );
+        assertThrows(IllegalArgumentException.class, () -> 
+            buscadorTiendas.buscarTiendasConStock(origen, lineaValida, null)
+        );
+	}
+	
 	@Test
 	void testBuscarTiendasConStock() {
 		//dentro del limite
