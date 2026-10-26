@@ -1,7 +1,10 @@
 package model;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,6 +58,11 @@ class BuscadorTiendasTest {
         calculadorDistancia.configurarDistancia(fueraDelLimite, 10.1);
         calculadorDistancia.configurarDistancia(sinStock, 1.0);
 		
+        List<Tienda> resultado = buscadorTiendas.buscarTiendasConStock(
+        		origen, 
+        		new LineaPeticion(producto, 2), 
+        		new RestriccionesBusqueda());
+        assertEquals(List.of(cercana, lejana), resultado);
 	}
 
 }
