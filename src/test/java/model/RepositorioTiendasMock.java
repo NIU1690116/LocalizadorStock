@@ -1,18 +1,7 @@
-<<<<<<< HEAD
-package test.java.model;
-
-import java.util.List;
-
-import main.java.model.RepositorioTiendas;
-import main.java.model.Tienda;
-
-public class RepositorioTiendasMock implements RepositorioTiendas {
-	List<Tienda> obtenerTiendas();
-=======
 package model;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RepositorioTiendasMock implements RepositorioTiendas {
     private final List<Tienda> tiendas = new ArrayList<>();
@@ -28,5 +17,5 @@ public class RepositorioTiendasMock implements RepositorioTiendas {
         }
         tiendas.add(tienda);
     }
->>>>>>> 1ffe5f9695c990272a0450b5a61117523034bce9
+
 }
