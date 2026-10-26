@@ -82,10 +82,14 @@ class BuscadorTiendasTest {
         assertEquals(2, resultado.size());
         
         // Verificamos las tiendas y su distancia
-        assertEquals(cercana, resultado.get(0).tienda());
-        assertEquals(2.0, resultado.get(0).distancia(), 0.001);//tienda mas cercana en primer lugar
+        assertEquals(cercana, resultado.get(0).tienda());//tienda mas cercana en primer lugar
+        assertEquals(2.0, resultado.get(0).distancia(), 0.001);
         assertEquals(lejana, resultado.get(1).tienda());
         assertEquals(8.0, resultado.get(1).distancia(), 0.001);
+        //se eliminan las tiendas sin stock y fuera del limite de distancia
+          
 	}
+	
+	
 
 }
