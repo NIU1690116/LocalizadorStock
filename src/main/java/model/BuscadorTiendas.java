@@ -45,7 +45,12 @@ public class BuscadorTiendas {
                     linea.getProducto(),
                     linea.getCantidad());
 
-        }
+            if (distanciaPermitida && stockSuficiente) {
+                candidatas.add(new TiendaConDistancia(tienda, distanciaKm));
+            }
+        } 
+        // Devolvemos la lista completa de tiendas con sus respectivas distancias
+        return candidatas;
     }
 
     public record TiendaConDistancia(Tienda tienda, double distancia) {}
