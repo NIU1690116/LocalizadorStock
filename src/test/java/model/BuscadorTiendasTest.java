@@ -25,10 +25,10 @@ class BuscadorTiendasTest {
 		
 		producto = new Producto("P001", "Leche", "Blanco", "Alimento", "Adulto");
 	    origen = new Tienda("O", "Origen", 41.0, 2.0, new Inventario());
-	    cercana = crearTiendaConStock("T1", producto, 3);
-	    lejana = crearTiendaConStock("T2", producto, 3);
-	    fueraDelLimite = crearTiendaConStock("T3", "Fuera del límite", 3);
-        sinStock = crearTienda("T4", "Sin stock");
+	    cercana = repositorio.crearTiendaConStock("T1", producto, 3);
+	    lejana = repositorio.crearTiendaConStock("T2", producto, 3);
+	    fueraDelLimite = repositorio.crearTiendaConStock("T3", "Fuera del límite", 3);
+        sinStock = repositorio.crearTienda("T4", "Sin stock");
 	}
 
 	@Test
