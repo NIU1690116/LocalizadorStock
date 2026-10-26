@@ -52,7 +52,8 @@ public class BuscadorTiendas {
                 candidatas.add(new TiendaConDistancia(tienda, distanciaKm));
             }
         } 
-        // Devolvemos la lista completa de tiendas con sus respectivas distancias
+        // Devolvemos la lista completa de tiendas con sus respectivas distancias ordenada de menor a mayor distancia
+        candidatas.sort((a, b) -> Double.compare(a.distancia(), b.distancia()));
         return candidatas;
     }
 
