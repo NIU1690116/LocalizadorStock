@@ -8,8 +8,11 @@ public class BuscadorTiendas {
     private final CalculadorDistancia calculadorDistancia;
 
     public BuscadorTiendas(RepositorioTiendas repositorio, CalculadorDistancia calculadorDistancia) {
-    	if (repositorio == null || calculadorDistancia == null) {
-            throw new IllegalStateException("Las dependencias del buscador no son válidas");
+    	if (repositorio == null) {
+            throw new IllegalStateException("El repositorio no puede ser nulo");
+        }
+    	if (calculadorDistancia == null) {
+            throw new IllegalStateException("El calculador no puede ser nulo");
         }
         this.repositorio = repositorio;
         this.calculadorDistancia = calculadorDistancia;
