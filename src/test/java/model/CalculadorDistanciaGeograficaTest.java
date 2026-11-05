@@ -22,7 +22,10 @@ class CalculadorDistanciaGeograficaTest {
 		//destino y origen no pueden ser null
 		assertThrows(IllegalArgumentException.class, 
 				() -> calculador.calcularKm(null, null));
-		
+		assertThrows(IllegalArgumentException.class, 
+				() -> calculador.calcularKm(null, destino));
+		assertThrows(IllegalArgumentException.class, 
+				() -> calculador.calcularKm(origen, null));
 	}
 	
 	private Tienda tienda(String id, double latitud, double longitud) {
