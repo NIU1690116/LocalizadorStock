@@ -4,7 +4,7 @@ import java.util.Objects;
 
 // producto del catálogo
 public class Producto {
-	private String codigo;
+	private final String codigo;
 	private String nombre;
 	private String color;
 	private String familia;
@@ -26,12 +26,6 @@ public class Producto {
 	public String getCodigo() {
 		return codigo;
 	}
-
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
 
 	public String getNombre() {
 		return nombre;
@@ -72,8 +66,18 @@ public class Producto {
 		this.genero = genero;
 	}
 	
+	// El código identifica el producto y no debe cambiar mientras se use como clave.
+	@Override
+	public boolean equals(Object objeto) {
+		if (this == objeto) {
+			return true;
+		}
+		if (!(objeto instanceof Producto otro)) {
+			return false;
+		}
+		return codigo.equals(otro.codigo);
+	}
 	
-	//si dos objetos son iguales se devuelve el mismo hashCode
 	@Override
 	public int hashCode() {
 	    return Objects.hash(codigo);
