@@ -11,12 +11,18 @@ public class CalculadorDistanciaGeografica implements CalculadorDistancia {
                     "Las tiendas no pueden ser null");
         }
 		
-		// Si están en la misma latitud y longitud la diferencia es 0
-	    if (origen.getLatitud() == destino.getLatitud() && 
-	        origen.getLongitud() == destino.getLongitud()) {
-	        return 0.0;
-	    }
-	    return 0.0;
+		double latitudOrigen = Math.toRadians(origen.getLatitud());
+	    double latitudDestino = Math.toRadians(destino.getLatitud());
+
+	    double diferenciaLatitud = latitudDestino - latitudOrigen;
+	    double diferenciaLongitud = Math.toRadians(destino.getLongitud() - origen.getLongitud());
+
+	    double latitudMedia = (latitudOrigen + latitudDestino) / 2.0;
+	    double diferenciaEsteOeste = diferenciaLongitud * Math.cos(latitudMedia);
+
+	    return RADIO_TERRESTRE_KM * Math.sqrt(
+	            diferenciaLatitud * diferenciaLatitud + 
+	            diferenciaEsteOeste * diferenciaEsteOeste);
 	}
 	
 	
