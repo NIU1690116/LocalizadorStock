@@ -1,7 +1,5 @@
 package model;
 
-import java.time.LocalDateTime;
-
 // Define los límites acordados para todas las búsquedas
 public class RestriccionesBusqueda {
     private static final double DISTANCIA_MAXIMA_KM = 10.0;
@@ -10,14 +8,15 @@ public class RestriccionesBusqueda {
     //no neccesitamos que el constructor reciba valores, ya que los limites eran siempre los mismos
 
     public boolean permiteDistancia(Double distancia) {
-	    if (distancia == null || distancia > DISTANCIA_MAXIMA_KM || distancia <= 0) {
+	    if (distancia == null || !Double.isFinite(distancia)
+	            || distancia > DISTANCIA_MAXIMA_KM || distancia < 0) {
     		return false;
     	}
     	return true;
     }
     
     public boolean permiteEspera(Integer EsperaMinutos) {
-    	if (EsperaMinutos == null || EsperaMinutos > ESPERA_MAXIMA_MINUTOS || EsperaMinutos <= 0) {
+	if (EsperaMinutos == null || EsperaMinutos > ESPERA_MAXIMA_MINUTOS || EsperaMinutos < 0) {
     		return false;
     	}
     	return true;

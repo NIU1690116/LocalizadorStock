@@ -34,6 +34,8 @@ class ReposicionTest {
         assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, 0, fechaPrevista));
         assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, -1, fechaPrevista));
         assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, 1, null));
+        
+        
     }
 
 }

@@ -2,8 +2,6 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,8 @@ class RestriccionesBusquedaTest {
         
         assertFalse(restricciones.permiteDistancia(null));// valor nulo
         assertFalse(restricciones.permiteDistancia(-1.0));// valor negativo
-        assertFalse(restricciones.permiteDistancia(0.0));// valor 0
+        assertTrue(restricciones.permiteDistancia(0.0));// origen y destino pueden coincidir
+        assertFalse(restricciones.permiteDistancia(Double.NaN));// distancia no numérica
         
     }
     
@@ -38,7 +37,7 @@ class RestriccionesBusquedaTest {
     	
     	assertFalse(restricciones.permiteEspera(null));// valor nulo
         assertFalse(restricciones.permiteEspera(-60));// valor negativo
-        assertFalse(restricciones.permiteEspera(0));// valor 0 			
+        assertTrue(restricciones.permiteEspera(0));// reposición inmediata
     }
 
 }

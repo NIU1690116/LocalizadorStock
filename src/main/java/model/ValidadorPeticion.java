@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDateTime;
 
-// Validaciones de peticiones y de sus reposiciones candidatas
+// Validaciones de peticiones y reposiciones candidatas
 public class ValidadorPeticion {
 
     // Comprueba que la petición existe y contiene líneas válidas.
@@ -30,8 +30,21 @@ public class ValidadorPeticion {
         if (fechaPrevista.isBefore(fechaSolicitud) || fechaPrevista.isAfter(fechaLimite)) {
             return false;
         }
+        
+        if (reposicion.getProducto() == null
+                || !reposicion.getProducto().getCodigo().equals(linea.getProducto().getCodigo())
+                || reposicion.getCantidad() < linea.getCantidad()) {
+            return false;
+        }
 
-        return true;
+        //Calculamos los minutos de diferencia enter las fechas
+        long minutosEspera = java.time.Duration.between(fechaSolicitud, fechaPrevista).toMinutes();
+
+        //Convertimos el valor a int
+        int minutosInt = (int) minutosEspera;
+
+        //Devolvemos el resultado de la validación
+        return restricciones.permiteEspera(minutosInt);
     }
     
     
