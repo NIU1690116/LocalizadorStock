@@ -97,4 +97,18 @@ class InventarioTest {
         assertEquals(20, inventario.consultarStock(producto));
     }
 
+    @Test
+    void testRestriccionesYLimitesDeStockMaximo() {
+        // Stock máximo cero como límite estricto
+        inventario.setStockMaximo(producto, 0);
+        assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, 1));
+        assertEquals(0, inventario.consultarStock(producto));
+
+        // No permite establecer un máximo inferior al stock actual
+        Inventario inventarioConStock = new Inventario();
+        inventarioConStock.añadirProductos(producto, 5);
+        assertThrows(IllegalArgumentException.class, () -> inventarioConStock.setStockMaximo(producto, 4));
+        assertEquals(0, inventarioConStock.consultarStockMaximo(producto));
+    }
+
 }
