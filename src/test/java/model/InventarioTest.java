@@ -110,5 +110,13 @@ class InventarioTest {
         assertThrows(IllegalArgumentException.class, () -> inventarioConStock.setStockMaximo(producto, 4));
         assertEquals(0, inventarioConStock.consultarStockMaximo(producto));
     }
+    
+    @Test
+    void testDesbordeStock() {
+        inventario.añadirProductos(producto, Integer.MAX_VALUE);
+
+        assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, 1));
+        assertEquals(Integer.MAX_VALUE, inventario.consultarStock(producto));
+    }
 
 }
