@@ -10,7 +10,8 @@ public class CalculadorDistanciaGeografica implements CalculadorDistancia {
             throw new IllegalArgumentException(
                     "Las tiendas no pueden ser null");
         }
-		
+		//Para una búsqueda local con un máximo de 10 km, usaremos una aproximación plana lo que implica
+		// convertir las diferencias de latitud y longitud a radianes y calcular la distancia con Pitágoras
 		double latitudOrigen = Math.toRadians(origen.getLatitud());
 	    double latitudDestino = Math.toRadians(destino.getLatitud());
 
