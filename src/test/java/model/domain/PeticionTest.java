@@ -1,4 +1,4 @@
-package model;
+package model.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,10 +7,6 @@ import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import model.LineaPeticion;
-import model.Peticion;
-import model.Producto;
 
 class PeticionTest {
 	private Peticion peticion;

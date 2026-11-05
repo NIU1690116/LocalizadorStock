@@ -1,5 +1,8 @@
-package model;
+package model.repository;
 
+import model.domain.Inventario;
+import model.domain.Producto;
+import model.domain.Tienda;
 import java.util.ArrayList;
 import java.util.List;
 

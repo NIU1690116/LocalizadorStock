@@ -1,4 +1,4 @@
-package model;
+package model.domain;
 
 // Define los límites acordados para todas las búsquedas
 public class RestriccionesBusqueda {

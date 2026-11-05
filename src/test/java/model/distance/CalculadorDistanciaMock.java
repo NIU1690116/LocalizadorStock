@@ -1,5 +1,6 @@
-package model;
+package model.distance;
 
+import model.domain.Tienda;
 import java.util.HashMap;
 import java.util.Map;
 

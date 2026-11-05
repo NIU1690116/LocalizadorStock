@@ -1,5 +1,12 @@
-package model;
+package model.service;
 
+import model.distance.CalculadorDistanciaMock;
+import model.domain.Inventario;
+import model.domain.LineaPeticion;
+import model.domain.Producto;
+import model.domain.RestriccionesBusqueda;
+import model.domain.Tienda;
+import model.repository.RepositorioTiendasMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;

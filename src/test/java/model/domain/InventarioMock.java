@@ -1,10 +1,7 @@
-package model;
+package model.domain;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import model.Inventario;
-import model.Producto;
 
 public class InventarioMock extends Inventario {
 	private final Map<Producto, Integer> stockSimulado = new HashMap<>();

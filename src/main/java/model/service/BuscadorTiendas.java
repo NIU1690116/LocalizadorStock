@@ -1,5 +1,10 @@
-package model;
+package model.service;
 
+import model.distance.CalculadorDistancia;
+import model.domain.LineaPeticion;
+import model.domain.RestriccionesBusqueda;
+import model.domain.Tienda;
+import model.repository.RepositorioTiendas;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,18 +1,16 @@
-package model;
+package model.service;
 
+import model.domain.LineaPeticion;
+import model.domain.Peticion;
+import model.domain.Producto;
+import model.domain.Reposicion;
+import model.domain.RestriccionesBusqueda;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import model.LineaPeticion;
-import model.Peticion;
-import model.Producto;
-import model.Reposicion;
-import model.RestriccionesBusqueda;
-import model.ValidadorPeticion;
 
 class ValidadorPeticionTest {
 	Producto producto;
