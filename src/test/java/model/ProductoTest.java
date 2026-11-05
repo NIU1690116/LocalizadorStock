@@ -19,6 +19,7 @@ class ProductoTest {
         Producto a = new Producto("P001", "Camiseta", "rojo", "camisetas", "hombre");
         Producto b = new Producto("P001", "Camiseta básica", "azul", "camisetas", "hombre");
         
+        assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }
 	
@@ -39,4 +40,12 @@ class ProductoTest {
         assertThrows(IllegalArgumentException.class, () -> new Producto(null, "Camiseta", "rojo", "camisetas", "unisex"));
         assertThrows(IllegalArgumentException.class, () -> new Producto("  ", "Camiseta", "rojo", "camisetas", "unisex"));
     }
+	
+	@Test
+	void productosConCodigosDistintosNoSonIguales() {
+		Producto a = new Producto("P001", "Camiseta", "rojo", "camisetas", "hombre");
+		Producto b = new Producto("P002", "Camiseta", "rojo", "camisetas", "hombre");
+
+		assertNotEquals(a, b);
+	}
 }
