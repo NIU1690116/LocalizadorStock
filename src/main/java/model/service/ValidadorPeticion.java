@@ -1,5 +1,9 @@
-package model;
+package model.service;
 
+import model.domain.LineaPeticion;
+import model.domain.Peticion;
+import model.domain.Reposicion;
+import model.domain.RestriccionesBusqueda;
 import java.time.LocalDateTime;
 
 // Validaciones de peticiones y reposiciones candidatas

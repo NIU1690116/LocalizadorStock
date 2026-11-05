@@ -1,5 +1,7 @@
-package model;
+package model.distance;
 
+import model.domain.Inventario;
+import model.domain.Tienda;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;

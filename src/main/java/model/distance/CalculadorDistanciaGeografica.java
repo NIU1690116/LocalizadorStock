@@ -1,5 +1,6 @@
-package model;
+package model.distance;
 
+import model.domain.Tienda;
 public class CalculadorDistanciaGeografica implements CalculadorDistancia {
 
 	private static final double RADIO_TERRESTRE_KM = 6371.0088;
