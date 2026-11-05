@@ -28,6 +28,15 @@ class CalculadorDistanciaGeograficaTest {
 				() -> calculador.calcularKm(origen, null));
 	}
 	
+	@Test
+	void testCalcularKm() {
+		//misma ubicación -> distancia es igual a 0
+		Tienda primera = tienda("T1", 41.0, 2.0);
+        Tienda segunda = tienda("T2", 41.0, 2.0);
+
+        assertEquals(0.0, calculador.calcularKm(primera, segunda), 0.000001);
+	}
+	
 	private Tienda tienda(String id, double latitud, double longitud) {
         return new Tienda(
                 id, id, latitud, longitud, new Inventario());
