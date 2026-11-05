@@ -18,7 +18,7 @@ class CalculadorDistanciaGeograficaTest {
 	}
 
 	@Test
-	void testCalcularKm() {
+	void testCalcularKmTiendaNulas() {
 		//destino y origen no pueden ser null
 		assertThrows(IllegalArgumentException.class, 
 				() -> calculador.calcularKm(null, null));
