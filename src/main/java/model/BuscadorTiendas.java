@@ -41,6 +41,10 @@ public class BuscadorTiendas {
             if (tienda == null) {
                 continue;
             }
+            // La tienda actual se evalúa antes de buscar alternativas
+            if (origen.getId().equals(tienda.getId())) {
+                continue;
+            }
             double distanciaKm = calculadorDistancia.calcularKm(origen, tienda);
 
             boolean distanciaPermitida = restricciones.permiteDistancia(distanciaKm);
