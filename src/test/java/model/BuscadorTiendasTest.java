@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -106,6 +107,25 @@ class BuscadorTiendasTest {
         assertTrue(resultado1.isEmpty());
         
           
+	}
+
+	@Test
+	void testExcluirTiendaOrigen() {
+		Tienda origenEnRepositorio = repositorio.crearTiendaConStock(
+				origen.getId(), origen.getNombre(), producto, 5);
+		Tienda alternativa = repositorio.crearTiendaConStock(
+				"T2", "Alternativa", producto, 5);
+		calculadorDistancia.configurarDistancia(alternativa, 2.0);
+
+		List<BuscadorTiendas.TiendaConDistancia> resultado =
+				buscadorTiendas.buscarTiendasConStock(
+						origen,
+						new LineaPeticion(producto, 2),
+						new RestriccionesBusqueda());
+
+		assertEquals(1, resultado.size());
+		assertEquals(alternativa, resultado.get(0).tienda());
+		assertNotEquals(origenEnRepositorio.getId(), resultado.get(0).tienda().getId());
 	}
 	
 	
