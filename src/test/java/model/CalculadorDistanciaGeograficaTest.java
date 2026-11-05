@@ -35,6 +35,11 @@ class CalculadorDistanciaGeograficaTest {
         Tienda segunda = tienda("T2", 41.0, 2.0);
 
         assertEquals(0.0, calculador.calcularKm(primera, segunda), 0.000001);
+        
+        // Un grado de longitud en el Ecuador -> 111 km
+        double distancia = calculador.calcularKm(origen, destino);
+
+        assertEquals(111.195, distancia, 0.1);
 	}
 	
 	private Tienda tienda(String id, double latitud, double longitud) {
