@@ -12,5 +12,15 @@ import model.domain.Tienda;
 
 public class BuscadorProductosSimilares {
 	private static final int NUMERO_CARACTERISTICAS = 3;
+	
+	public List<AlternativaProductoSimilar> buscarSimilares(Producto solicitado, List<Tienda> tiendas) {
+        return buscarSimilares(solicitado, 1, tiendas);
+    } 
+	
+	public List<AlternativaProductoSimilar> buscarSimilares(LineaPeticion linea, List<Tienda> tiendas) {
+
+        return null;
+
+    } 
 
 }
