@@ -12,15 +12,22 @@ import model.domain.Tienda;
 
 public class BuscadorProductosSimilares {
 	private static final int NUMERO_CARACTERISTICAS = 3;
-	
+	//method overloading
+	// Asume que la cantidad pedida por defecto es 1 y delega
 	public List<AlternativaProductoSimilar> buscarSimilares(Producto solicitado, List<Tienda> tiendas) {
         return buscarSimilares(solicitado, 1, tiendas);
     } 
-	
-	public List<AlternativaProductoSimilar> buscarSimilares(LineaPeticion linea, List<Tienda> tiendas) {
-
-        return null;
-
+	// Extrae el producto y la cantidad de la línea y da el trabajo a la versión privada
+	public List<AlternativaProductoSimilar> buscarSimilares(LineaPeticion linea, List<Tienda> tiendas) { 
+		if (linea == null) {
+	        throw new IllegalArgumentException("La línea de petición es obligatoria");
+	    }
+	    return buscarSimilares(linea.getProducto(), linea.getCantidad(), tiendas);
+	}
+	//calculo real
+	private List<AlternativaProductoSimilar> buscarSimilares(
+			Producto solicitado, int cantidad, List<Tienda> tiendas) { 
+		return null;
     } 
 
 }
