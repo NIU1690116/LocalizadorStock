@@ -35,6 +35,10 @@ class AlternativaProductoSimilarTest {
 				() -> new AlternativaProductoSimilar(producto, tienda, -1.0));
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 100.01));
+		
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaProductoSimilar(producto, tienda, Double.NaN));
+		
 	}
 	
 
