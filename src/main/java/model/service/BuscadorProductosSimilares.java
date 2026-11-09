@@ -51,6 +51,10 @@ public class BuscadorProductosSimilares {
 	    return primero.equals(segundo);
 	}
 	
+	public double calcularSimilitud(Producto primero, Producto segundo) {
+		return 0.0;
+	}
+	
 	
 	
 
