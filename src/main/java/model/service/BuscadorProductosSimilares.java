@@ -17,6 +17,7 @@ public class BuscadorProductosSimilares {
 	public List<AlternativaProductoSimilar> buscarSimilares(Producto solicitado, List<Tienda> tiendas) {
         return buscarSimilares(solicitado, 1, tiendas);
     } 
+	
 	// Extrae el producto y la cantidad de la línea y da el trabajo a la versión privada
 	public List<AlternativaProductoSimilar> buscarSimilares(LineaPeticion linea, List<Tienda> tiendas) { 
 		if (linea == null) {
@@ -24,9 +25,16 @@ public class BuscadorProductosSimilares {
 	    }
 	    return buscarSimilares(linea.getProducto(), linea.getCantidad(), tiendas);
 	}
+	
 	//calculo real
 	private List<AlternativaProductoSimilar> buscarSimilares(
 			Producto solicitado, int cantidad, List<Tienda> tiendas) { 
+		if (solicitado == null) {
+            throw new IllegalArgumentException("El producto solicitado es obligatorio");
+        }
+        if (tiendas == null) {
+            throw new IllegalArgumentException("La lista de tiendas es obligatoria");
+        }
 		return null;
     } 
 
