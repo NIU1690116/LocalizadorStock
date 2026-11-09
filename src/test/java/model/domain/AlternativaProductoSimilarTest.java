@@ -26,5 +26,14 @@ class AlternativaProductoSimilarTest {
             new AlternativaProductoSimilar(producto, null, 50.0);
         });
 	}
+	
+	@Test
+	void testPorcentajeSimilitudValido() {
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaProductoSimilar(producto, tienda, 0.0));
+
+	}
+	
+
 
 }
