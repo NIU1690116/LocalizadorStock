@@ -46,7 +46,9 @@ public class BuscadorProductosSimilares {
     } 
 	
 	public boolean coincide(String valorPrimero, String valorSegundo) {
-		return false;
+		String primero = normalizar(valorPrimero);
+	    String segundo = normalizar(valorSegundo);
+	    return primero.equals(segundo);
 	}
 	
 	
