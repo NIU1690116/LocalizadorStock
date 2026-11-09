@@ -39,7 +39,7 @@ public class BuscadorProductosSimilares {
     } 
 	
 	public String normalizar(String valor) {
-		return null;
+		return valor.trim().toLowerCase(Locale.ROOT);
 
     } 
 	
