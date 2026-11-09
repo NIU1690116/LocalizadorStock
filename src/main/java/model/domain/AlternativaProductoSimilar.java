@@ -12,7 +12,7 @@ public record AlternativaProductoSimilar(
 		if (tienda == null) {
 			throw new IllegalArgumentException("La tienda no puede ser");
 		}
-		if (gradoSimilitud <= 0.0) {
+		if (gradoSimilitud <= 0.0 || gradoSimilitud > 100.0) {
 			throw new IllegalArgumentException("El grado de similitud debe estar entre 0 y 100");
 		}
 	}
