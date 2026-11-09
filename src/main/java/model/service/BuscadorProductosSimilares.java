@@ -39,6 +39,9 @@ public class BuscadorProductosSimilares {
     } 
 	
 	public String normalizar(String valor) {
+		if (valor == null || valor.isBlank()) {
+	        return null;
+	    }
 		return valor.trim().toLowerCase(Locale.ROOT);
 
     } 
