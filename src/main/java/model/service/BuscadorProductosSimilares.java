@@ -43,8 +43,11 @@ public class BuscadorProductosSimilares {
 	        return null;
 	    }
 		return valor.trim().toLowerCase(Locale.ROOT);
-
     } 
+	
+	public boolean coincide(String valorPrimero, String valorSegundo) {
+		return false;
+	}
 	
 	
 	
