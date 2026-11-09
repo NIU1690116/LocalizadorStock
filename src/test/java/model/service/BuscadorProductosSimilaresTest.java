@@ -25,4 +25,9 @@ class BuscadorProductosSimilaresTest {
 	}
 
 
+	@Test
+	void testArgumentosObligatoriosNulos() {
+
+	}
+
 }
