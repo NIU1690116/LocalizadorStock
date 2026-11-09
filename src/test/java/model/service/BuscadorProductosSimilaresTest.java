@@ -27,7 +27,17 @@ class BuscadorProductosSimilaresTest {
 
 	@Test
 	void testArgumentosObligatoriosNulos() {
+		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares();
 
+		assertThrows(
+	            IllegalArgumentException.class,
+	            () -> buscador.buscarSimilares((Producto) null, List.of()));
+		assertThrows(
+	            IllegalArgumentException.class,
+	            () -> buscador.buscarSimilares(solicitado, null));
+		assertThrows(
+	            IllegalArgumentException.class,
+	            () -> buscador.buscarSimilares((LineaPeticion) null, List.of()));
 	}
 
 }
