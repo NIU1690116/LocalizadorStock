@@ -19,12 +19,13 @@ import model.domain.Tienda;
 
 class BuscadorProductosSimilaresTest {
 	private BuscadorProductosSimilares buscador;
-	private Producto solicitado;
+	private Producto solicitado, solicitado2;
 
 	@BeforeEach
 	void setUp() {
 		buscador = new BuscadorProductosSimilares();
 		solicitado = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
+		solicitado2 = new Producto("P002", "Camiseta", "azul", "camisetas", "mujer");
 	}
 
 
@@ -52,6 +53,14 @@ class BuscadorProductosSimilaresTest {
 	void testCoincide() {
 		assertTrue(buscador.coincide("  Camisa ", "camisa"));
 		assertFalse(buscador.coincide("Camisa", "Pantalon"));
+    }
+	
+	@Test
+	void testCalcularSimilitud() {
+		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares();
+	    double similitud = buscador.calcularSimilitud(solicitado, solicitado2);
+	    
+	    assertEquals(66.66666666666667, similitud, 0.0001);
     }
 	
 
