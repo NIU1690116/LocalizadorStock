@@ -22,6 +22,9 @@ class AlternativaProductoSimilarTest {
 		assertThrows(IllegalArgumentException.class, () -> {
             new AlternativaProductoSimilar(null, tienda, 50.0);
         });
+		assertThrows(IllegalArgumentException.class, () -> {
+            new AlternativaProductoSimilar(producto, null, 50.0);
+        });
 	}
 
 }
