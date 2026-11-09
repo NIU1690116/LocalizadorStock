@@ -3,6 +3,7 @@ package model.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -28,8 +29,6 @@ class BuscadorProductosSimilaresTest {
 
 	@Test
 	void testArgumentosObligatoriosNulos() {
-		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares();
-
 		assertThrows(
 	            IllegalArgumentException.class,
 	            () -> buscador.buscarSimilares((Producto) null, List.of()));
@@ -43,10 +42,15 @@ class BuscadorProductosSimilaresTest {
 	
 	@Test
 	void testNormalizar() {
-		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares();
 	    assertEquals("camisa", buscador.normalizar("  CAMISA  "));
 	    assertNull(buscador.normalizar(null));
 	    assertNull(buscador.normalizar("   "));
     }
+	
+	@Test
+	void testCoincide() {
+		assertTrue(buscador.coincide("  Camisa ", "camisa"));
+    }
+	
 
 }
