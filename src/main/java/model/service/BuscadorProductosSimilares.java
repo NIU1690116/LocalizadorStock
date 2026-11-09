@@ -37,5 +37,13 @@ public class BuscadorProductosSimilares {
         }
 		return null;
     } 
+	
+	public String normalizar(String valor) {
+		return null;
+
+    } 
+	
+	
+	
 
 }
