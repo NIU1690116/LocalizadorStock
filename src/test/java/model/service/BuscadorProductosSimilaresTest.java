@@ -1,6 +1,7 @@
 package model.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
@@ -44,6 +45,8 @@ class BuscadorProductosSimilaresTest {
 	void testNormalizar() {
 		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares();
 	    assertEquals("camisa", buscador.normalizar("  CAMISA  "));
+	    assertNull(buscador.normalizar(null));
+	    assertNull(buscador.normalizar("   "));
     }
 
 }
