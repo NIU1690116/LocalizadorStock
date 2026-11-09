@@ -31,7 +31,8 @@ class AlternativaProductoSimilarTest {
 	void testPorcentajeSimilitudValido() {
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 0.0));
-
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaProductoSimilar(producto, tienda, -1.0));
 	}
 	
 
