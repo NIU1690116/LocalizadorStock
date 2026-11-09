@@ -32,13 +32,18 @@ class AlternativaProductoSimilarTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 0.0));
 		assertThrows(IllegalArgumentException.class,
-				() -> new AlternativaProductoSimilar(producto, tienda, -1.0));
+				() -> new AlternativaProductoSimilar(producto, tienda, -1.0));//particion negativa
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 100.01));
-		
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaProductoSimilar(producto, tienda, 150.01));//particion alta
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, Double.NaN));
-		
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaProductoSimilar(producto, tienda, Double.POSITIVE_INFINITY));
+
+		assertEquals(100.0,
+				new AlternativaProductoSimilar(producto, tienda, 100.0).gradoSimilitud());
 	}
 	
 
