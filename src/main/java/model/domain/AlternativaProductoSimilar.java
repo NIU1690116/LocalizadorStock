@@ -5,5 +5,9 @@ public record AlternativaProductoSimilar(
 		Tienda tienda,
 		double gradoSimilitud) {
 
-
+	public AlternativaProductoSimilar {
+		if (productoSimilar == null) {
+			throw new IllegalArgumentException("El producto no puede ser");
+		}
+	}
 }
