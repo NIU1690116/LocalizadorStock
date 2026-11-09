@@ -41,8 +41,9 @@ class BuscadorProductosSimilaresTest {
 	}
 	
 	@Test
-	void testCalculaPorcentaje() {
-
+	void testNormalizar() {
+		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares();
+	    assertEquals("camisa", buscador.normalizar("  CAMISA  "));
     }
 
 }
