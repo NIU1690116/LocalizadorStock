@@ -39,5 +39,10 @@ class BuscadorProductosSimilaresTest {
 	            IllegalArgumentException.class,
 	            () -> buscador.buscarSimilares((LineaPeticion) null, List.of()));
 	}
+	
+	@Test
+	void testCalculaPorcentaje() {
+
+    }
 
 }
