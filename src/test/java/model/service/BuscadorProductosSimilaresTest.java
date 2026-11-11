@@ -19,13 +19,19 @@ import model.domain.Tienda;
 
 class BuscadorProductosSimilaresTest {
 	private BuscadorProductosSimilares buscador;
-	private Producto solicitado, solicitado2;
+	private Producto productoBase, producto3de3, producto2de3, producto1de3, producto0de3;
 
 	@BeforeEach
 	void setUp() {
 		buscador = new BuscadorProductosSimilares();
-		solicitado = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
-		solicitado2 = new Producto("P002", "Camiseta", "azul", "camisetas", "mujer");
+		// Producto de referencia con el que se comparará
+		Producto productoBase = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
+
+		// Productos candidatos con su grado de similitud explícito 
+		producto3de3 = new Producto("P002", "Camiseta", "rojo", "camisetas", "mujer"); // Coinciden las 3: color, familia, género
+		producto2de3 = new Producto("P003", "Camiseta", "azul", "camisetas", "mujer"); // Coinciden 2: familia y género, cambia color
+		producto1de3 = new Producto("P004", "Camiseta", "azul", "pantalones", "mujer"); // Coincide 1: sólo género
+		producto0de3 = new Producto("P005", "Pantalon",  "negro", "pantalones", "hombre"); // Coinciden 0
 	}
 
 
@@ -36,7 +42,7 @@ class BuscadorProductosSimilaresTest {
 	            () -> buscador.buscarSimilares((Producto) null, List.of()));
 		assertThrows(
 	            IllegalArgumentException.class,
-	            () -> buscador.buscarSimilares(solicitado, null));
+	            () -> buscador.buscarSimilares(productoBase, null));
 		assertThrows(
 	            IllegalArgumentException.class,
 	            () -> buscador.buscarSimilares((LineaPeticion) null, List.of()));
@@ -58,9 +64,23 @@ class BuscadorProductosSimilaresTest {
 	@Test
 	void testCalcularSimilitud() {
 		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares();
-	    double similitud = buscador.calcularSimilitud(solicitado, solicitado2);
+		
+		// Ejemplo con 1 de 3 (33.33%)
+        double similitud1de3 = buscador.calcularSimilitud(productoBase, producto1de3);
+        assertEquals(33.33, similitud1de3, 0.01);
+        
+        // Ejemplo con 2 de 3 (66.67%)
+        double similitud2de3 = buscador.calcularSimilitud(productoBase, producto2de3);
+        assertEquals(66.67, similitud2de3, 0.01);
+        
+        // Ejemplo con 3 de 3 (100.0%)
+        double similitud3de3 = buscador.calcularSimilitud(productoBase, producto3de3);
+        assertEquals(100.0, similitud3de3, 0.01);
+        
+        // Ejemplo con 0 de 3 (0.0%)
+        double similitud0de3 = buscador.calcularSimilitud(productoBase, producto0de3);
+        assertEquals(0.0, similitud0de3, 0.01);
 	    
-	    assertEquals(66.66666666666667, similitud, 0.0001);
     }
 	
 
