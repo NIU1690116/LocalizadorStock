@@ -126,7 +126,9 @@ class InventarioTest {
 
 		List<Producto> disponibles = inventario.productosConStockSuficiente(2);
 		assertEquals(List.of(producto), disponibles);
-
+		//cantidades no validas
+		assertThrows(IllegalArgumentException.class, () -> inventario.productosConStockSuficiente(0));
+		assertThrows(IllegalArgumentException.class, () -> inventario.productosConStockSuficiente(-1));
 		
 	}
 
