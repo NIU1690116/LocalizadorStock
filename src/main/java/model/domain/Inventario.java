@@ -80,6 +80,9 @@ public class Inventario {
 	}
 
 	public List<Producto> productosConStockSuficiente(int cantidad) {
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
+		}
 		return stock.entrySet().stream()
 				.filter(entrada -> entrada.getValue() >= cantidad)
 				.map(Map.Entry::getKey)
