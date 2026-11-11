@@ -52,7 +52,11 @@ public class BuscadorProductosSimilares {
 	}
 	
 	public double calcularSimilitud(Producto primero, Producto segundo) {
-		return 0.0;
+		int coincidencias = 0;
+	    coincidencias += coincide(primero.getFamilia(), segundo.getFamilia()) ? 1 : 0;
+	    coincidencias += coincide(primero.getGenero(), segundo.getGenero()) ? 1 : 0;
+	    coincidencias += coincide(primero.getColor(), segundo.getColor()) ? 1 : 0;
+	    return coincidencias * 100.0 / NUMERO_CARACTERISTICAS;
 	}
 	
 	
