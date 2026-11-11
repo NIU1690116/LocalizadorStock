@@ -35,7 +35,23 @@ public class BuscadorProductosSimilares {
         if (tiendas == null) {
             throw new IllegalArgumentException("La lista de tiendas es obligatoria");
         }
-		return null;
+        
+        List<AlternativaProductoSimilar> alternativas = new ArrayList<>();
+        for (Tienda tienda : tiendas) {
+            if (tienda == null) {
+                continue;
+            }
+            for (Producto candidato : tienda.getInventario().productosConStockSuficiente(cantidad)) {
+                if (solicitado.equals(candidato)) {
+                    continue;
+                }
+                double similitud = calcularSimilitud(solicitado, candidato);
+                if (similitud > 0.0) {
+                    alternativas.add(new AlternativaProductoSimilar(candidato, tienda, similitud));
+                }
+            }
+        }
+        return alternativas;
     } 
 	
 	public String normalizar(String valor) {
