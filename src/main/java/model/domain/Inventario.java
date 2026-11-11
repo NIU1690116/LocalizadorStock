@@ -80,7 +80,10 @@ public class Inventario {
 	}
 
 	public List<Producto> productosConStockSuficiente(int cantidad) {
-		return null;
+		return stock.entrySet().stream()
+				.filter(entrada -> entrada.getValue() >= cantidad)
+				.map(Map.Entry::getKey)
+				.collect(Collectors.toList());
 	}
 
 	private void validarProducto(Producto producto) {
