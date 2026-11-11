@@ -1,10 +1,14 @@
 package model.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -18,6 +22,7 @@ import model.domain.Producto;
 import model.domain.Tienda;
 
 class BuscadorProductosSimilaresTest {
+	//se utilizara mockito
 	private BuscadorProductosSimilares buscador;
 	private Producto productoBase, producto3de3, producto2de3, producto1de3, producto0de3;
 
@@ -25,7 +30,7 @@ class BuscadorProductosSimilaresTest {
 	void setUp() {
 		buscador = new BuscadorProductosSimilares();
 		// Producto de referencia con el que se comparará
-		Producto productoBase = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
+		productoBase = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
 
 		// Productos candidatos con su grado de similitud explícito 
 		producto3de3 = new Producto("P002", "Camiseta", "rojo", "camisetas", "mujer"); // Coinciden las 3: color, familia, género
@@ -84,8 +89,20 @@ class BuscadorProductosSimilaresTest {
     }
 	
 	@Test
-	void buscarSimilares() {
-		
+	void buscaProductosSimilaresConStockSuficienteEnLaTienda() {
+		Tienda tienda = mock(Tienda.class);
+		Inventario inventario = mock(Inventario.class);
+		when(tienda.getInventario()).thenReturn(inventario);
+		when(inventario.productosConStockSuficiente(2)).thenReturn(List.of(
+				producto3de3,
+				producto2de3,
+				producto1de3,
+				producto0de3));
+
+		List<AlternativaProductoSimilar> alternativas = buscador.buscarSimilares(
+				new LineaPeticion(productoBase, 2), List.of(tienda));
+
+
 	}
 
 }
