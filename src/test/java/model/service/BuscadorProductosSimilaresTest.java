@@ -83,5 +83,9 @@ class BuscadorProductosSimilaresTest {
 	    
     }
 	
+	@Test
+	void buscarSimilares() {
+		
+	}
 
 }
