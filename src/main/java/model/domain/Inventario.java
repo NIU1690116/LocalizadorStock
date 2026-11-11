@@ -1,7 +1,9 @@
 package model.domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Inventario {
 	
@@ -75,6 +77,16 @@ public class Inventario {
 		    }
 
 	    return consultarStock(producto) >= cantidad;
+	}
+
+	public List<Producto> productosConStockSuficiente(int cantidad) {
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
+		}
+		return stock.entrySet().stream()
+				.filter(entrada -> entrada.getValue() >= cantidad)
+				.map(Map.Entry::getKey)
+				.collect(Collectors.toList());
 	}
 
 	private void validarProducto(Producto producto) {
