@@ -2,6 +2,8 @@ package model.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -115,5 +117,13 @@ class InventarioTest {
         assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, 1));
         assertEquals(Integer.MAX_VALUE, inventario.consultarStock(producto));
     }
+
+	@Test
+	void testProductosConStockSuficiente() {
+
+
+		
+	}
+
 
 }
