@@ -51,6 +51,10 @@ public class BuscadorProductosSimilares {
                 }
             }
         }
+        alternativas.sort(Comparator
+                .comparingDouble(AlternativaProductoSimilar::gradoSimilitud).reversed()
+                .thenComparing(a -> a.productoSimilar().getCodigo())
+                .thenComparing(a -> a.tienda().getId()));
         return alternativas;
     } 
 	
