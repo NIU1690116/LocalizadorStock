@@ -102,6 +102,8 @@ class BuscadorProductosSimilaresTest {
 		List<AlternativaProductoSimilar> alternativas = buscador.buscarSimilares(
 				new LineaPeticion(productoBase, 2), List.of(tienda));
 
+		assertNotNull(alternativas);
+		assertEquals(3, alternativas.size());
 
 	}
 
