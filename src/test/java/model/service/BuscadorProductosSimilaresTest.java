@@ -104,7 +104,15 @@ class BuscadorProductosSimilaresTest {
 
 		assertNotNull(alternativas);
 		assertEquals(3, alternativas.size());
-
+		//orden de mayor a menor porcentaje de similitud
+		assertTrue(alternativas.stream().anyMatch(a ->
+				a.productoSimilar().equals(producto3de3) && a.gradoSimilitud() == 100.0));
+		assertTrue(alternativas.stream().anyMatch(a ->
+				a.productoSimilar().equals(producto2de3)
+						&& Math.abs(a.gradoSimilitud() - 66.67) < 0.01));
+		assertTrue(alternativas.stream().anyMatch(a ->
+				a.productoSimilar().equals(producto1de3)
+						&& Math.abs(a.gradoSimilitud() - 33.33) < 0.01));
 	}
 
 }
