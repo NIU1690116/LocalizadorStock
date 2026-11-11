@@ -1,7 +1,9 @@
 package model.domain;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Inventario {
 	
@@ -75,6 +77,10 @@ public class Inventario {
 		    }
 
 	    return consultarStock(producto) >= cantidad;
+	}
+
+	public List<Producto> productosConStockSuficiente(int cantidad) {
+		return null;
 	}
 
 	private void validarProducto(Producto producto) {
