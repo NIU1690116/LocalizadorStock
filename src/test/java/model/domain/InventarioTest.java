@@ -120,10 +120,14 @@ class InventarioTest {
 
 	@Test
 	void testProductosConStockSuficiente() {
+		Producto productoConStock = new Producto("P002", "Chaqueta", "azul", "chaquetas", "unisex");
+		inventario.añadirProductos(producto, 3);
+		inventario.añadirProductos(productoConStock, 1);
 
+		List<Producto> disponibles = inventario.productosConStockSuficiente(2);
+		assertEquals(List.of(producto), disponibles);
 
 		
 	}
-
 
 }
