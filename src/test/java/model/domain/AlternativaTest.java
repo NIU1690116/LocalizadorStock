@@ -18,7 +18,11 @@ class AlternativaTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaDePrueba(-1, 5.0));//tiempo negativo
 		assertThrows(IllegalArgumentException.class,
-				() -> new AlternativaDePrueba(10, -1.0));//distancia negativo
+				() -> new AlternativaDePrueba(10, -1.0));//distancia negativa
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaDePrueba(10, Double.NaN));//distancia finita
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaDePrueba(10, Double.POSITIVE_INFINITY));// distancia finita
 
 	}
 
