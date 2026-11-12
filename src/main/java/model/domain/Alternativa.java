@@ -12,8 +12,15 @@ public abstract class Alternativa {
 			throw new IllegalArgumentException("La distancia debe ser finita y no negativa");
 		}
 		this.tiempoEstimadoMinutos = tiempoEstimadoMinutos;
-		this.distanciaKm = distanciaKm;
-		
+		this.distanciaKm = distanciaKm;	
+	}
+	
+	public int getTiempoEstimadoMinutos() {
+		return tiempoEstimadoMinutos;
+	}
+
+	public double getDistanciaKm() {
+		return distanciaKm;
 	}
 
 }
