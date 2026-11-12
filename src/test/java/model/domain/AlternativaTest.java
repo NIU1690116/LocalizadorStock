@@ -17,6 +17,8 @@ class AlternativaTest {
 	void testLimitesValidos() {
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaDePrueba(-1, 5.0));//tiempo negativo
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaDePrueba(10, -1.0));//distancia negativo
 
 	}
 
