@@ -5,7 +5,9 @@ public final class AlternativaOtraTienda extends Alternativa {
 
 	public AlternativaOtraTienda(Tienda tienda, int tiempoEstimadoMinutos, double distanciaKm) {
 		super(tiempoEstimadoMinutos, distanciaKm);
-
+		if (tienda == null) {
+			throw new IllegalArgumentException("La tienda destino es obligatoria");
+		}
 		this.tienda = tienda;
 	}
 
