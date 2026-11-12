@@ -25,5 +25,13 @@ class AlternativaTest {
 				() -> new AlternativaDePrueba(10, Double.POSITIVE_INFINITY));// distancia finita
 
 	}
+	
+	@Test
+	void testAlternativaValida() {
+		Alternativa alternativa = new AlternativaDePrueba(25, 4.5);
+
+		assertEquals(25, alternativa.getTiempoEstimadoMinutos());
+		assertEquals(4.5, alternativa.getDistanciaKm(), 0.001);
+	}
 
 }
