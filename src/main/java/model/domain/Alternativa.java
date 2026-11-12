@@ -4,9 +4,12 @@ public abstract class Alternativa {
 	private final int tiempoEstimadoMinutos;
 	private final double distanciaKm;
 
-	public Alternativa(int tiempoEstimadoMinutos, double distanciaKm) {
-		this.tiempoEstimadoMinutos = 0;
-		this.distanciaKm = 0;
+	protected Alternativa(int tiempoEstimadoMinutos, double distanciaKm) {
+		if (tiempoEstimadoMinutos < 0) {
+			throw new IllegalArgumentException("El tiempo estimado no puede ser negativo");
+		}
+		this.tiempoEstimadoMinutos = tiempoEstimadoMinutos;
+		this.distanciaKm = distanciaKm;
 		
 	}
 
