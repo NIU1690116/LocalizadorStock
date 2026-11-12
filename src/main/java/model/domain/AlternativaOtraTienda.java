@@ -11,5 +11,7 @@ public final class AlternativaOtraTienda extends Alternativa {
 		this.tienda = tienda;
 	}
 
-
+	public Tienda getTienda() {
+		return tienda;
+	}
 }
