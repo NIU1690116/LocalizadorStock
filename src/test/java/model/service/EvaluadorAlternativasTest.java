@@ -43,7 +43,7 @@ class EvaluadorAlternativasTest {
 	}
 	
 	@Test
-	void tesListaAlternativaValida() {
+	void tesListaAlternativaInvalida() {
 		assertThrows(IllegalArgumentException.class,//lista nula
 				() -> evaluador.seleccionarMejor(null));
 		assertNull(evaluador.seleccionarMejor(List.of()));//null si no hay alternativas(lista vacia)
@@ -61,6 +61,10 @@ class EvaluadorAlternativasTest {
 		Alternativa lejos = new AlternativaOtraTienda(tienda, 5, 10.1);
 		Alternativa esperaExcesiva = new AlternativaReposicion(tienda, reposicion, 121, 0.0);
 		assertNull(evaluador.seleccionarMejor(List.of(lejos, esperaExcesiva)));
+		
+		Alternativa menosTiempo = new AlternativaOtraTienda(tienda, 0, 7.0);
+		Alternativa menosDistancia = new AlternativaOtraTienda(tienda, 36, 0.0);
+		assertEquals(menosTiempo, evaluador.seleccionarMejor(List.of(menosDistancia, menosTiempo)));
 	}
 	
 	
