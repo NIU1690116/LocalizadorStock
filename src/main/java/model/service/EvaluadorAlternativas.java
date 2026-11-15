@@ -16,6 +16,9 @@ public class EvaluadorAlternativas {
 		if (politica == null) {
 			throw new IllegalArgumentException("La política de búsqueda es obligatoria");
 		}
+		if (restricciones == null) {
+			throw new IllegalArgumentException("Las restricciones son obligatorias");
+		}
 		this.politica = politica;
 		this.restricciones = restricciones;
 	}
