@@ -14,6 +14,9 @@ public final class ResultadoLineaPeticion {
 			List<Alternativa> alternativas,
 			Alternativa mejorAlternativa,
 			EstadoResolucion estado) {
+		if (linea == null) {
+			throw new IllegalArgumentException("La línea de petición es obligatoria");
+		}
 
 		this.linea = linea;
 		this.alternativas = List.copyOf(alternativas);
