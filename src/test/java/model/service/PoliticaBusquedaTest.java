@@ -33,7 +33,11 @@ class PoliticaBusquedaTest {
 	}
 	@Test
     void testCalculaLaPuntuacionNormalizada() {
-
+		// Tiempo = 60 (mitad de 120) -> 0.70 * 0.5 = 0.35
+		// Distancia = 5.0 (mitad de 10.0) -> 0.30 * 0.5 = 0.15
+		// Total esperado = 0.50
+		Alternativa alternativa = new AlternativaOtraTienda(tienda, 60, 5.0);
+		assertEquals(0.50, politica.calcularPuntuacion(alternativa), 0.0001);
     }
 	
 	
