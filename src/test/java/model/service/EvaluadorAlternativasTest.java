@@ -47,6 +47,11 @@ class EvaluadorAlternativasTest {
 		assertNull(evaluador.seleccionarMejor(List.of()));//null si no hay alternativas(lista vacia)
 	}
 	
+	@Test
+	void testCumpleRestricciones() {
+
+	}
+	
 	
 
 }
