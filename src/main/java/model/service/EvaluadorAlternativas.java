@@ -29,4 +29,8 @@ public class EvaluadorAlternativas {
 		}
 		return null;
 	}
+	
+	private boolean cumpleRestricciones(Alternativa alternativa) {
+		return false;
+	}
 }
