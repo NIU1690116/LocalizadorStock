@@ -36,7 +36,8 @@ class EvaluadorAlternativasTest {
 	void testPoliticaYRestriccionesValidas() {
 		assertThrows(IllegalArgumentException.class,
 				() -> new EvaluadorAlternativas(null, new RestriccionesBusqueda()));
-
+		assertThrows(IllegalArgumentException.class,
+				() -> new EvaluadorAlternativas(new PoliticaBusqueda(), null));
 	}
 
 }
