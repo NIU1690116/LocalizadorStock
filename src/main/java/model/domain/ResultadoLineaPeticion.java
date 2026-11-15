@@ -22,6 +22,9 @@ public final class ResultadoLineaPeticion {
 		}		if (mejorAlternativa != null && !alternativas.contains(mejorAlternativa)) {
 			throw new IllegalArgumentException("La mejor alternativa debe estar en la lista de alternativas");
 		}
+		if (estado == null) {
+			throw new IllegalArgumentException("Debe existir estado");
+		}
 
 		this.linea = linea;
 		this.alternativas = List.copyOf(alternativas);
