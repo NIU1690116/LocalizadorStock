@@ -20,5 +20,11 @@ public final class AlternativaReposicion extends Alternativa {
 		this.reposicion = reposicion;
 	}
 
+	public Tienda getTienda() {
+		return tienda;
+	}
 
+	public Reposicion getReposicion() {
+		return reposicion;
+	}
 }
