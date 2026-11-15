@@ -23,4 +23,10 @@ class ResultadoLineaPeticionTest {
 		alternativa = new AlternativaOtraTienda(tienda, 15, 3.0);
 	}
 
+	
+	@Test
+	void testResultadoLineaPeticionInvalido() {
+		assertThrows(IllegalArgumentException.class,
+				() -> new ResultadoLineaPeticion(null, List.of(), alternativa, EstadoResolucion.RESUELTA));
+	}
 }
