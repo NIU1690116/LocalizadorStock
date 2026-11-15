@@ -10,7 +10,13 @@ public final class AlternativaReposicion extends Alternativa {
 			int tiempoEstimadoMinutos,
 			double distanciaKm) {
 		super(tiempoEstimadoMinutos, distanciaKm);
+		if (tienda == null) {
+			throw new IllegalArgumentException("La tienda es obligatoria");
+		}
 
+		this.tienda = tienda;
+		this.reposicion = reposicion;
 	}
+
 
 }
