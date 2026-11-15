@@ -36,11 +36,10 @@ public class EvaluadorAlternativas {
 	            continue;
 	        }
 	        // 2. Comprobar si cumple las restricciones
-	        if (cumpleRestricciones(alt)) {
-	        	mejorAlternativa = alt;
-	            return mejorAlternativa;
+	        if (!cumpleRestricciones(alt)) {
+	        	continue;
 	        }
-	     // 3. Calcular su puntuación
+	        // 3. Calcular su puntuación
 	        double puntuacion = politica.calcularPuntuacion(alt);
 
 	        // 4. Si es la primera válida, o tiene una puntuación menor (mejor)
