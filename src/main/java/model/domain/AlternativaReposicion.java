@@ -13,7 +13,9 @@ public final class AlternativaReposicion extends Alternativa {
 		if (tienda == null) {
 			throw new IllegalArgumentException("La tienda es obligatoria");
 		}
-
+		if (reposicion == null) {
+			throw new IllegalArgumentException("La reposición es obligatoria");
+		}
 		this.tienda = tienda;
 		this.reposicion = reposicion;
 	}
