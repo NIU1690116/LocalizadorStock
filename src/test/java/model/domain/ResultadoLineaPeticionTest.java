@@ -30,5 +30,7 @@ class ResultadoLineaPeticionTest {
 				() -> new ResultadoLineaPeticion(null, List.of(), alternativa, EstadoResolucion.RESUELTA));
 		assertThrows(IllegalArgumentException.class,
 				() -> new ResultadoLineaPeticion(linea, null, alternativa, EstadoResolucion.RESUELTA));
+		assertThrows(IllegalArgumentException.class,
+				() -> new ResultadoLineaPeticion(linea, List.of(), null, EstadoResolucion.RESUELTA));
 	}
 }
