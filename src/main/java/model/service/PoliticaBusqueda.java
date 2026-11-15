@@ -8,6 +8,7 @@ public class PoliticaBusqueda {
 	private static final double TIEMPO_REFERENCIA_MINUTOS = 120.0;
 	private static final double DISTANCIA_REFERENCIA_KM = 10.0;
 
+	//medidor de "desfavorabilidad": cuanto más lejos y más tarde, más penalizado (mayor porcentaje)
 	public double calcularPuntuacion(Alternativa alternativa) {
 		if (alternativa == null) {
 			throw new IllegalArgumentException("La alternativa es obligatoria");
