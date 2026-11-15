@@ -42,7 +42,9 @@ class EvaluadorAlternativasTest {
 	
 	@Test
 	void testSeleccionarMejor() {
-		assertNull(evaluador.seleccionarMejor(List.of()));//null si no hay alternativas
+		assertThrows(IllegalArgumentException.class,//lista nula
+				() -> evaluador.seleccionarMejor(null));
+		assertNull(evaluador.seleccionarMejor(List.of()));//null si no hay alternativas(lista vacia)
 	}
 	
 	
