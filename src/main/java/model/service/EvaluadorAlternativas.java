@@ -40,9 +40,31 @@ public class EvaluadorAlternativas {
 	        	mejorAlternativa = alt;
 	            return mejorAlternativa;
 	        }
-	    }
-	    return null;
+	     // 3. Calcular su puntuación
+	        double puntuacion = politica.calcularPuntuacion(alt);
 
+	        // 4. Si es la primera válida, o tiene una puntuación menor (mejor)
+	        if (mejorAlternativa == null || puntuacion < menorPuntuacion) {
+	            mejorAlternativa = alt;
+	            menorPuntuacion = puntuacion;
+	        } 
+	        // 5. Desempates si la puntuación es exactamente igual
+	        else if (puntuacion == menorPuntuacion) {
+	            
+	            // Primer desempate: Menor tiempo estimado
+	            if (alt.getTiempoEstimadoMinutos() < mejorAlternativa.getTiempoEstimadoMinutos()) {
+	                mejorAlternativa = alt;
+	            } 
+	            // Segundo desempate: Menor distancia (si el tiempo también empata)
+	            else if (alt.getTiempoEstimadoMinutos() == mejorAlternativa.getTiempoEstimadoMinutos()) {
+	                if (alt.getDistanciaKm() < mejorAlternativa.getDistanciaKm()) {
+	                    mejorAlternativa = alt;
+	                }
+	            }
+	        }
+	    }
+	    
+	    return mejorAlternativa;
 	}
 	
 	private boolean cumpleRestricciones(Alternativa alternativa) {
