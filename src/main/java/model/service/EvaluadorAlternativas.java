@@ -31,6 +31,9 @@ public class EvaluadorAlternativas {
 	}
 	
 	private boolean cumpleRestricciones(Alternativa alternativa) {
-		return false;
+		if (!restricciones.permiteDistancia(alternativa.getDistanciaKm())) {
+			return false;
+		}
+		return true;
 	}
 }
