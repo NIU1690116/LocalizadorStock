@@ -27,6 +27,8 @@ class PoliticaBusquedaTest {
 		tienda = new Tienda("T001", "Tienda Centro", 41.0, 2.0, new Inventario());
 		producto = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
 	}
+	//El rechazo de opciones que superan los 120 minutos o los 10 km le corresponde
+	// al evaluador, antes de aplicar la política
 
 	@Test
 	void testPoliticaBusquedaInvalida() {
@@ -60,7 +62,12 @@ class PoliticaBusquedaTest {
 		// Total esperado = 0.0
 		Alternativa alternativa_4 = new AlternativaOtraTienda(tienda, 0, 0.0);
 		assertEquals(0.0, politica.calcularPuntuacion(alternativa_4), 0.0001);
-		
+
+		// Tiempo = 120  -> 0.70 * 1.0 = 0.70
+		// Distancia = 10.0 -> 0.30 * 1.0 = 0.30
+		// Total esperado = 1.0
+		Alternativa alternativa_5 = new AlternativaOtraTienda(tienda, 120, 10.0);
+		assertEquals(1.0, politica.calcularPuntuacion(alternativa_5), 0.0001);
 		
     }
 
