@@ -28,5 +28,7 @@ class ResultadoLineaPeticionTest {
 	void testResultadoLineaPeticionInvalido() {
 		assertThrows(IllegalArgumentException.class,
 				() -> new ResultadoLineaPeticion(null, List.of(), alternativa, EstadoResolucion.RESUELTA));
+		assertThrows(IllegalArgumentException.class,
+				() -> new ResultadoLineaPeticion(linea, null, alternativa, EstadoResolucion.RESUELTA));
 	}
 }
