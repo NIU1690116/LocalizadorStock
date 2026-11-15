@@ -13,6 +13,10 @@ public class EvaluadorAlternativas {
 	private final RestriccionesBusqueda restricciones;
 
 	public EvaluadorAlternativas(PoliticaBusqueda politica, RestriccionesBusqueda restricciones) {
-
+		if (politica == null) {
+			throw new IllegalArgumentException("La política de búsqueda es obligatoria");
+		}
+		this.politica = politica;
+		this.restricciones = restricciones;
 	}
 }
