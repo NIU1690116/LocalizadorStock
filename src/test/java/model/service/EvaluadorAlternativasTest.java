@@ -31,5 +31,12 @@ class EvaluadorAlternativasTest {
 		Producto producto = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
 		reposicion = new Reposicion(producto, 2, LocalDateTime.of(2026, 11, 15, 10, 0));
 	}
+	
+	@Test
+	void testPoliticaYRestriccionesValidas() {
+		assertThrows(IllegalArgumentException.class,
+				() -> new EvaluadorAlternativas(null, new RestriccionesBusqueda()));
+
+	}
 
 }
