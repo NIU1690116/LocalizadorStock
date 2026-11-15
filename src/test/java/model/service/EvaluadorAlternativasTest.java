@@ -1,8 +1,10 @@
 package model.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,7 +51,9 @@ class EvaluadorAlternativasTest {
 	
 	@Test
 	void testCumpleRestricciones() {
+		Alternativa espera = new AlternativaReposicion(tienda, reposicion, 120, 0.0);
 
+		assertEquals(espera, evaluador.seleccionarMejor(List.of(espera)));
 	}
 	
 	
