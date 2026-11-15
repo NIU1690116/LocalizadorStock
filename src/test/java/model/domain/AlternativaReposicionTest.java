@@ -24,7 +24,9 @@ class AlternativaReposicionTest {
 	@Test
 	void testAlternativaReposicion() {
 		assertThrows(IllegalArgumentException.class,
-				() -> new AlternativaReposicion(null, reposicion, 45, 0.0));
+				() -> new AlternativaReposicion(null, reposicion, 45, 0.0));//tienda igual a null
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaReposicion(tienda, null, 45, 0.0));//Reposición diferente de null
 
 	}
 }
