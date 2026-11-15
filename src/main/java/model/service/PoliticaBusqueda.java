@@ -13,6 +13,8 @@ public class PoliticaBusqueda {
 			throw new IllegalArgumentException("La alternativa es obligatoria");
 		}
 
-		return 0.0;
+		double tiempoNormalizado = alternativa.getTiempoEstimadoMinutos() / TIEMPO_REFERENCIA_MINUTOS;
+		double distanciaNormalizada = alternativa.getDistanciaKm() / DISTANCIA_REFERENCIA_KM;
+		return PESO_TIEMPO * tiempoNormalizado + PESO_DISTANCIA * distanciaNormalizada;
 	}
 }
