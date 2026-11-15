@@ -24,7 +24,9 @@ public class EvaluadorAlternativas {
 	}
 	
 	public Alternativa seleccionarMejor(List<Alternativa> alternativas) {
-		return null;
+		if (alternativas == null) {
+			throw new IllegalArgumentException("La lista de alternativas es obligatoria");
 		}
+		return null;
 	}
 }
