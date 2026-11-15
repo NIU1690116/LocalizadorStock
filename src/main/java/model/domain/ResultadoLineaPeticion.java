@@ -31,6 +31,22 @@ public final class ResultadoLineaPeticion {
 		this.mejorAlternativa = mejorAlternativa;
 		this.estado = estado;
 	}
+	
+	public LineaPeticion getLinea() {
+		return linea;
+	}
+
+	public List<Alternativa> getAlternativas() {
+		return alternativas;
+	}
+
+	public Alternativa getMejorAlternativa() {
+		return mejorAlternativa;
+	}
+
+	public EstadoResolucion getEstado() {
+		return estado;
+	}
 
 
 }
