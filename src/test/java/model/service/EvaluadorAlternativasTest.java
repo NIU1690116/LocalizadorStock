@@ -42,7 +42,7 @@ class EvaluadorAlternativasTest {
 	
 	@Test
 	void testSeleccionarMejor() {
-
+		assertNull(evaluador.seleccionarMejor(List.of()));//null si no hay alternativas
 	}
 	
 	
