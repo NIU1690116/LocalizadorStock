@@ -19,11 +19,13 @@ import model.domain.Tienda;
 class PoliticaBusquedaTest {
 	private PoliticaBusqueda politica;
 	private Tienda tienda;
+	private Producto producto;
 
 	@BeforeEach
 	void setUp() {
 		politica = new PoliticaBusqueda();
 		tienda = new Tienda("T001", "Tienda Centro", 41.0, 2.0, new Inventario());
+		producto = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
 	}
 
 	@Test
@@ -32,12 +34,28 @@ class PoliticaBusquedaTest {
 				() -> politica.calcularPuntuacion(null));
 	}
 	@Test
-    void testCalculaLaPuntuacionNormalizada() {
+    void testCalcularPuntuacion() {
+		//Alternativa otra tienda
 		// Tiempo = 60 (mitad de 120) -> 0.70 * 0.5 = 0.35
 		// Distancia = 5.0 (mitad de 10.0) -> 0.30 * 0.5 = 0.15
 		// Total esperado = 0.50
 		Alternativa alternativa = new AlternativaOtraTienda(tienda, 60, 5.0);
 		assertEquals(0.50, politica.calcularPuntuacion(alternativa), 0.0001);
+		
+		//alternativa reposición
+		// Tiempo = 120  -> 0.70 * 1 = 0.70
+		// Distancia = 0.0 -> 0.30 * 0.0 = 0.0
+		// Total esperado = 0.70
+		Reposicion reposicion = new Reposicion(
+				producto, 2, LocalDateTime.of(2026, 11, 15, 10, 0));
+		Alternativa alternativa_2 = new AlternativaReposicion(tienda, reposicion, 120, 0.0);
+		assertEquals(0.70, politica.calcularPuntuacion(alternativa_2), 0.0001);
+		
+		// Tiempo = 0  -> 0.70 * 0 = 0.0
+		// Distancia = 0.0 -> 0.30 * 0.0 = 0.0
+		// Total esperado = 0.0
+		Alternativa alternativa_3 = new AlternativaOtraTienda(tienda, 0, 0.0);
+		assertEquals(0.0, politica.calcularPuntuacion(alternativa_3), 0.0001);
     }
 	
 	
