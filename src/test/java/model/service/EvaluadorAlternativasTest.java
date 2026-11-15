@@ -39,5 +39,12 @@ class EvaluadorAlternativasTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> new EvaluadorAlternativas(new PoliticaBusqueda(), null));
 	}
+	
+	@Test
+	void testSeleccionarMejor() {
+
+	}
+	
+	
 
 }
