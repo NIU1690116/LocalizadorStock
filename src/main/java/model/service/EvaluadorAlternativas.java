@@ -27,13 +27,29 @@ public class EvaluadorAlternativas {
 		if (alternativas == null) {
 			throw new IllegalArgumentException("La lista de alternativas es obligatoria");
 		}
-		return null;
+		Alternativa mejorAlternativa = null;
+	    double menorPuntuacion = Double.MAX_VALUE;
+
+	    for (Alternativa alt : alternativas) {
+	        // 1. Ignorar si es nula
+	        if (alt == null) {
+	            continue;
+	        }
+	        // 2. Comprobar si cumple las restricciones
+	        if (cumpleRestricciones(alt)) {
+	        	mejorAlternativa = alt;
+	            return mejorAlternativa;
+	        }
+	    }
+	    return null;
+
 	}
 	
 	private boolean cumpleRestricciones(Alternativa alternativa) {
 		if (!restricciones.permiteDistancia(alternativa.getDistanciaKm())) {
 			return false;
 		}
-		return true;
+		return !(alternativa instanceof AlternativaReposicion reposicion)
+				|| restricciones.permiteEspera(reposicion.getTiempoEstimadoMinutos());
 	}
 }
