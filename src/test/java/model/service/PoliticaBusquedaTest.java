@@ -28,6 +28,7 @@ class PoliticaBusquedaTest {
 
 	@Test
 	void testPoliticaBusqueda() {
-
+		assertThrows(IllegalArgumentException.class,
+				() -> politica.calcularPuntuacion(null));
 	}
 }
