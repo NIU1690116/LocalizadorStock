@@ -27,6 +27,16 @@ class AlternativaReposicionTest {
 				() -> new AlternativaReposicion(null, reposicion, 45, 0.0));//tienda igual a null
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaReposicion(tienda, null, 45, 0.0));//Reposición diferente de null
+	}
+	
+	@Test
+	void testAlternativaReposicionValida() {
+		AlternativaReposicion alternativa = new AlternativaReposicion(
+				tienda, reposicion, 45, 0.0);
 
+		assertEquals(tienda, alternativa.getTienda());
+		assertEquals(reposicion, alternativa.getReposicion());
+		assertEquals(45, alternativa.getTiempoEstimadoMinutos());
+		assertEquals(0.0, alternativa.getDistanciaKm(), 0.001);		
 	}
 }
