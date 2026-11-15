@@ -55,9 +55,12 @@ class EvaluadorAlternativasTest {
 		//el dezplazamiento tiene un porcentaje inferior de desfavorilidad
 		Alternativa espera = new AlternativaReposicion(tienda, reposicion, 120, 0.0);
 		assertEquals(espera, evaluador.seleccionarMejor(List.of(espera)));
-		
 		Alternativa desplazamiento = new AlternativaOtraTienda(tienda, 10, 2.0);
 		assertEquals(desplazamiento, evaluador.seleccionarMejor(List.of(espera, desplazamiento)));
+		
+		Alternativa lejos = new AlternativaOtraTienda(tienda, 5, 10.1);
+		Alternativa esperaExcesiva = new AlternativaReposicion(tienda, reposicion, 121, 0.0);
+		assertNull(evaluador.seleccionarMejor(List.of(lejos, esperaExcesiva)));
 	}
 	
 	
