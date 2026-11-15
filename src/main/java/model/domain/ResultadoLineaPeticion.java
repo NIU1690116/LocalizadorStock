@@ -17,6 +17,9 @@ public final class ResultadoLineaPeticion {
 		if (linea == null) {
 			throw new IllegalArgumentException("La línea de petición es obligatoria");
 		}
+		if (alternativas == null || alternativas.stream().anyMatch(Objects::isNull)) {
+			throw new IllegalArgumentException("La lista de alternativas no puede ser nula ni contener nulos");
+		}
 
 		this.linea = linea;
 		this.alternativas = List.copyOf(alternativas);
