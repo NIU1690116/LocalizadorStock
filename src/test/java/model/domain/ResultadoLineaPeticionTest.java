@@ -37,6 +37,12 @@ class ResultadoLineaPeticionTest {
 		//caso lista alternativas debe contener mejor alternativa
 		assertThrows(IllegalArgumentException.class,
 				() -> new ResultadoLineaPeticion(linea, null, null, EstadoResolucion.RESUELTA));
+		assertThrows(IllegalArgumentException.class,
+				() -> new ResultadoLineaPeticion(
+						linea, List.of(), alternativa, EstadoResolucion.ALTERNATIVA_PROPUESTA));
+		assertThrows(IllegalArgumentException.class,
+				() -> new ResultadoLineaPeticion(
+						linea, List.of(alternativa), null, EstadoResolucion.ALTERNATIVA_PROPUESTA));
 		//caso debe existir un alternativa cuando se propone una opción
 		assertThrows(IllegalArgumentException.class,
 				() -> new ResultadoLineaPeticion(linea, List.of(), null, null));
