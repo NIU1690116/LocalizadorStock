@@ -23,6 +23,8 @@ class AlternativaReposicionTest {
 
 	@Test
 	void testAlternativaReposicion() {
+		assertThrows(IllegalArgumentException.class,
+				() -> new AlternativaReposicion(null, reposicion, 45, 0.0));
 
 	}
 }
