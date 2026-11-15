@@ -9,6 +9,10 @@ public class PoliticaBusqueda {
 	private static final double DISTANCIA_REFERENCIA_KM = 10.0;
 
 	public double calcularPuntuacion(Alternativa alternativa) {
+		if (alternativa == null) {
+			throw new IllegalArgumentException("La alternativa es obligatoria");
+		}
+
 		return 0.0;
 	}
 }
