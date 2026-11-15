@@ -22,4 +22,9 @@ public class EvaluadorAlternativas {
 		this.politica = politica;
 		this.restricciones = restricciones;
 	}
+	
+	public Alternativa seleccionarMejor(List<Alternativa> alternativas) {
+		return null;
+		}
+	}
 }
