@@ -16,7 +16,12 @@ public class ServicioReposicion {
 	}
 
 	public Reposicion consultarReposicion(Tienda tienda, Producto producto) {
-
+		if (tienda == null) {
+			throw new IllegalArgumentException("La tienda es obligatoria");
+		}
+		if (producto == null) {
+			throw new IllegalArgumentException("El producto es obligatorio");
+		}
 		return proveedor.consultar(tienda, producto);
 	}
 }
