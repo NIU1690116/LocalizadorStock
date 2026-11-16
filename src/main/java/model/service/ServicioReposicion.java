@@ -15,4 +15,8 @@ public class ServicioReposicion {
 		this.proveedor = proveedor;
 	}
 
+	public Reposicion consultarReposicion(Tienda tienda, Producto producto) {
+
+		return proveedor.consultar(tienda, producto);
+	}
 }
