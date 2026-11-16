@@ -13,6 +13,7 @@ class ResultadoBusquedaTest {
 	@Test
 	void testResultadoBusquedaParametrosNulos() {
 		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(null));
+		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(List.of()));
 	}
 
 	private ResultadoLineaPeticion resultadoLinea(String codigo, EstadoResolucion estado) {
