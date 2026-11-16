@@ -18,7 +18,12 @@ class ResultadoBusquedaTest {
 	
 	@Test
 	void testResultadoBusqueda() {
-
+		//un resultado de busqueda esta resuelto si cada resultado linea tiene 
+		//EstadoResolucion como RESUELTA con alternativa propuesta
+		ResultadoLineaPeticion conAlternativa = resultadoConAlternativa("P002");
+		ResultadoBusqueda resultado = new ResultadoBusqueda(List.of(
+				resultadoLinea("P001", EstadoResolucion.RESUELTA), conAlternativa));
+		assertTrue(resultado.estaResuelta());
 	}
 
 	private ResultadoLineaPeticion resultadoLinea(String codigo, EstadoResolucion estado) {
