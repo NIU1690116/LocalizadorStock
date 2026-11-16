@@ -15,6 +15,8 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import model.distance.CalculadorDistancia;
+import model.distance.EstimadorTiempoViaje;
 import model.domain.AlternativaProductoSimilar;
 import model.domain.Inventario;
 import model.domain.LineaPeticion;
@@ -25,10 +27,16 @@ class BuscadorProductosSimilaresTest {
 	//se utilizara mockito
 	private BuscadorProductosSimilares buscador;
 	private Producto productoBase, producto3de3, producto2de3, producto1de3, producto0de3;
+	private CalculadorDistancia calculadorDistancia;
+	private EstimadorTiempoViaje estimadorTiempoViaje;
+	private Tienda origen;
 
 	@BeforeEach
 	void setUp() {
-		buscador = new BuscadorProductosSimilares();
+		calculadorDistancia = mock(CalculadorDistancia.class);
+		estimadorTiempoViaje = mock(EstimadorTiempoViaje.class);
+		buscador = new BuscadorProductosSimilares(calculadorDistancia, estimadorTiempoViaje);
+		origen = mock(Tienda.class);
 		// Producto de referencia con el que se comparará
 		productoBase = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
 
@@ -42,15 +50,22 @@ class BuscadorProductosSimilaresTest {
 
 	@Test
 	void testArgumentosObligatoriosNulos() {
+		assertThrows(IllegalArgumentException.class,
+				() -> new BuscadorProductosSimilares(null, estimadorTiempoViaje));
+		assertThrows(IllegalArgumentException.class,
+				() -> new BuscadorProductosSimilares(calculadorDistancia, null));
 		assertThrows(
 	            IllegalArgumentException.class,
-	            () -> buscador.buscarSimilares((Producto) null, List.of()));
+			() -> buscador.buscarSimilares((Producto) null, origen, List.of()));
 		assertThrows(
 	            IllegalArgumentException.class,
-	            () -> buscador.buscarSimilares(productoBase, null));
+	            () -> buscador.buscarSimilares(productoBase, origen, null));
 		assertThrows(
 	            IllegalArgumentException.class,
-	            () -> buscador.buscarSimilares((LineaPeticion) null, List.of()));
+	            () -> buscador.buscarSimilares((LineaPeticion) null, origen, List.of()));
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> buscador.buscarSimilares(productoBase, null, List.of()));
 	}
 	
 	@Test
@@ -68,7 +83,8 @@ class BuscadorProductosSimilaresTest {
 	
 	@Test
 	void testCalcularSimilitud() {
-		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares();
+		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares(
+				mock(CalculadorDistancia.class), mock(EstimadorTiempoViaje.class));
 		
 		// Ejemplo con 1 de 3 (33.33%)
         double similitud1de3 = buscador.calcularSimilitud(productoBase, producto1de3);
@@ -99,8 +115,10 @@ class BuscadorProductosSimilaresTest {
 				producto1de3,
 				producto0de3));
 
+		when(calculadorDistancia.calcularKm(origen, tienda)).thenReturn(3.5);
+		when(estimadorTiempoViaje.estimarMinutos(origen, tienda)).thenReturn(12);
 		List<AlternativaProductoSimilar> alternativas = buscador.buscarSimilares(
-				new LineaPeticion(productoBase, 2), List.of(tienda));
+				new LineaPeticion(productoBase, 2), origen, List.of(tienda));
 
 		assertNotNull(alternativas);
 		assertEquals(3, alternativas.size());
@@ -113,6 +131,8 @@ class BuscadorProductosSimilaresTest {
 		assertTrue(alternativas.stream().anyMatch(a ->
 				a.productoSimilar().equals(producto1de3)
 						&& Math.abs(a.gradoSimilitud() - 33.33) < 0.01));
+		assertEquals(12, alternativas.get(0).getTiempoEstimadoMinutos());
+		assertEquals(3.5, alternativas.get(0).getDistanciaKm());
 	}
 
 }
