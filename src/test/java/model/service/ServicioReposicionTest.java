@@ -38,5 +38,17 @@ class ServicioReposicionTest {
 		assertThrows(IllegalArgumentException.class, () -> servicio.consultarReposicion(null, producto));
 		assertThrows(IllegalArgumentException.class, () -> servicio.consultarReposicion(tienda, null));
 	}
+	
+	@Test
+	void testConsultaReposicion() {
+		Reposicion esperada = new Reposicion(producto, 4, LocalDateTime.of(2026, 11, 16, 12, 0));
+		when(proveedor.consultar(tienda, producto)).thenReturn(esperada);
+
+		Reposicion resultado = servicio.consultarReposicion(tienda, producto);
+
+		assertSame(esperada, resultado);
+		verify(proveedor).consultar(tienda, producto);
+	}
+	
 
 }
