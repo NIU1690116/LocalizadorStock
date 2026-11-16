@@ -47,10 +47,16 @@ class BuscadorTiendasTest {
 	@Test
 	void testBuscadorTiendasConstructor() {
 		assertThrows(
-				IllegalArgumentException.class, () -> new BuscadorTiendas(null, calculadorDistancia)
+				IllegalArgumentException.class,
+				() -> new BuscadorTiendas(null, calculadorDistancia, estimadorTiempoViaje)
 		);
 		assertThrows(
-				IllegalArgumentException.class, () -> new BuscadorTiendas(repositorio, null)
+				IllegalArgumentException.class,
+				() -> new BuscadorTiendas(repositorio, null, estimadorTiempoViaje)
+		);
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> new BuscadorTiendas(repositorio, calculadorDistancia, null)
 		);
 	}
 	
