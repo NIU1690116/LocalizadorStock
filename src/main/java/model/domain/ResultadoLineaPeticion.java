@@ -20,9 +20,6 @@ public final class ResultadoLineaPeticion {
 		if (alternativas == null || alternativas.stream().anyMatch(Objects::isNull)) {
 			throw new IllegalArgumentException("La lista de alternativas no puede ser nula ni contener nulos");
 		}	
-		if (mejorAlternativa == null) {
-			throw new IllegalArgumentException("La mejor alternativa es obligatoria");
-		}
 		if (mejorAlternativa != null && !alternativas.contains(mejorAlternativa)) {
 			throw new IllegalArgumentException("La mejor alternativa debe estar en la lista de alternativas");
 		}
