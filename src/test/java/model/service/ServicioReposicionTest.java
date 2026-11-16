@@ -48,6 +48,16 @@ class ServicioReposicionTest {
 
 		assertSame(esperada, resultado);
 		verify(proveedor).consultar(tienda, producto);
+		
+		//propagar reposición consultada sin alterar datos
+		Reposicion reposicion = new Reposicion(producto, 2, LocalDateTime.of(2026, 11, 16, 13, 30));
+		when(proveedor.consultar(tienda, producto)).thenReturn(reposicion);
+
+		Reposicion resultado_2 = servicio.consultarReposicion(tienda, producto);
+
+		assertEquals(producto, resultado.getProducto());
+		assertEquals(2, resultado.getCantidad());
+		assertEquals(LocalDateTime.of(2026, 11, 16, 13, 30), resultado_2.getFechaPrevista());
 	}
 	
 
