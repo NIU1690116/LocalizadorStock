@@ -58,6 +58,10 @@ class ServicioReposicionTest {
 		assertEquals(producto, resultado.getProducto());
 		assertEquals(2, resultado_2.getCantidad());
 		assertEquals(LocalDateTime.of(2026, 11, 16, 13, 30), resultado_2.getFechaPrevista());
+		
+		//No hay reposición prevista
+		when(proveedor.consultar(tienda, producto)).thenReturn(null);
+		assertNull(servicio.consultarReposicion(tienda, producto));
 	}
 	
 
