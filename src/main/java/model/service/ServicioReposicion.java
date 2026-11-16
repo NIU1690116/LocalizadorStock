@@ -9,6 +9,9 @@ public class ServicioReposicion {
 	private final ProveedorReposicion proveedor;
 
 	public ServicioReposicion(ProveedorReposicion proveedor) {
+		if (proveedor == null) {
+			throw new IllegalArgumentException("El proveedor de reposiciones es obligatorio");
+		}
 		this.proveedor = proveedor;
 	}
 
