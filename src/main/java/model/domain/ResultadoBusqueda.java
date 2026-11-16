@@ -16,4 +16,9 @@ public final class ResultadoBusqueda {
 	public List<ResultadoLineaPeticion> getResultados() {
 		return resultados;
 	}
+
+	public boolean estaResuelta() {
+		return resultados.stream()
+				.allMatch(resultado -> resultado.getEstado() != EstadoResolucion.SIN_SOLUCION);
+	}
 }
