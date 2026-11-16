@@ -15,6 +15,11 @@ class ResultadoBusquedaTest {
 		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(null));
 		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(List.of()));
 	}
+	
+	@Test
+	void testResultadoBusqueda() {
+
+	}
 
 	private ResultadoLineaPeticion resultadoLinea(String codigo, EstadoResolucion estado) {
 		Producto producto = new Producto(codigo, "Producto", "rojo", "camisetas", "mujer");
