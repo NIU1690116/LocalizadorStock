@@ -10,6 +10,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class ResultadoBusquedaTest {
+	@Test
+	void testResultadoBusquedaParametrosNulos() {
+		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(null));
+	}
 
 	private ResultadoLineaPeticion resultadoLinea(String codigo, EstadoResolucion estado) {
 		Producto producto = new Producto(codigo, "Producto", "rojo", "camisetas", "mujer");
