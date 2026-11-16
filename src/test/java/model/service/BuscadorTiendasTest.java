@@ -1,6 +1,7 @@
 package model.service;
 
 import model.distance.CalculadorDistanciaMock;
+import model.distance.EstimadorTiempoViaje;
 import model.domain.Inventario;
 import model.domain.LineaPeticion;
 import model.domain.Producto;
@@ -12,6 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -22,6 +25,7 @@ class BuscadorTiendasTest {
 	private CalculadorDistanciaMock calculadorDistancia;
 	private RepositorioTiendasMock repositorio;
 	private BuscadorTiendas buscadorTiendas;
+	private final EstimadorTiempoViaje estimadorTiempoViaje;
 	
 	private Producto producto;
 	private Producto producto_2;
@@ -31,7 +35,8 @@ class BuscadorTiendasTest {
 	void setUp(){
 		repositorio = new RepositorioTiendasMock();
 		calculadorDistancia = new CalculadorDistanciaMock();
-		buscadorTiendas = new BuscadorTiendas(repositorio, calculadorDistancia);
+		estimadorTiempoViaje = mock(EstimadorTiempoViaje.class);
+		buscadorTiendas = new BuscadorTiendas(repositorio, calculadorDistancia, estimadorTiempoViaje);
 		
 		producto = new Producto("P001", "Camisa", "Camisas", "", "Mujer");
 		producto_2 = new Producto("P002", "Camisa", "Camisas", "", "Hombre");
@@ -135,6 +140,5 @@ class BuscadorTiendasTest {
 		assertNotEquals(origenEnRepositorio.getId(), resultado.get(0).tienda().getId());
 	}
 	
-	
-
 }
+
