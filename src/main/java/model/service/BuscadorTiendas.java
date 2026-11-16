@@ -24,6 +24,9 @@ public class BuscadorTiendas {
     	if (calculadorDistancia == null) {
             throw new IllegalArgumentException("El calculador no puede ser nulo");
         }
+        if (estimadorTiempoViaje == null) {
+            throw new IllegalArgumentException("El estimador de tiempo no puede ser nulo");
+        }
 
         this.repositorio = repositorio;
         this.calculadorDistancia = calculadorDistancia;
