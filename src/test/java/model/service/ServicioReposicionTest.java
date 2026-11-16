@@ -32,4 +32,10 @@ class ServicioReposicionTest {
 		producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Unisex");
 	}
 
+	@Test
+	void testDependenciaYArgumentosNulos() {
+		assertThrows(IllegalArgumentException.class, () -> new ServicioReposicion(null));
+
+	}
+
 }
