@@ -68,7 +68,8 @@ public class BuscadorTiendas {
                     linea.getCantidad());
 
             if (distanciaPermitida && stockSuficiente) {
-                candidatas.add(new TiendaConDistancia(tienda, distanciaKm));
+            	int tiempoEstimado = estimadorTiempoViaje.estimarMinutos(origen, tienda);
+                candidatas.add(new TiendaConDistancia(tienda, distanciaKm, tiempoEstimado));
             }
         } 
         // Devolvemos la lista completa de tiendas con sus respectivas distancias ordenada de menor a mayor distancia
@@ -76,5 +77,5 @@ public class BuscadorTiendas {
         return candidatas;
     }
 
-    public record TiendaConDistancia(Tienda tienda, double distancia) {}
+    public record TiendaConDistancia(Tienda tienda, double distancia, int tiempoEstimadoMinutos) {}
 }
