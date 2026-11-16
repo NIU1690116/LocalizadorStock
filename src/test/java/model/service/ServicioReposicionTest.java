@@ -35,7 +35,8 @@ class ServicioReposicionTest {
 	@Test
 	void testDependenciaYArgumentosNulos() {
 		assertThrows(IllegalArgumentException.class, () -> new ServicioReposicion(null));
-
+		assertThrows(IllegalArgumentException.class, () -> servicio.consultarReposicion(null, producto));
+		assertThrows(IllegalArgumentException.class, () -> servicio.consultarReposicion(tienda, null));
 	}
 
 }
