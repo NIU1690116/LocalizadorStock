@@ -1,6 +1,7 @@
 package model.service;
 
 import model.distance.CalculadorDistancia;
+import model.distance.EstimadorTiempoViaje;
 import model.domain.LineaPeticion;
 import model.domain.RestriccionesBusqueda;
 import model.domain.Tienda;
@@ -11,16 +12,25 @@ import java.util.List;
 public class BuscadorTiendas {
     private final RepositorioTiendas repositorio;
     private final CalculadorDistancia calculadorDistancia;
+    private final EstimadorTiempoViaje estimadorTiempoViaje;
 
-    public BuscadorTiendas(RepositorioTiendas repositorio, CalculadorDistancia calculadorDistancia) {
+    public BuscadorTiendas(
+            RepositorioTiendas repositorio,
+            CalculadorDistancia calculadorDistancia,
+            EstimadorTiempoViaje estimadorTiempoViaje) {
     	if (repositorio == null) {
             throw new IllegalArgumentException("El repositorio no puede ser nulo");
         }
     	if (calculadorDistancia == null) {
             throw new IllegalArgumentException("El calculador no puede ser nulo");
         }
+        if (estimadorTiempoViaje == null) {
+            throw new IllegalArgumentException("El estimador de tiempo no puede ser nulo");
+        }
+
         this.repositorio = repositorio;
         this.calculadorDistancia = calculadorDistancia;
+        this.estimadorTiempoViaje = estimadorTiempoViaje;
     }
 
     public List<TiendaConDistancia> buscarTiendasConStock(
@@ -58,7 +68,8 @@ public class BuscadorTiendas {
                     linea.getCantidad());
 
             if (distanciaPermitida && stockSuficiente) {
-                candidatas.add(new TiendaConDistancia(tienda, distanciaKm));
+            	int tiempoEstimado = estimadorTiempoViaje.estimarMinutos(origen, tienda);
+                candidatas.add(new TiendaConDistancia(tienda, distanciaKm, tiempoEstimado));
             }
         } 
         // Devolvemos la lista completa de tiendas con sus respectivas distancias ordenada de menor a mayor distancia
@@ -66,5 +77,5 @@ public class BuscadorTiendas {
         return candidatas;
     }
 
-    public record TiendaConDistancia(Tienda tienda, double distancia) {}
+    public record TiendaConDistancia(Tienda tienda, double distancia, int tiempoEstimadoMinutos) {}
 }

@@ -1,6 +1,8 @@
 package model.service;
 
 import model.distance.CalculadorDistanciaMock;
+
+import model.distance.EstimadorTiempoViaje;
 import model.domain.Inventario;
 import model.domain.LineaPeticion;
 import model.domain.Producto;
@@ -12,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -22,6 +26,7 @@ class BuscadorTiendasTest {
 	private CalculadorDistanciaMock calculadorDistancia;
 	private RepositorioTiendasMock repositorio;
 	private BuscadorTiendas buscadorTiendas;
+	private EstimadorTiempoViaje estimadorTiempoViaje;
 	
 	private Producto producto;
 	private Producto producto_2;
@@ -31,21 +36,27 @@ class BuscadorTiendasTest {
 	void setUp(){
 		repositorio = new RepositorioTiendasMock();
 		calculadorDistancia = new CalculadorDistanciaMock();
-		buscadorTiendas = new BuscadorTiendas(repositorio, calculadorDistancia);
+		estimadorTiempoViaje = mock(EstimadorTiempoViaje.class);
+		buscadorTiendas = new BuscadorTiendas(repositorio, calculadorDistancia, estimadorTiempoViaje);
 		
 		producto = new Producto("P001", "Camisa", "Camisas", "", "Mujer");
 		producto_2 = new Producto("P002", "Camisa", "Camisas", "", "Hombre");
 	    origen = new Tienda("T001", "Origen", 41.0, 2.0, new Inventario());
-		
 	}
 
 	@Test
 	void testBuscadorTiendasConstructor() {
 		assertThrows(
-				IllegalArgumentException.class, () -> new BuscadorTiendas(null, calculadorDistancia)
+				IllegalArgumentException.class,
+				() -> new BuscadorTiendas(null, calculadorDistancia, estimadorTiempoViaje)
 		);
 		assertThrows(
-				IllegalArgumentException.class, () -> new BuscadorTiendas(repositorio, null)
+				IllegalArgumentException.class,
+				() -> new BuscadorTiendas(repositorio, null, estimadorTiempoViaje)
+		);
+		assertThrows(
+				IllegalArgumentException.class,
+				() -> new BuscadorTiendas(repositorio, calculadorDistancia, null)
 		);
 	}
 	
@@ -89,19 +100,24 @@ class BuscadorTiendasTest {
         //en el limite
         calculadorDistancia.configurarDistancia(enElLimite, 10.0);
         
+        when(estimadorTiempoViaje.estimarMinutos(origen, cercana)).thenReturn(12);
+        when(estimadorTiempoViaje.estimarMinutos(origen, lejana)).thenReturn(48);
+        when(estimadorTiempoViaje.estimarMinutos(origen, enElLimite)).thenReturn(70);
+        
         List<BuscadorTiendas.TiendaConDistancia> resultado =
         		buscadorTiendas.buscarTiendasConStock(
                         origen,
                         new LineaPeticion(producto, 2),
                         new RestriccionesBusqueda());
         // Verificamos las tiendas y su distancia
-        assertEquals(3, resultado.size());
-        assertEquals(cercana, resultado.get(0).tienda());//tienda mas cercana en primer lugar
         assertEquals(2.0, resultado.get(0).distancia(), 0.001);
+        assertEquals(12, resultado.get(0).tiempoEstimadoMinutos());
         assertEquals(lejana, resultado.get(1).tienda());//lejana dentro del limite
         assertEquals(8.0, resultado.get(1).distancia(), 0.001);
+        assertEquals(48, resultado.get(1).tiempoEstimadoMinutos());
         assertEquals(enElLimite, resultado.get(2).tienda());//en el limite
         assertEquals(10.0, resultado.get(2).distancia(), 0.001);
+        assertEquals(70, resultado.get(2).tiempoEstimadoMinutos());
         //se eliminan las tiendas sin stock y fuera del limite de distancia
         
         //Ninguna tienda cumple con las restricciones de stock y distancia
@@ -135,6 +151,5 @@ class BuscadorTiendasTest {
 		assertNotEquals(origenEnRepositorio.getId(), resultado.get(0).tienda().getId());
 	}
 	
-	
-
 }
+
