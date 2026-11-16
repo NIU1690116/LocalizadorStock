@@ -1,6 +1,7 @@
 package model.service;
 
 import model.distance.CalculadorDistanciaMock;
+
 import model.distance.EstimadorTiempoViaje;
 import model.domain.Inventario;
 import model.domain.LineaPeticion;
@@ -25,7 +26,7 @@ class BuscadorTiendasTest {
 	private CalculadorDistanciaMock calculadorDistancia;
 	private RepositorioTiendasMock repositorio;
 	private BuscadorTiendas buscadorTiendas;
-	private final EstimadorTiempoViaje estimadorTiempoViaje;
+	private EstimadorTiempoViaje estimadorTiempoViaje;
 	
 	private Producto producto;
 	private Producto producto_2;
@@ -41,7 +42,6 @@ class BuscadorTiendasTest {
 		producto = new Producto("P001", "Camisa", "Camisas", "", "Mujer");
 		producto_2 = new Producto("P002", "Camisa", "Camisas", "", "Hombre");
 	    origen = new Tienda("T001", "Origen", 41.0, 2.0, new Inventario());
-		
 	}
 
 	@Test
@@ -100,19 +100,24 @@ class BuscadorTiendasTest {
         //en el limite
         calculadorDistancia.configurarDistancia(enElLimite, 10.0);
         
+        when(estimadorTiempoViaje.estimarMinutos(origen, cercana)).thenReturn(12);
+        when(estimadorTiempoViaje.estimarMinutos(origen, lejana)).thenReturn(48);
+        when(estimadorTiempoViaje.estimarMinutos(origen, enElLimite)).thenReturn(70);
+        
         List<BuscadorTiendas.TiendaConDistancia> resultado =
         		buscadorTiendas.buscarTiendasConStock(
                         origen,
                         new LineaPeticion(producto, 2),
                         new RestriccionesBusqueda());
         // Verificamos las tiendas y su distancia
-        assertEquals(3, resultado.size());
-        assertEquals(cercana, resultado.get(0).tienda());//tienda mas cercana en primer lugar
         assertEquals(2.0, resultado.get(0).distancia(), 0.001);
+        assertEquals(12, resultado.get(0).tiempoEstimadoMinutos());
         assertEquals(lejana, resultado.get(1).tienda());//lejana dentro del limite
         assertEquals(8.0, resultado.get(1).distancia(), 0.001);
+        assertEquals(48, resultado.get(1).tiempoEstimadoMinutos());
         assertEquals(enElLimite, resultado.get(2).tienda());//en el limite
         assertEquals(10.0, resultado.get(2).distancia(), 0.001);
+        assertEquals(70, resultado.get(2).tiempoEstimadoMinutos());
         //se eliminan las tiendas sin stock y fuera del limite de distancia
         
         //Ninguna tienda cumple con las restricciones de stock y distancia
