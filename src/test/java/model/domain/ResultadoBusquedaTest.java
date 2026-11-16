@@ -24,6 +24,12 @@ class ResultadoBusquedaTest {
 		ResultadoBusqueda resultado = new ResultadoBusqueda(List.of(
 				resultadoLinea("P001", EstadoResolucion.RESUELTA), conAlternativa));
 		assertTrue(resultado.estaResuelta());
+		
+		ResultadoBusqueda resultado_2 = new ResultadoBusqueda(List.of(
+				resultadoLinea("P001", EstadoResolucion.RESUELTA),
+				resultadoLinea("P002", EstadoResolucion.RESUELTA)));
+		assertTrue(resultado_2.estaResuelta());
+		
 	}
 
 	private ResultadoLineaPeticion resultadoLinea(String codigo, EstadoResolucion estado) {
