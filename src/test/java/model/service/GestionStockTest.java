@@ -115,5 +115,10 @@ class GestionStockTest {
 	    verifyNoInteractions(buscadorTiendas, servicioReposicion, buscadorSimilares, evaluador, repositorio);
 	}
 	
+	@Test
+	void testResolverLineaTiendaSinStock() {
+
+	}
+	
 	
 }
