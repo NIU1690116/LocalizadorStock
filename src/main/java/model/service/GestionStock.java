@@ -80,9 +80,36 @@ public class GestionStock {
 		return null;
 	}
 	
-	private List<Alternativa> buscarAlternativasDeStock(Peticion peticion, Tienda origen, 
-			LineaPeticion linea, int stockActual, RestriccionesBusqueda restricciones) {
-		return null;
+	private List<Alternativa> buscarAlternativasDeStock(
+			Peticion peticion, Tienda origen, LineaPeticion linea, int stockActual, RestriccionesBusqueda restricciones) {
+		List<Alternativa> alternativas = new ArrayList<>();
+		List<BuscadorTiendas.TiendaConDistancia> tiendas =
+				buscadorTiendas.buscarTiendasConStock(origen, linea, restricciones);
+		if (tiendas != null) {
+			for (BuscadorTiendas.TiendaConDistancia candidata : tiendas) {
+				if (candidata != null && candidata.tienda() != null) {
+					alternativas.add(new AlternativaOtraTienda(
+							candidata.tienda(), candidata.tiempoEstimadoMinutos(), candidata.distancia()));
+				}
+			}
+		}
+
+		int cantidadFaltante = linea.getCantidad() - stockActual;
+		if (cantidadFaltante > 0) {
+			Reposicion reposicion = servicioReposicion.consultarReposicion(origen, linea.getProducto());
+			if (reposicion != null) {
+				Peticion peticionFaltante = new Peticion(peticion.getId(), peticion.getFechaSolicitud());
+				LineaPeticion lineaFaltante = new LineaPeticion(linea.getProducto(), cantidadFaltante);
+				peticionFaltante.agregarLinea(lineaFaltante);
+				if (validador.validarReposicion(
+						peticionFaltante, lineaFaltante, reposicion, restricciones)) {
+					int minutosEspera = Math.toIntExact(Duration.between(
+							peticion.getFechaSolicitud(), reposicion.getFechaPrevista()).toMinutes());
+					alternativas.add(new AlternativaReposicion(origen, reposicion, minutosEspera, 0.0));
+				}
+			}
+		}
+		return alternativas;
 	}
 	
 	
