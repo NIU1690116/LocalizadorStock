@@ -112,5 +112,14 @@ public class GestionStock {
 		return alternativas;
 	}
 	
+	private List<AlternativaProductoSimilar> buscarSimilares(
+			Tienda origen,
+			LineaPeticion linea,
+			RestriccionesBusqueda restricciones) {
+return null;
+	}
+	
+	
+	
 	
 }
