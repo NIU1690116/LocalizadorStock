@@ -73,6 +73,21 @@ class GestionStockTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> new GestionStock(null, buscadorTiendas, servicioReposicion,
 						buscadorSimilares, evaluador, repositorio));
+		assertThrows(IllegalArgumentException.class,
+				() -> new GestionStock(validador, null, servicioReposicion,
+						buscadorSimilares, evaluador, repositorio));
+		assertThrows(IllegalArgumentException.class,
+				() -> new GestionStock(validador, buscadorTiendas, null,
+						buscadorSimilares, evaluador, repositorio));
+		assertThrows(IllegalArgumentException.class,
+				() -> new GestionStock(validador, buscadorTiendas, servicioReposicion,
+						null, evaluador, repositorio));
+		assertThrows(IllegalArgumentException.class,
+				() -> new GestionStock(validador, buscadorTiendas, servicioReposicion,
+						buscadorSimilares, null, repositorio));
+		assertThrows(IllegalArgumentException.class,
+				() -> new GestionStock(validador, buscadorTiendas, servicioReposicion,
+						buscadorSimilares, evaluador, null));
 	}
 	
 	
