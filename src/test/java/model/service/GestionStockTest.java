@@ -103,8 +103,16 @@ class GestionStockTest {
 	
 	@Test
 	void testResolverLinea() {
+	    origen.getInventario().añadirProductos(producto, 2);
 
+	    ResultadoBusqueda resultado = gestionStock.buscarAlternativas(peticion, origen, restricciones);
 
+	    ResultadoLineaPeticion resultadoLinea = resultado.getResultados().get(0);
+	    assertEquals(EstadoResolucion.RESUELTA, resultadoLinea.getEstado());
+	    assertNull(resultadoLinea.getMejorAlternativa());
+	    assertTrue(resultado.estaResuelta());
+	    //evaluamos que si la tienda tiene stock no se llame al evaluador o buscador externo
+	    verifyNoInteractions(buscadorTiendas, servicioReposicion, buscadorSimilares, evaluador, repositorio);
 	}
 	
 	
