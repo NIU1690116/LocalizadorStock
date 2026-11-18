@@ -52,7 +52,26 @@ class VistaLocalizadorStockTest {
 				60, 0.0);
 		AlternativaProductoSimilar similar = new AlternativaProductoSimilar(
 				chaqueta, sur, 100.0, 20, 4.0);
-
+		//Resultado de Búsqueda 
+				ResultadoBusqueda resultado = new ResultadoBusqueda(List.of(
+						// Caso: Se resuelve en la tienda actual (Stock suficiente)
+						new ResultadoLineaPeticion(linea(camisa, 2), List.of(), null, EstadoResolucion.RESUELTA),
+						
+						// Caso: No tiene solución (Sin stock ni alternativas)
+						new ResultadoLineaPeticion(linea(pantalon, 1), List.of(), null, EstadoResolucion.SIN_SOLUCION),
+						
+						// Caso: Alternativa propuesta recoger en otra tienda
+						new ResultadoLineaPeticion(linea(vestido, 1), List.of(otraTienda), otraTienda,
+								EstadoResolucion.ALTERNATIVA_PROPUESTA),
+						
+						// Caso: Alternativa propuesta de esperar reposición
+						new ResultadoLineaPeticion(linea(abrigo, 3), List.of(reposicion), reposicion,
+								EstadoResolucion.ALTERNATIVA_PROPUESTA),
+						
+						// Caso: Alternativa propuesta de producto similar
+						new ResultadoLineaPeticion(linea(chaqueta, 1), List.of(similar), similar,
+								EstadoResolucion.ALTERNATIVA_PROPUESTA)
+				));
 }
 
 	private Producto producto(String codigo, String nombre) {
