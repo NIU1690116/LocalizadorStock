@@ -112,11 +112,21 @@ public class GestionStock {
 		return alternativas;
 	}
 	
-	private List<AlternativaProductoSimilar> buscarSimilares(
-			Tienda origen,
-			LineaPeticion linea,
-			RestriccionesBusqueda restricciones) {
-return null;
+	private List<AlternativaProductoSimilar> buscarSimilares(Tienda origen,
+			LineaPeticion linea, RestriccionesBusqueda restricciones) {
+		List<Tienda> tiendas = repositorioTiendas.obtenerTiendas();
+		if (tiendas == null || tiendas.isEmpty()) {
+			return List.of();
+		}
+		List<AlternativaProductoSimilar> encontradas =
+				buscadorSimilares.buscarSimilares(linea, origen, tiendas);
+		if (encontradas == null) {
+			return List.of();
+		}
+		return encontradas.stream()
+				.filter(alternativa -> alternativa != null)
+				.filter(alternativa -> restricciones.permiteDistancia(alternativa.getDistanciaKm()))
+				.toList();
 	}
 	
 	
