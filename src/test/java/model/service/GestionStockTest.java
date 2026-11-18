@@ -88,6 +88,12 @@ class GestionStockTest {
 		assertThrows(IllegalArgumentException.class,
 				() -> new GestionStock(validador, buscadorTiendas, servicioReposicion,
 						buscadorSimilares, evaluador, null));
+		//buscar alternativa
+		assertThrows(IllegalArgumentException.class,
+	            () -> gestionStock.buscarAlternativas(null, origen, restricciones));
+	    assertThrows(IllegalArgumentException.class,
+	            () -> gestionStock.buscarAlternativas(peticion, null, restricciones));
+	    assertThrows(IllegalArgumentException.class,
 	}
 	
 	
