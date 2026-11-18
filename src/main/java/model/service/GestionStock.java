@@ -50,6 +50,9 @@ public class GestionStock {
 		if (peticion == null || origen == null || restricciones == null) {
 	        throw new IllegalArgumentException("La petición, la tienda y las restricciones son obligatorias");
 	    }
+		if (!validador.validarPeticion(peticion)) {
+	        throw new IllegalArgumentException("La petición no es válida");
+	    }
 		return null;
 	
 	}
