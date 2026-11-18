@@ -33,7 +33,8 @@ public class GestionStock {
 			BuscadorProductosSimilares buscadorSimilares,
 			EvaluadorAlternativas evaluador,
 			RepositorioTiendas repositorioTiendas) {
-		if (validador == null) {
+		if (validador == null || buscadorTiendas == null || servicioReposicion == null
+				|| buscadorSimilares == null || evaluador == null || repositorioTiendas == null) {
 			throw new IllegalArgumentException("Las dependencias de gestión de stock son obligatorias");
 		}
 		this.validador = validador;
