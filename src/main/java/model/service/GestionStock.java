@@ -66,6 +66,12 @@ public class GestionStock {
 	        Tienda origen,
 	        LineaPeticion linea,
 	        RestriccionesBusqueda restricciones) {
+		int stockActual = origen.consultarStock(linea.getProducto());
+	    
+	    if (stockActual >= linea.getCantidad()) {
+	        return new ResultadoLineaPeticion(linea, List.of(), null, EstadoResolucion.RESUELTA);
+	    }
+	    
 	    return null; 
 	}
 }
