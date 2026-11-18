@@ -53,7 +53,12 @@ public class GestionStock {
 		if (!validador.validarPeticion(peticion)) {
 	        throw new IllegalArgumentException("La petición no es válida");
 	    }
-		return null;
+		
+		List<ResultadoLineaPeticion> resultados = new ArrayList<>();
+	    for (LineaPeticion linea : peticion.getLineas()) {
+	        resultados.add(resolverLinea(peticion, origen, linea, restricciones));
+	    }
+	    return new ResultadoBusqueda(resultados);
 	
 	}
 }
