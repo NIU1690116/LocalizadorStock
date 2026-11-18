@@ -117,6 +117,17 @@ class GestionStockTest {
 	
 	@Test
 	void testResolverLineaTiendaSinStock() {
+		origen.getInventario().añadirProductos(producto, 1);
+		Tienda destino = new Tienda("T002", "Norte", 41.01, 2.01, new Inventario());
+		when(buscadorTiendas.buscarTiendasConStock(origen, peticion.getLineas().get(0), restricciones))
+				.thenReturn(List.of(new BuscadorTiendas.TiendaConDistancia(destino, 2.5, 15)));
+		Reposicion reposicion = new Reposicion(producto, 1, peticion.getFechaSolicitud().plusMinutes(60));
+		when(servicioReposicion.consultarReposicion(origen, producto)).thenReturn(reposicion);
+		when(validador.validarReposicion(
+				any(Peticion.class), any(LineaPeticion.class), same(reposicion), same(restricciones)))
+				.thenReturn(true);
+		when(evaluador.seleccionarMejor(anyList())).thenAnswer(invocacion ->
+				((List<Alternativa>) invocacion.getArgument(0)).get(0));
 
 	}
 	
