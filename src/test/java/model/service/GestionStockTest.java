@@ -70,7 +70,9 @@ class GestionStockTest {
 	
 	@Test
 	void testGestionStockDependenciasNulas() {
-
+		assertThrows(IllegalArgumentException.class,
+				() -> new GestionStock(null, buscadorTiendas, servicioReposicion,
+						buscadorSimilares, evaluador, repositorio));
 	}
 	
 	
