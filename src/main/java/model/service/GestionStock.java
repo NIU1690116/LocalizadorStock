@@ -59,6 +59,13 @@ public class GestionStock {
 	        resultados.add(resolverLinea(peticion, origen, linea, restricciones));
 	    }
 	    return new ResultadoBusqueda(resultados);
+	}
 	
+	private ResultadoLineaPeticion resolverLinea(
+	        Peticion peticion,
+	        Tienda origen,
+	        LineaPeticion linea,
+	        RestriccionesBusqueda restricciones) {
+	    return null; 
 	}
 }
