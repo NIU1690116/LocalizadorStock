@@ -33,4 +33,21 @@ class VistaLocalizadorStockTest {
 		contenido = new ByteArrayOutputStream();
 		vista = new VistaLocalizadorStock(new PrintStream(contenido, true, StandardCharsets.UTF_8));
 	}
+
+	@Test
+	void VistaLocalizadorStockTest() {
+		
+	}
+
+	private Producto producto(String codigo, String nombre) {
+		return new Producto(codigo, nombre, "Azul", "Ropa", "Unisex");
+	}
+
+	private Tienda tienda(String id, String nombre) {
+		return new Tienda(id, nombre, 41.0, 2.0, new Inventario());
+	}
+
+	private LineaPeticion linea(Producto producto, int cantidad) {
+		return new LineaPeticion(producto, cantidad);
+	}
 }
