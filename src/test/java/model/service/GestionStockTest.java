@@ -129,6 +129,12 @@ class GestionStockTest {
 		when(evaluador.seleccionarMejor(anyList())).thenAnswer(invocacion ->
 				((List<Alternativa>) invocacion.getArgument(0)).get(0));
 
+		ResultadoBusqueda resultado = gestionStock.buscarAlternativas(peticion, origen, restricciones);
+
+		ResultadoLineaPeticion linea = resultado.getResultados().get(0);
+		assertEquals(EstadoResolucion.ALTERNATIVA_PROPUESTA, linea.getEstado());
+		assertEquals(2, linea.getAlternativas().size());
+		assertSame(linea.getAlternativas().get(0), linea.getMejorAlternativa());
 	}
 	
 	
