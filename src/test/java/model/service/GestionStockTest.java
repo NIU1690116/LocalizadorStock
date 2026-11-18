@@ -137,5 +137,10 @@ class GestionStockTest {
 		assertSame(linea.getAlternativas().get(0), linea.getMejorAlternativa());
 	}
 	
+	@Test
+	void testBuscarProductosSimilares() {
+
+	}
+	
 	
 }
