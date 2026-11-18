@@ -67,4 +67,11 @@ class GestionStockTest {
 		restricciones = new RestriccionesBusqueda();
 		when(validador.validarPeticion(peticion)).thenReturn(true);
 	}
+	
+	@Test
+	void testGestionStockDependenciasNulas() {
+
+	}
+	
+	
 }
