@@ -67,11 +67,22 @@ public class GestionStock {
 	        LineaPeticion linea,
 	        RestriccionesBusqueda restricciones) {
 		int stockActual = origen.consultarStock(linea.getProducto());
-	    
-	    if (stockActual >= linea.getCantidad()) {
-	        return new ResultadoLineaPeticion(linea, List.of(), null, EstadoResolucion.RESUELTA);
-	    }
-	    
-	    return null; 
+		if (stockActual >= linea.getCantidad()) {
+			return new ResultadoLineaPeticion(linea, List.of(), null, EstadoResolucion.RESUELTA);
+		}
+		List<Alternativa> alternativas = buscarAlternativasDeStock(
+				peticion, origen, linea, stockActual, restricciones);
+		Alternativa mejor = alternativas.isEmpty() ? null : evaluador.seleccionarMejor(alternativas);
+		if (mejor != null && alternativas.contains(mejor)) {
+			return new ResultadoLineaPeticion(
+					linea, alternativas, mejor, EstadoResolucion.ALTERNATIVA_PROPUESTA);
+		}
 	}
+	
+	private List<Alternativa> buscarAlternativasDeStock(Peticion peticion, Tienda origen, 
+			LineaPeticion linea, int stockActual, RestriccionesBusqueda restricciones) {
+		return null;
+	}
+	
+	
 }
