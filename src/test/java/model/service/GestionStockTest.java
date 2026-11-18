@@ -157,6 +157,21 @@ class GestionStockTest {
 		assertEquals(List.of(similar), linea.getAlternativas());
 		assertSame(similar, linea.getMejorAlternativa());
 		verifyNoInteractions(evaluador);
+		
+		//caso: petición sin solución si no hay alternativa valida
+		when(buscadorTiendas.buscarTiendasConStock(origen, peticion.getLineas().get(0), restricciones))
+		.thenReturn(List.of());
+		when(servicioReposicion.consultarReposicion(origen, producto)).thenReturn(null);
+		when(repositorio.obtenerTiendas()).thenReturn(List.of(origen));
+		when(buscadorSimilares.buscarSimilares(peticion.getLineas().get(0), origen, List.of(origen)))
+		.thenReturn(List.of());
+		
+		ResultadoBusqueda resultado_2 = gestionStock.buscarAlternativas(peticion, origen, restricciones);
+		ResultadoLineaPeticion linea_2 = resultado_2.getResultados().get(0);
+		assertEquals(EstadoResolucion.SIN_SOLUCION, linea_2.getEstado());
+		assertNull(linea.getMejorAlternativa());
+		assertEquals(List.of(), linea.getAlternativas());
+		assertFalse(resultado.estaResuelta());
 	}
 	
 	
