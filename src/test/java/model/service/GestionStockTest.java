@@ -139,7 +139,16 @@ class GestionStockTest {
 	
 	@Test
 	void testBuscarProductosSimilares() {
-
+		Tienda tiendaSimilar = new Tienda("T003", "Sur", 41.02, 2.02, new Inventario());
+		AlternativaProductoSimilar similar = new AlternativaProductoSimilar(
+				new Producto("P002", "Camisa", "Rojo", "Camisa", "Unisex"),
+				tiendaSimilar, 100.0, 20, 4.0);
+		when(buscadorTiendas.buscarTiendasConStock(origen, peticion.getLineas().get(0), restricciones))
+				.thenReturn(List.of());
+		when(servicioReposicion.consultarReposicion(origen, producto)).thenReturn(null);
+		when(repositorio.obtenerTiendas()).thenReturn(List.of(origen, tiendaSimilar));
+		when(buscadorSimilares.buscarSimilares(peticion.getLineas().get(0), origen, List.of(origen, tiendaSimilar)))
+				.thenReturn(List.of(similar));
 	}
 	
 	
