@@ -45,5 +45,10 @@ class StockControllerTest {
 		resultado = new ResultadoBusqueda(List.of(linea));
 	}
 
-
+	@Test
+	void testGestionController() {
+		when(gestionStock.buscarAlternativas(peticion, tienda, restricciones)).thenReturn(resultado);
+		ResultadoBusqueda respuesta = controlador.consultar(peticion, tienda, restricciones);
+		assertSame(resultado, respuesta);
+	}
 }
