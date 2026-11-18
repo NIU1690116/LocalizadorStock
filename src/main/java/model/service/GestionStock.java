@@ -45,4 +45,9 @@ public class GestionStock {
 		this.repositorioTiendas = repositorioTiendas;
 	}
 
+	public ResultadoBusqueda buscarAlternativas(Peticion peticion,
+			Tienda origen,RestriccionesBusqueda restricciones) {
+		return null;
+	
+	}
 }
