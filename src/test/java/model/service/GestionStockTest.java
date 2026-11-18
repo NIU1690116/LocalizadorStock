@@ -94,6 +94,7 @@ class GestionStockTest {
 	    assertThrows(IllegalArgumentException.class,
 	            () -> gestionStock.buscarAlternativas(peticion, null, restricciones));
 	    assertThrows(IllegalArgumentException.class,
+	            () -> gestionStock.buscarAlternativas(peticion, origen, null));
 	}
 	
 	
