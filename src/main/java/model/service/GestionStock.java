@@ -47,6 +47,9 @@ public class GestionStock {
 
 	public ResultadoBusqueda buscarAlternativas(Peticion peticion,
 			Tienda origen,RestriccionesBusqueda restricciones) {
+		if (peticion == null || origen == null || restricciones == null) {
+	        throw new IllegalArgumentException("La petición, la tienda y las restricciones son obligatorias");
+	    }
 		return null;
 	
 	}
