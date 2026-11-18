@@ -77,6 +77,7 @@ public class GestionStock {
 			return new ResultadoLineaPeticion(
 					linea, alternativas, mejor, EstadoResolucion.ALTERNATIVA_PROPUESTA);
 		}
+		return null;
 	}
 	
 	private List<Alternativa> buscarAlternativasDeStock(Peticion peticion, Tienda origen, 
