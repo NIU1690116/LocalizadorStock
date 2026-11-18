@@ -149,6 +149,14 @@ class GestionStockTest {
 		when(repositorio.obtenerTiendas()).thenReturn(List.of(origen, tiendaSimilar));
 		when(buscadorSimilares.buscarSimilares(peticion.getLineas().get(0), origen, List.of(origen, tiendaSimilar)))
 				.thenReturn(List.of(similar));
+		
+		ResultadoBusqueda resultado = gestionStock.buscarAlternativas(peticion, origen, restricciones);
+
+		ResultadoLineaPeticion linea = resultado.getResultados().get(0);
+		assertEquals(EstadoResolucion.ALTERNATIVA_PROPUESTA, linea.getEstado());
+		assertEquals(List.of(similar), linea.getAlternativas());
+		assertSame(similar, linea.getMejorAlternativa());
+		verifyNoInteractions(evaluador);
 	}
 	
 	
