@@ -169,9 +169,9 @@ class GestionStockTest {
 		ResultadoBusqueda resultado_2 = gestionStock.buscarAlternativas(peticion, origen, restricciones);
 		ResultadoLineaPeticion linea_2 = resultado_2.getResultados().get(0);
 		assertEquals(EstadoResolucion.SIN_SOLUCION, linea_2.getEstado());
-		assertNull(linea.getMejorAlternativa());
-		assertEquals(List.of(), linea.getAlternativas());
-		assertFalse(resultado.estaResuelta());
+		assertNull(linea_2.getMejorAlternativa());
+		assertEquals(List.of(), linea_2.getAlternativas());
+		assertFalse(resultado_2.estaResuelta());
 	}
 	
 	
