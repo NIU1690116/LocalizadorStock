@@ -101,5 +101,11 @@ class GestionStockTest {
 	            () -> gestionStock.buscarAlternativas(peticion, origen, restricciones));
 	}
 	
+	@Test
+	void testResolverLinea() {
+
+
+	}
+	
 	
 }
