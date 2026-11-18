@@ -36,8 +36,24 @@ class VistaLocalizadorStockTest {
 
 	@Test
 	void VistaLocalizadorStockTest() {
-		
-	}
+		//definición productos y tienda
+		Producto camisa = producto("P001", "Camisa");
+		Producto pantalon = producto("P002", "Pantalon");
+		Producto abrigo = producto("P003", "Abrigo");
+		Producto vestido = producto("P004", "Vestido");
+		Producto chaqueta = producto("P005", "Chaqueta azul");
+		Tienda centro = tienda("T001", "Centro");
+		Tienda norte = tienda("T002", "Norte");
+		Tienda sur = tienda("T003", "Sur");
+		//definición de alternativas
+		AlternativaOtraTienda otraTienda = new AlternativaOtraTienda(norte, 15, 2.5);
+		AlternativaReposicion reposicion = new AlternativaReposicion(centro,
+				new Reposicion(abrigo, 3, LocalDateTime.of(2026, 11, 18, 11, 0)),
+				60, 0.0);
+		AlternativaProductoSimilar similar = new AlternativaProductoSimilar(
+				chaqueta, sur, 100.0, 20, 4.0);
+
+}
 
 	private Producto producto(String codigo, String nombre) {
 		return new Producto(codigo, nombre, "Azul", "Ropa", "Unisex");
