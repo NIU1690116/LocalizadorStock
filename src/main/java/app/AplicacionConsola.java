@@ -94,7 +94,7 @@ public class AplicacionConsola {
 		boolean agregarOtraLinea;
 		do {
 			mostrarProductos(productos);
-			Integer indiceProducto = leerEntero("Producto: ", 1, productos.size());
+			Integer indiceProducto = leerEntero("Selecciona el número del producto: ", 1, productos.size());
 			if (indiceProducto == null) {
 				return;
 			}
@@ -127,7 +127,9 @@ public class AplicacionConsola {
 	private void mostrarTiendas(List<Tienda> tiendas) {
 		salida.println("Tiendas disponibles:");
 		for (int indice = 0; indice < tiendas.size(); indice++) {
-			salida.printf(Locale.ROOT, "%d) %s%n", indice + 1, tiendas.get(indice).getNombre());
+			Tienda tienda = tiendas.get(indice);
+			salida.printf(Locale.ROOT, "%d) %s (latitud %.4f, longitud %.4f)%n",
+					indice + 1, tienda.getNombre(), tienda.getLatitud(), tienda.getLongitud());
 		}
 	}
 
@@ -172,6 +174,12 @@ public class AplicacionConsola {
 	}
 
 	public static void main(String[] args) {
+		Scanner entrada = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8);
+		PrintStream salida = new PrintStream(System.out, true, java.nio.charset.StandardCharsets.UTF_8);
+		crearDemo(entrada, salida).ejecutar();
+	}
+
+	public static AplicacionConsola crearDemo(Scanner entrada, PrintStream salida) {
 		List<Tienda> tiendas = crearTiendasDemo();
 		RepositorioTiendas repositorio = () -> tiendas;
 		CalculadorDistanciaGeografica calculadorDistancia = new CalculadorDistanciaGeografica();
@@ -180,7 +188,8 @@ public class AplicacionConsola {
 			return (int) Math.ceil(distanciaKm * 2.0);
 		};
 		ProveedorReposicion proveedorReposicion = (tienda, producto) -> {
-			if (tienda.getId().equals("T001") && producto.getCodigo().equals("P001")) {
+			if (tienda.getId().equals("T001")
+					&& (producto.getCodigo().equals("P001") || producto.getCodigo().equals("P002"))) {
 				return new Reposicion(producto, 2, LocalDateTime.now().plusMinutes(45));
 			}
 			return null;
@@ -194,27 +203,32 @@ public class AplicacionConsola {
 				new EvaluadorAlternativas(new PoliticaBusqueda(), restricciones),
 				repositorio);
 		StockController controlador = new StockController(gestionStock);
-		Scanner entrada = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8);
-		PrintStream salida = new PrintStream(System.out, true, java.nio.charset.StandardCharsets.UTF_8);
-		AplicacionConsola aplicacion = new AplicacionConsola(
+		return new AplicacionConsola(
 				controlador, new VistaLocalizadorStock(salida), repositorio, entrada, salida);
-		aplicacion.ejecutar();
 	}
 
 	private static List<Tienda> crearTiendasDemo() {
 		Producto camiseta = new Producto("P001", "Camiseta básica", "Rojo", "Camiseta", "Unisex");
-		Producto camisetaAzul = new Producto("P002", "Camiseta azul", "Azul", "Camiseta", "Unisex");
+		Producto pantalon = new Producto("P002", "Pantalón de vestir", "Negro", "Pantalón", "Hombre");
+		Producto chaquetaRoja = new Producto("P003", "Chaqueta roja", "Rojo", "Chaqueta", "Mujer");
+		Producto chaquetaAzul = new Producto("P004", "Chaqueta azul", "Azul", "Chaqueta", "Mujer");
+		Producto botas = new Producto("P005", "Botas de montaña", "Verde", "Botas", "Infantil");
 
 		Inventario inventarioCentro = new Inventario();
 		inventarioCentro.añadirProductos(camiseta, 1);
+		inventarioCentro.añadirProductos(pantalon, 1);
 		Inventario inventarioNorte = new Inventario();
 		inventarioNorte.añadirProductos(camiseta, 5);
 		Inventario inventarioSur = new Inventario();
-		inventarioSur.añadirProductos(camisetaAzul, 5);
+		inventarioSur.añadirProductos(chaquetaAzul, 5);
+		Inventario inventarioLejano = new Inventario();
+		inventarioLejano.añadirProductos(chaquetaRoja, 2);
+		inventarioLejano.añadirProductos(botas, 2);
 
 		return List.of(
 				new Tienda("T001", "Centro", 41.3870, 2.1700, inventarioCentro),
 				new Tienda("T002", "Norte", 41.3970, 2.1700, inventarioNorte),
-				new Tienda("T003", "Sur", 41.3770, 2.1700, inventarioSur));
+				new Tienda("T003", "Sur", 41.3770, 2.1700, inventarioSur),
+				new Tienda("T004", "Far", 41.5500, 2.1700, inventarioLejano));
 	}
 }
