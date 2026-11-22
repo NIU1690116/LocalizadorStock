@@ -24,7 +24,6 @@ class TiendaTest {
 		assertEquals(41.3851, tienda.getLatitud());
         assertEquals(2.1734, tienda.getLongitud());
         assertEquals(inventarioMock, tienda.getInventario());
-
 	}
 	@Test
     void idInvalidoLanzaExcepcion() {
@@ -62,6 +61,10 @@ class TiendaTest {
 
 	@Test
 	void testCoordenadasValidas() {
+		assertThrows(IllegalArgumentException.class,
+				() -> new Tienda("T001", "Tienda", Double.NaN, 0, inventarioMock));
+		assertThrows(IllegalArgumentException.class,
+				() -> new Tienda("T001", "Tienda", 0, Double.NaN, inventarioMock));
 	}
 	
 	@Test
@@ -77,7 +80,5 @@ class TiendaTest {
         
         assertEquals(12, tienda.consultarStock(producto));
 	}
-	
-	
 	
 }
