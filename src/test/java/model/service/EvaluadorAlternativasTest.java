@@ -83,8 +83,37 @@ class EvaluadorAlternativasTest {
 		assertNull(evaluador.seleccionarMejor(List.of(fueraDeRango)));
 	}
 
+	@Test
+	void testDesempataPorMenorTiempoCuandoLaPuntuacionEsIgual() {
+		// Las dos alternativas puntúan exactamente igual; debe ganar la de menor tiempo.
+		Alternativa mayorTiempo = new AlternativaOtraTienda(tienda, 108, 0.0);
+		Alternativa menorTiempo = new AlternativaOtraTienda(tienda, 72, 7.0);
+		PoliticaBusqueda politica = new PoliticaBusqueda();
+		assertEquals(politica.calcularPuntuacion(mayorTiempo), politica.calcularPuntuacion(menorTiempo), 0.0);
 
-	
-	
+		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(mayorTiempo, menorTiempo)));
+	}
+
+	@Test
+	void estDesempataPorMenorDistanciaCuandoTiempoYPuntuacionEmpatan() {
+		// A 120 minutos, estas distancias adyacentes producen la misma puntuación double.
+		Alternativa mayorDistancia = new AlternativaOtraTienda(tienda, 120, Math.nextUp(1.0));
+		Alternativa menorDistancia = new AlternativaOtraTienda(tienda, 120, 1.0);
+		PoliticaBusqueda politica = new PoliticaBusqueda();
+		assertEquals(politica.calcularPuntuacion(mayorDistancia), politica.calcularPuntuacion(menorDistancia), 0.0);
+
+		assertEquals(menorDistancia, evaluador.seleccionarMejor(List.of(mayorDistancia, menorDistancia)));
+	}
+
+	@Test
+	void tetConservaLaPrimeraAlternativaSiElTiempoDelEmpateNoMejora() {
+		// Cubre el empate de puntuación con mayor tiempo y el empate exacto sin mejora de distancia.
+		Alternativa menorTiempo = new AlternativaOtraTienda(tienda, 72, 7.0);
+		Alternativa mayorTiempo = new AlternativaOtraTienda(tienda, 108, 0.0);
+		Alternativa duplicada = new AlternativaOtraTienda(tienda, 72, 7.0);
+
+		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(menorTiempo, mayorTiempo)));
+		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(menorTiempo, duplicada)));
+	}
 
 }
