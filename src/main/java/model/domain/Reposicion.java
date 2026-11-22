@@ -9,6 +9,7 @@ public class Reposicion {
     private final LocalDateTime fechaPrevista;
 
     public Reposicion(Producto producto, int cantidad, LocalDateTime fechaPrevista) {
+		// Precondiciones (parte 1): el producto es obligatorio y la cantidad debe ser positiva.
     	if (producto == null) {
             throw new IllegalArgumentException("El producto es obligatorio");
         }
