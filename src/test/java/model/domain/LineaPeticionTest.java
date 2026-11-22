@@ -18,18 +18,29 @@ class LineaPeticionTest {
 	void testCrearLineaPeticion() {
 		LineaPeticion linea = new LineaPeticion(producto, 3);
 
-        assertEquals(producto.getCodigo(), linea.getProducto().getCodigo());
+        assertSame(producto, linea.getProducto());
         assertEquals(3, linea.getCantidad());
-	}
-	
+    }
+
 	@Test
-    void testCantidadNoValida() {
+	void testCantidadValida() {
+		LineaPeticion cantidadMinima = new LineaPeticion(producto, 1);
+		LineaPeticion cantidadMaxima = new LineaPeticion(producto, Integer.MAX_VALUE);
+
+		assertSame(producto, cantidadMinima.getProducto());
+		assertEquals(1, cantidadMinima.getCantidad());
+		assertSame(producto, cantidadMaxima.getProducto());
+		assertEquals(Integer.MAX_VALUE, cantidadMaxima.getCantidad());
+    }
+
+	@Test
+	void testCantidadNoValida() {
 		assertThrows(IllegalArgumentException.class, () -> new LineaPeticion(producto, 0));
 		assertThrows(IllegalArgumentException.class, () -> new LineaPeticion(producto, -1));
     }
-	
+
 	@Test
-    void testProductoNoEsValido() {
+	void testProductoNoEsValido() {
         assertThrows(IllegalArgumentException.class, () -> new LineaPeticion(null, 2));
     }
 

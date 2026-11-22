@@ -23,6 +23,8 @@ class RestriccionesBusquedaTest {
         assertFalse(restricciones.permiteDistancia(-1.0));// valor negativo
         assertTrue(restricciones.permiteDistancia(0.0));// origen y destino pueden coincidir
         assertFalse(restricciones.permiteDistancia(Double.NaN));// distancia no numérica
+        assertFalse(restricciones.permiteDistancia(Double.NEGATIVE_INFINITY));
+        assertFalse(restricciones.permiteDistancia(Double.POSITIVE_INFINITY));
         
     }
     
@@ -35,7 +37,9 @@ class RestriccionesBusquedaTest {
     	
     	assertFalse(restricciones.permiteEspera(null));// valor nulo
         assertFalse(restricciones.permiteEspera(-60));// valor negativo
+        assertFalse(restricciones.permiteEspera(Integer.MIN_VALUE));
         assertTrue(restricciones.permiteEspera(0));// reposición inmediata
+        assertFalse(restricciones.permiteEspera(Integer.MAX_VALUE));
     }
 
 }

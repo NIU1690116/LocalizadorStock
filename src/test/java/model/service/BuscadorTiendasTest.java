@@ -10,6 +10,7 @@ import model.domain.RestriccionesBusqueda;
 import model.domain.Tienda;
 import model.repository.RepositorioTiendasMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,6 +47,8 @@ class BuscadorTiendasTest {
 
 	@Test
 	void testBuscadorTiendasConstructor() {
+		assertDoesNotThrow(() -> new BuscadorTiendas(
+				repositorio, calculadorDistancia, estimadorTiempoViaje));
 		assertThrows(
 				IllegalArgumentException.class,
 				() -> new BuscadorTiendas(null, calculadorDistancia, estimadorTiempoViaje)
@@ -119,6 +122,14 @@ class BuscadorTiendasTest {
         assertEquals(10.0, resultado.get(2).distancia(), 0.001);
         assertEquals(70, resultado.get(2).tiempoEstimadoMinutos());
         //se eliminan las tiendas sin stock y fuera del limite de distancia
+		for (BuscadorTiendas.TiendaConDistancia candidata : resultado) {
+			assertNotEquals(origen.getId(), candidata.tienda().getId());
+			assertTrue(new RestriccionesBusqueda().permiteDistancia(candidata.distancia()));
+			assertTrue(candidata.tienda().getInventario().hayStockSuficiente(producto, 2));
+		}
+		for (int i = 1; i < resultado.size(); i++) {
+			assertTrue(resultado.get(i - 1).distancia() <= resultado.get(i).distancia());
+		}
         
         //Ninguna tienda cumple con las restricciones de stock y distancia
         List<BuscadorTiendas.TiendaConDistancia> resultado1 =
@@ -127,8 +138,7 @@ class BuscadorTiendasTest {
                         new LineaPeticion(producto_2, 1),
                         new RestriccionesBusqueda());
         assertNotNull(resultado1);
-        assertTrue(resultado1.isEmpty());
-        
+        assertTrue(resultado1.isEmpty());  
           
 	}
 

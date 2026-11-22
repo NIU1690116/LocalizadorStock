@@ -8,17 +8,18 @@ public class Tienda {
 	private final Inventario inventario;
 	
 	public Tienda(String id, String nombre, double latitud, double longitud, Inventario inventario) {
-		
+		// Precondiciones: identidad y nombre no vacíos, coordenadas finitas y en rango
+		// e inventario obligatorio.
 		if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El id es obligatorio");
         }
 		if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre es obligatorio");
         }
-		if (latitud < -90 || latitud > 90) {
+		if (!Double.isFinite(latitud) || latitud < -90 || latitud > 90) {
             throw new IllegalArgumentException("Latitud no válida");
         }
-		if (longitud < -180 || longitud > 180) {
+		if (!Double.isFinite(longitud) || longitud < -180 || longitud > 180) {
             throw new IllegalArgumentException("Longitud no válida");
         }
 		
@@ -33,9 +34,17 @@ public class Tienda {
 		this.latitud = latitud;
 		this.longitud = longitud;
 		this.inventario = inventario;
+		// Postcondición: la tienda se crea con todos sus datos válidos
+		assert invariant() : "La tienda debe cumplir sus invariantes después de construirse";
 	}
-	
-	
+
+	private boolean invariant() {
+		return id != null && !id.trim().isEmpty()
+				&& nombre != null && !nombre.trim().isEmpty()
+				&& Double.isFinite(latitud) && latitud >= -90 && latitud <= 90
+				&& Double.isFinite(longitud) && longitud >= -180 && longitud <= 180
+				&& inventario != null;
+	}
 	
     // getters and setters
 	public String getId() {
@@ -59,6 +68,7 @@ public class Tienda {
 	}
 	
 	public int consultarStock(Producto producto) {
+		// Postcondición: devuelve el stock que ese inventario registra para el producto
         return inventario.consultarStock(producto);
     }	
 

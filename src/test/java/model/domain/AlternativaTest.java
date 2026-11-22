@@ -23,7 +23,6 @@ class AlternativaTest {
 				() -> new AlternativaDePrueba(10, Double.NaN));//distancia finita
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaDePrueba(10, Double.POSITIVE_INFINITY));// distancia finita
-
 	}
 	
 	@Test
@@ -32,6 +31,14 @@ class AlternativaTest {
 
 		assertEquals(25, alternativa.getTiempoEstimadoMinutos());
 		assertEquals(4.5, alternativa.getDistanciaKm(), 0.001);
+	}
+
+	@Test
+	void testTiempoYDistanciaEnCeroSonValidos() {
+		Alternativa alternativa = new AlternativaDePrueba(0, 0.0);
+
+		assertEquals(0, alternativa.getTiempoEstimadoMinutos());
+		assertEquals(0.0, alternativa.getDistanciaKm(), 0.0);
 	}
 
 }

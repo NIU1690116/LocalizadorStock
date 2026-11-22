@@ -78,6 +78,26 @@ class InventarioTest {
         inventario.setStockMaximo(producto, 50);
         assertEquals(50, inventario.consultarStockMaximo(producto));
     }
+
+    @Test
+    void testStockDentroDelLimite() {
+        inventario.setStockMaximo(producto, 5);
+        assertEquals(0, inventario.consultarStock(producto));
+
+        inventario.añadirProductos(producto, 3);
+        assertEquals(3, inventario.consultarStock(producto));
+
+        inventario.retirarStock(producto, 3);
+        assertEquals(0, inventario.consultarStock(producto));
+
+        inventario.añadirProductos(producto, 5);
+        assertEquals(5, inventario.consultarStock(producto));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> inventario.añadirProductos(producto, 1));
+        assertEquals(5, inventario.consultarStock(producto));
+        assertEquals(5, inventario.consultarStockMaximo(producto));
+    }
     
     @Test
     void establecerStockMaximoNegativoLanzaExcepcion() {

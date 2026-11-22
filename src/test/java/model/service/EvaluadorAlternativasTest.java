@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -66,6 +67,23 @@ class EvaluadorAlternativasTest {
 		Alternativa menosDistancia = new AlternativaOtraTienda(tienda, 36, 0.0);
 		assertEquals(menosTiempo, evaluador.seleccionarMejor(List.of(menosDistancia, menosTiempo)));
 	}
+
+	@Test
+	void testSeleccionarMejorAlternativa() {
+		Alternativa mejor = new AlternativaOtraTienda(tienda, 5, 1.0);//menor porcentaje penalización
+		Alternativa peor = new AlternativaOtraTienda(tienda, 15, 2.0);//mayor porcentaje de penalización
+		Alternativa fueraDeRango = new AlternativaOtraTienda(tienda, 1, 10.1);
+		List<Alternativa> candidatas = new ArrayList<>();
+		candidatas.add(null);
+		candidatas.add(fueraDeRango);
+		candidatas.add(peor);
+		candidatas.add(mejor);
+
+		assertEquals(mejor, evaluador.seleccionarMejor(candidatas));
+		assertNull(evaluador.seleccionarMejor(List.of(fueraDeRango)));
+	}
+
+
 	
 	
 

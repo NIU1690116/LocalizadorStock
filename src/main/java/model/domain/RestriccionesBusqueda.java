@@ -7,20 +7,38 @@ public class RestriccionesBusqueda {
 
     //no neccesitamos que el constructor reciba valores, ya que los limites eran siempre los mismos
 
+    /**
+     * Precondición: ninguna; los valores nulos o no válidos se rechazan devolviendo false.
+     * Postcondición: devuelve true exactamente si la distancia es finita y está entre
+     * cero y la distancia máxima, ambos límites incluidos.
+     */
     public boolean permiteDistancia(Double distancia) {
-	    if (distancia == null || !Double.isFinite(distancia)
-	            || distancia > DISTANCIA_MAXIMA_KM || distancia < 0) {
-    		return false;
-    	}
-    	return true;
+		boolean permitida = distancia != null
+				&& Double.isFinite(distancia)
+				&& distancia >= 0.0
+				&& distancia <= DISTANCIA_MAXIMA_KM;
+		assert permitida == (distancia != null
+				&& Double.isFinite(distancia)
+				&& distancia >= 0.0
+				&& distancia <= DISTANCIA_MAXIMA_KM)
+				: "La distancia solo se permite dentro del rango configurado";
+		return permitida;
     }
     
-    public boolean permiteEspera(Integer EsperaMinutos) {
-	if (EsperaMinutos == null || EsperaMinutos > ESPERA_MAXIMA_MINUTOS || EsperaMinutos < 0) {
-    		return false;
-    	}
-    	return true;
-
+    /**
+     * Precondición: ninguna; los valores nulos o no válidos se rechazan devolviendo false.
+     * Postcondición: devuelve true exactamente si la espera está entre cero y el máximo,
+     * ambos límites incluidos.
+     */
+    public boolean permiteEspera(Integer esperaMinutos) {
+		boolean permitida = esperaMinutos != null
+				&& esperaMinutos >= 0
+				&& esperaMinutos <= ESPERA_MAXIMA_MINUTOS;
+		assert permitida == (esperaMinutos != null
+				&& esperaMinutos >= 0
+				&& esperaMinutos <= ESPERA_MAXIMA_MINUTOS)
+				: "La espera solo se permite dentro del rango configurado";
+		return permitida;
     }
     
 	public double getDistanciaMaximaKm() {

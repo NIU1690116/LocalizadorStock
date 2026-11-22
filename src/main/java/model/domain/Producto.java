@@ -12,6 +12,7 @@ public class Producto {
 	
 	//atributo codigo no puede ser nulo ni vacio
 	public Producto(String codigo, String nombre, String color, String familia, String genero) {
+		// Precondición: el código identificador es obligatorio y no puede estar en blanco.
 		if (codigo == null || codigo.isBlank()) {
 			throw new IllegalArgumentException("El código del producto es obligatorio");
 		}
@@ -20,6 +21,13 @@ public class Producto {
 		this.color = color;
 		this.familia = familia;
 		this.genero = genero;
+		// Postcondición: los atributos se inicializan con los argumentos recibidos
+		// y el producto conserva un código válido.
+		assert invariant() : "El producto debe tener un código válido después de construirse";
+	}
+
+	private boolean invariant() {
+		return codigo != null && !codigo.isBlank();
 	}
 
 

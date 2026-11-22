@@ -23,16 +23,27 @@ class ReposicionTest {
         assertEquals(producto.getCodigo(), reposicion.getProducto().getCodigo());
         assertEquals(1, reposicion.getCantidad());
         assertEquals(fechaPrevista, reposicion.getFechaPrevista());
+
+		Reposicion fechaLimite = new Reposicion(producto, 1, LocalDateTime.MIN);
+		assertEquals(LocalDateTime.MIN, fechaLimite.getFechaPrevista());
     }
+
+	@Test
+	void testCantidadValidad() {
+		Reposicion minima = new Reposicion(producto, 1, fechaPrevista);
+		Reposicion maxima = new Reposicion(producto, Integer.MAX_VALUE, fechaPrevista);
+
+		assertEquals(1, minima.getCantidad());
+		assertEquals(Integer.MAX_VALUE, maxima.getCantidad());
+	}
     
     @Test
-    void rechazaProductoFechaCantidadInvalidos() {
+    void testRechazaProductoFechaCantidadInvalidos() {
         assertThrows(IllegalArgumentException.class, () -> new Reposicion(null, 1, fechaPrevista));
         assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, 0, fechaPrevista));
         assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, -1, fechaPrevista));
+        assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, Integer.MIN_VALUE, fechaPrevista));
         assertThrows(IllegalArgumentException.class, () -> new Reposicion(producto, 1, null));
-        
-        
     }
 
 }
