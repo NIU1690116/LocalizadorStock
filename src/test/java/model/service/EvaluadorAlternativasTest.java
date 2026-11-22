@@ -2,12 +2,12 @@ package model.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +70,16 @@ class EvaluadorAlternativasTest {
 
 	@Test
 	void testSeleccionarMejorAlternativa() {
+		Alternativa mejor = new AlternativaOtraTienda(tienda, 5, 1.0);
+		Alternativa peor = new AlternativaOtraTienda(tienda, 15, 2.0);
+		Alternativa fueraDeRango = new AlternativaOtraTienda(tienda, 1, 10.1);
+		List<Alternativa> candidatas = new ArrayList<>();
+		candidatas.add(null);
+		candidatas.add(fueraDeRango);
+		candidatas.add(peor);
+		candidatas.add(mejor);
 
+		assertEquals(mejor, evaluador.seleccionarMejor(candidatas));
 	}
 	
 	
