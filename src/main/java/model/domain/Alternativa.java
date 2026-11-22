@@ -26,10 +26,16 @@ public abstract class Alternativa {
 	}
 	
 	public int getTiempoEstimadoMinutos() {
+		// Precondición de estado: la alternativa conserva su invariante
+		assert invariant();
+		// Postcondición: devuelve el tiempo estimado almacenado
 		return tiempoEstimadoMinutos;
 	}
 
 	public double getDistanciaKm() {
+		// Precondición de estado: la alternativa conserva su invariante
+		assert invariant();
+		// Postcondición: devuelve la distancia almacenada
 		return distanciaKm;
 	}
 
