@@ -10,6 +10,7 @@ import model.domain.RestriccionesBusqueda;
 import model.domain.Tienda;
 import model.repository.RepositorioTiendasMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -46,6 +47,8 @@ class BuscadorTiendasTest {
 
 	@Test
 	void testBuscadorTiendasConstructor() {
+		assertDoesNotThrow(() -> new BuscadorTiendas(
+				repositorio, calculadorDistancia, estimadorTiempoViaje));
 		assertThrows(
 				IllegalArgumentException.class,
 				() -> new BuscadorTiendas(null, calculadorDistancia, estimadorTiempoViaje)
@@ -127,8 +130,7 @@ class BuscadorTiendasTest {
                         new LineaPeticion(producto_2, 1),
                         new RestriccionesBusqueda());
         assertNotNull(resultado1);
-        assertTrue(resultado1.isEmpty());
-        
+        assertTrue(resultado1.isEmpty());  
           
 	}
 
