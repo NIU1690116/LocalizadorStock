@@ -81,6 +81,17 @@ class EvaluadorAlternativasTest {
 
 		assertEquals(mejor, evaluador.seleccionarMejor(candidatas));
 	}
+
+	@Test
+	void postcondicionSeleccionaLaMenorPuntuacionOVacioSiNoHayCandidatasValidas() {
+		Alternativa puntuacionMayor = new AlternativaOtraTienda(tienda, 80, 1.0);
+		Alternativa puntuacionMenor = new AlternativaOtraTienda(tienda, 20, 5.0);
+		Alternativa fueraDeRango = new AlternativaOtraTienda(tienda, 0, 10.1);
+
+		assertEquals(puntuacionMenor,
+				evaluador.seleccionarMejor(List.of(puntuacionMayor, fueraDeRango, puntuacionMenor)));
+		assertNull(evaluador.seleccionarMejor(List.of(fueraDeRango)));
+	}
 	
 	
 
