@@ -1,6 +1,5 @@
 package model.service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,6 +12,7 @@ public class EvaluadorAlternativas {
 	private final RestriccionesBusqueda restricciones;
 
 	public EvaluadorAlternativas(PoliticaBusqueda politica, RestriccionesBusqueda restricciones) {
+		// Precondiciones: se necesitan una política y unas restricciones válidas.
 		if (politica == null) {
 			throw new IllegalArgumentException("La política de búsqueda es obligatoria");
 		}
@@ -21,12 +21,20 @@ public class EvaluadorAlternativas {
 		}
 		this.politica = politica;
 		this.restricciones = restricciones;
+		// Postcondición: el evaluador queda listo para aplicar ambas dependencias.
+		assert invariant() : "El evaluador debe tener política y restricciones";
+	}
+
+	private boolean invariant() {
+		return politica != null && restricciones != null;
 	}
 	
 	public Alternativa seleccionarMejor(List<Alternativa> alternativas) {
+		// Precondición: la lista debe existir; sus elementos nulos se ignoran.
 		if (alternativas == null) {
 			throw new IllegalArgumentException("La lista de alternativas es obligatoria");
 		}
+		assert invariant() : "El evaluador debe conservar sus dependencias";
 		Alternativa mejorAlternativa = null;
 	    double menorPuntuacion = Double.MAX_VALUE;
 
@@ -62,7 +70,6 @@ public class EvaluadorAlternativas {
 	            }
 	        }
 	    }
-	    
 	    return mejorAlternativa;
 	}
 	
