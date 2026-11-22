@@ -51,10 +51,19 @@ public class Peticion {
 	}
 	
 	public void agregarLinea(LineaPeticion linea) {
+		// Precondición de estado: la petición debe cumplir su invariante antes del cambio.
+		assert invariant() : "La petición debe ser válida antes de añadir una línea";
+		// Precondición de entrada: la línea que se añade no puede ser nula.
         if (linea == null) {
             throw new IllegalArgumentException("La línea no puede ser null");
         }
+		int numeroLineasAnterior = lineas.size();
         lineas.add(linea);
+		// Postcondiciones: se añade exactamente la línea recibida y se conserva el invariante.
+		assert lineas.size() == numeroLineasAnterior + 1
+				&& lineas.get(numeroLineasAnterior) == linea
+				: "Debe añadirse una única vez la línea recibida";
+		assert invariant() : "Añadir una línea no debe romper el invariante de la petición";
     }
     
     
