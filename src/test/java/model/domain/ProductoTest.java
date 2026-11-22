@@ -32,6 +32,33 @@ class ProductoTest {
         assertEquals("camisetas", p.getFamilia());
         assertEquals("mujer", p.getGenero());
     }
+
+	@Test
+	void testSettersNoCambian() {
+		Producto producto = new Producto("P001", "Camiseta", "rojo", "camisetas", "mujer");
+
+		producto.setNombre("");
+		producto.setColor(null);
+		producto.setFamilia(" ");
+		producto.setGenero("unisex");
+
+		assertEquals("P001", producto.getCodigo());
+		assertEquals("", producto.getNombre());
+		assertNull(producto.getColor());
+		assertEquals(" ", producto.getFamilia());
+		assertEquals("unisex", producto.getGenero());
+
+		producto.setNombre(null);
+		producto.setColor("");
+		producto.setFamilia(null);
+		producto.setGenero("");
+
+		assertEquals("P001", producto.getCodigo());
+		assertNull(producto.getNombre());
+		assertEquals("", producto.getColor());
+		assertNull(producto.getFamilia());
+		assertEquals("", producto.getGenero());
+	}
 	
 	@Test
     void elCodigoNoPuedeSerNuloNiVacio() {
