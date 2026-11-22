@@ -23,6 +23,9 @@ class ReposicionTest {
         assertEquals(producto.getCodigo(), reposicion.getProducto().getCodigo());
         assertEquals(1, reposicion.getCantidad());
         assertEquals(fechaPrevista, reposicion.getFechaPrevista());
+
+		Reposicion fechaLimite = new Reposicion(producto, 1, LocalDateTime.MIN);
+		assertEquals(LocalDateTime.MIN, fechaLimite.getFechaPrevista());
     }
 
 	@Test
