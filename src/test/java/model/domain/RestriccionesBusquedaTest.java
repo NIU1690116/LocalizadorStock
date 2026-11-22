@@ -37,7 +37,9 @@ class RestriccionesBusquedaTest {
     	
     	assertFalse(restricciones.permiteEspera(null));// valor nulo
         assertFalse(restricciones.permiteEspera(-60));// valor negativo
+        assertFalse(restricciones.permiteEspera(Integer.MIN_VALUE));
         assertTrue(restricciones.permiteEspera(0));// reposición inmediata
+        assertFalse(restricciones.permiteEspera(Integer.MAX_VALUE));
     }
 
 }
