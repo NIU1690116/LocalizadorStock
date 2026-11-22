@@ -2,6 +2,7 @@ package model.domain;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Peticion {
@@ -10,6 +11,7 @@ public class Peticion {
     private final List<LineaPeticion> lineas;
     
     public Peticion(String id, LocalDateTime fechaSolicitud) {
+		// Precondiciones: identificador no vacío y fecha de solicitud obligatoria.
     	if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El id es obligatorio");
         }
@@ -21,6 +23,17 @@ public class Peticion {
     	this.id = id;
         this.fechaSolicitud = fechaSolicitud;
         this.lineas = new ArrayList<>();
+		// Postcondición: la petición inicia sin líneas y cumple su invariante.
+		assert invariant() : "La petición recién creada debe ser válida";
+    }
+
+	private boolean invariant() {
+		return id != null && !id.trim().isEmpty()
+				&& fechaSolicitud != null
+				&& lineas != null
+				&& lineas.stream().allMatch(linea -> linea != null
+						&& linea.getProducto() != null
+						&& linea.getCantidad() > 0);
     }
 
 	public String getId() {
@@ -32,7 +45,9 @@ public class Peticion {
 	}
 
 	public List<LineaPeticion> getLineas() {
-		return lineas;
+		// Postcondición: devuelve una vista de solo lectura de las líneas actuales.
+		assert invariant();
+		return Collections.unmodifiableList(lineas);
 	}
 	
 	public void agregarLinea(LineaPeticion linea) {
