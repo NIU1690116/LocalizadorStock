@@ -13,9 +13,13 @@ public class Inventario {
 	public Inventario() {
 		this.stock = new HashMap<>();
 		this.stockMaximo = new HashMap<>();
+		assert invariant() : "El inventario recién creado debe ser válido";
 	}
 	
 	public void añadirProductos(Producto producto, int cantidad) {
+		// Precondición de estado: el inventario debe ser válido antes de operar.
+		assert invariant() : "El inventario debe ser válido antes de añadir productos";
+		// Precondiciones de entrada: producto no nulo y cantidad positiva.
 		validarProducto(producto);
 		if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad ha de ser positiva");
@@ -31,9 +35,14 @@ public class Inventario {
             throw new IllegalArgumentException("La cantidad supera el máximo representable");
         }
         stock.merge(producto, cantidad, Integer::sum);
+		// Postcondición: el stock nuevo es el anterior más la cantidad y respeta el máximo.
+		assert invariant() : "Añadir productos no debe romper el invariante del inventario";
     }
 	
 	public void retirarStock(Producto producto, int cantidad) {
+		// Precondición de estado: el inventario debe ser válido antes de operar.
+		assert invariant() : "El inventario debe ser válido antes de retirar stock";
+		// Precondiciones de entrada: producto no nulo, cantidad positiva y stock suficiente.
 		validarProducto(producto);
 		if (cantidad <= 0) {
 	        throw new IllegalArgumentException("La quantitat ha de ser positiva");
@@ -44,14 +53,21 @@ public class Inventario {
 	    }
 		int stockActual = consultarStock(producto);
 	    stock.put(producto, stockActual - cantidad);
+		// Postcondición: el stock nuevo es el anterior menos la cantidad y no queda negativo.
+		assert invariant() : "Retirar stock no debe romper el invariante del inventario";
 	}
 	
 	public int consultarStock(Producto producto) {
+		// Precondición: el producto no puede ser null; puede no estar registrado.
 		validarProducto(producto);
+		// Postcondición: se devuelve el stock registrado, o cero si no está registrado.
 		return stock.getOrDefault(producto, 0);
 	}
 	
 	public void setStockMaximo(Producto producto, int maximo) {
+		// Precondición de estado: el inventario debe ser válido antes de operar.
+		assert invariant() : "El inventario debe ser válido antes de cambiar el máximo";
+		// Precondiciones de entrada: producto no nulo y máximo no negativo ni inferior al stock actual.
 		validarProducto(producto);
 		if (maximo < 0) {
             throw new IllegalArgumentException("El stock máximo no puede ser negativo");
@@ -60,27 +76,35 @@ public class Inventario {
             throw new IllegalArgumentException("El stock máximo no puede ser inferior al stock actual");
         }
         stockMaximo.put(producto, maximo);
+		// Postcondición: el máximo consultado coincide con maximo y el stock no lo supera.
+		assert invariant() : "Cambiar el máximo no debe romper el invariante del inventario";
 	}
 	
 	public int consultarStockMaximo(Producto producto) {
+		// Precondición: el producto no puede ser null; puede no estar registrado.
 		validarProducto(producto);
+		// Postcondición: se devuelve el máximo registrado, o cero si no se configuró.
         return stockMaximo.getOrDefault(producto, 0);
     }
 
 	
 	public boolean hayStockSuficiente(Producto producto, int cantidad) {
+		// Precondiciones: producto no nulo y cantidad no negativa.
 		validarProducto(producto);
 		if (cantidad < 0) {
 			throw new IllegalArgumentException("La cantidad no podue ser negativa");
 		    }
 
+		// Postcondición: true exactamente cuando el stock registrado alcanza la cantidad.
 	    return consultarStock(producto) >= cantidad;
 	}
 
 	public List<Producto> productosConStockSuficiente(int cantidad) {
+		// Precondición: la cantidad consultada debe ser positiva.
 		if (cantidad <= 0) {
 			throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
 		}
+		// Postcondición: solo se devuelven productos cuyo stock alcanza la cantidad pedida.
 		return stock.entrySet().stream()
 				.filter(entrada -> entrada.getValue() >= cantidad)
 				.map(Map.Entry::getKey)
@@ -98,8 +122,35 @@ public class Inventario {
 	 * supera el máximo para su producto.
 	 */
 	private boolean invariant() {
+		if (stock == null || stockMaximo == null) {
+			return false;
+		}
 
-		return false;
+		for (Map.Entry<Producto, Integer> entrada : stock.entrySet()) {
+			Producto producto = entrada.getKey();
+			Integer cantidad = entrada.getValue();
+			if (producto == null || cantidad == null || cantidad < 0) {
+				return false;
+			}
+
+			Integer maximo = stockMaximo.get(producto);
+			if (maximo != null && cantidad > maximo) {
+				return false;
+			}
+		}
+
+		for (Map.Entry<Producto, Integer> entrada : stockMaximo.entrySet()) {
+			Producto producto = entrada.getKey();
+			Integer maximo = entrada.getValue();
+			if (producto == null || maximo == null || maximo < 0) {
+				return false;
+			}
+			if (stock.getOrDefault(producto, 0) > maximo) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 	
 	
