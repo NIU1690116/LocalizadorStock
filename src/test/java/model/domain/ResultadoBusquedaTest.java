@@ -14,6 +14,12 @@ class ResultadoBusquedaTest {
 	void testResultadoBusquedaParametrosNulos() {
 		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(null));
 		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(List.of()));
+
+	}
+
+	@Test
+	void testResultadosListaNoModificable() {
+
 	}
 	
 	@Test
