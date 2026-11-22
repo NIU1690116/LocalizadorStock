@@ -49,6 +49,22 @@ class PeticionTest {
 	}
 
 	@Test
+	void testAgregarLinea() {
+		List<LineaPeticion> lineas = peticion.getLineas();
+		int numeroLineasInicial = lineas.size();
+		LineaPeticion linea = new LineaPeticion(pantalon, 3);
+
+		peticion.agregarLinea(linea);
+
+		assertEquals(numeroLineasInicial + 1, lineas.size());
+		assertSame(linea, lineas.get(numeroLineasInicial));
+		assertTrue(lineas.stream().allMatch(lineaPeticion ->
+				lineaPeticion != null
+						&& lineaPeticion.getProducto() != null
+						&& lineaPeticion.getCantidad() > 0));
+	}
+
+	@Test
 	void testGetLineasVistaNoModificable() {
 		List<LineaPeticion> lineas = peticion.getLineas();
 		LineaPeticion linea = new LineaPeticion(camiseta, 2);
