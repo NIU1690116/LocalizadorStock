@@ -25,12 +25,20 @@ public class RestriccionesBusqueda {
 		return permitida;
     }
     
-    public boolean permiteEspera(Integer EsperaMinutos) {
-	if (EsperaMinutos == null || EsperaMinutos > ESPERA_MAXIMA_MINUTOS || EsperaMinutos < 0) {
-    		return false;
-    	}
-    	return true;
-
+    /**
+     * Precondición: ninguna; los valores nulos o no válidos se rechazan devolviendo false.
+     * Postcondición: devuelve true exactamente si la espera está entre cero y el máximo,
+     * ambos límites incluidos.
+     */
+    public boolean permiteEspera(Integer esperaMinutos) {
+		boolean permitida = esperaMinutos != null
+				&& esperaMinutos >= 0
+				&& esperaMinutos <= ESPERA_MAXIMA_MINUTOS;
+		assert permitida == (esperaMinutos != null
+				&& esperaMinutos >= 0
+				&& esperaMinutos <= ESPERA_MAXIMA_MINUTOS)
+				: "La espera solo se permite dentro del rango configurado";
+		return permitida;
     }
     
 	public double getDistanciaMaximaKm() {
