@@ -19,7 +19,15 @@ class ResultadoBusquedaTest {
 
 	@Test
 	void testResultadosListaNoModificable() {
+		ArrayList<ResultadoLineaPeticion> resultadosEntrada = new ArrayList<>();
+		ResultadoLineaPeticion resultadoLinea = resultadoLinea("P001", EstadoResolucion.RESUELTA);
+		resultadosEntrada.add(resultadoLinea);
 
+		ResultadoBusqueda resultado = new ResultadoBusqueda(resultadosEntrada);
+		resultadosEntrada.clear();
+
+		assertTrue(resultado.getResultados().contains(resultadoLinea));
+		assertThrows(UnsupportedOperationException.class, () -> resultado.getResultados().clear());
 	}
 	
 	@Test
