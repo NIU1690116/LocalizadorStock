@@ -61,6 +61,24 @@ class InventarioTest {
     }
 
     @Test
+    void retirarCantidadNoPositivaLanzaExcepcion() {
+        // Cubre la rama que rechaza cantidad <= 0 en retirarStock.
+        assertThrows(IllegalArgumentException.class, () -> inventario.retirarStock(producto, 0));
+    }
+
+    @Test
+    void consultarStockSuficienteConCantidadNegativaLanzaExcepcion() {
+        // Cubre la validación específica de hayStockSuficiente para cantidades negativas.
+        assertThrows(IllegalArgumentException.class, () -> inventario.hayStockSuficiente(producto, -1));
+    }
+
+    @Test
+    void consultarStockConProductoNuloLanzaExcepcion() {
+        // Cubre la rama de validarProducto que rechaza producto == null.
+        assertThrows(IllegalArgumentException.class, () -> inventario.consultarStock(null));
+    }
+
+    @Test
     void agregarCantidadNoPermitidaLanzaExcepcion() {
         assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, 0));
         assertThrows(IllegalArgumentException.class, () -> inventario.añadirProductos(producto, -5));
