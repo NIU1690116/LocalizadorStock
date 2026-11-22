@@ -18,6 +18,7 @@ public class BuscadorTiendas {
             RepositorioTiendas repositorio,
             CalculadorDistancia calculadorDistancia,
             EstimadorTiempoViaje estimadorTiempoViaje) {
+		// Precondiciones: las tres dependencias son obligatorias.
     	if (repositorio == null) {
             throw new IllegalArgumentException("El repositorio no puede ser nulo");
         }
@@ -31,14 +32,22 @@ public class BuscadorTiendas {
         this.repositorio = repositorio;
         this.calculadorDistancia = calculadorDistancia;
         this.estimadorTiempoViaje = estimadorTiempoViaje;
+		// Postcondición: el buscador queda con sus dependencias inicializadas.
+		assert invariant() : "El buscador debe tener todas sus dependencias";
+    }
+
+	private boolean invariant() {
+		return repositorio != null
+				&& calculadorDistancia != null
+				&& estimadorTiempoViaje != null;
     }
 
     public List<TiendaConDistancia> buscarTiendasConStock(
             Tienda origen,
             LineaPeticion linea,
             RestriccionesBusqueda restricciones) {
-        
-        //precondiciones
+		// Precondiciones: origen, línea y restricciones son obligatorios
+		assert invariant() : "El buscador debe conservar sus dependencias";
         if (origen == null) {
             throw new IllegalArgumentException("La tienda origen no puede ser null");
         }
