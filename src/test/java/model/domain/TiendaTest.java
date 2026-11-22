@@ -12,7 +12,6 @@ class TiendaTest {
 	@BeforeEach
 	public void setUp() {
 		inventarioMock = new InventarioMock();
-		
 	}
 
 	@Test
@@ -60,9 +59,13 @@ class TiendaTest {
         assertDoesNotThrow(() -> new Tienda("T001", "Tienda Oeste", 0, -180.0, inventarioMock));
         assertDoesNotThrow(() -> new Tienda("T001", "Tienda Este", 0, 180.0, inventarioMock));
     }
+
+	@Test
+	void testCoordenadasValidas() {
+	}
 	
 	@Test
-    void inventarioNuloLanzaExcepcion() {
+    void testInventarioNuloLanzaExcepcion() {
 		assertThrows(IllegalArgumentException.class, () -> new Tienda("T001", "Tienda", 0, 0, null));
     }
 	
