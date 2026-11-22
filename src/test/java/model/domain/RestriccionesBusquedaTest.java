@@ -23,6 +23,8 @@ class RestriccionesBusquedaTest {
         assertFalse(restricciones.permiteDistancia(-1.0));// valor negativo
         assertTrue(restricciones.permiteDistancia(0.0));// origen y destino pueden coincidir
         assertFalse(restricciones.permiteDistancia(Double.NaN));// distancia no numérica
+        assertFalse(restricciones.permiteDistancia(Double.NEGATIVE_INFINITY));
+        assertFalse(restricciones.permiteDistancia(Double.POSITIVE_INFINITY));
         
     }
     
