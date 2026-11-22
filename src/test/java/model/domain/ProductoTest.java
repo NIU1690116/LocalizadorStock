@@ -36,7 +36,16 @@ class ProductoTest {
 	@Test
     void elCodigoNoPuedeSerNuloNiVacio() {
         assertThrows(IllegalArgumentException.class, () -> new Producto(null, "Camiseta", "rojo", "camisetas", "unisex"));
+        assertThrows(IllegalArgumentException.class, () -> new Producto("", "Camiseta", "rojo", "camisetas", "unisex"));
         assertThrows(IllegalArgumentException.class, () -> new Producto("  ", "Camiseta", "rojo", "camisetas", "unisex"));
+        assertThrows(IllegalArgumentException.class, () -> new Producto("\t", "Camiseta", "rojo", "camisetas", "unisex"));
+
+        Producto codigoMinimoValido = new Producto("P", null, null, null, null);
+        assertEquals("P", codigoMinimoValido.getCodigo());
+        assertNull(codigoMinimoValido.getNombre());
+        assertNull(codigoMinimoValido.getColor());
+        assertNull(codigoMinimoValido.getFamilia());
+        assertNull(codigoMinimoValido.getGenero());
     }
 	
 	@Test
