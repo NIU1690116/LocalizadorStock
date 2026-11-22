@@ -60,7 +60,14 @@ class PeticionTest {
 		assertThrows(UnsupportedOperationException.class, lineas::clear);
 	}
 	
-	
-	
+	@Test
+    void testPeticionPuedeContenerVariosProductos() {
+        peticion.agregarLinea(new LineaPeticion(camiseta, 2));
+        peticion.agregarLinea(new LineaPeticion(pantalon, 1));
 
+        assertEquals(2, peticion.getLineas().size());
+        assertSame(camiseta, peticion.getLineas().get(0).getProducto());
+        assertSame(pantalon, peticion.getLineas().get(1).getProducto());
+    }
+	
 }
