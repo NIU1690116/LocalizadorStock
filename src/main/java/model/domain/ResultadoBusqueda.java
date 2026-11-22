@@ -10,7 +10,15 @@ public final class ResultadoBusqueda {
 		if (resultados == null || resultados.isEmpty()) {
 			throw new IllegalArgumentException("La búsqueda debe contener resultados por línea");
 		}
+		if (resultados.stream().anyMatch(Objects::isNull)) {
+			throw new IllegalArgumentException("La búsqueda no puede contener resultados nulos");
+		}
+
 		this.resultados = List.copyOf(resultados);
+	}
+
+	private boolean invariant() {
+		return false;
 	}
 
 	public List<ResultadoLineaPeticion> getResultados() {
