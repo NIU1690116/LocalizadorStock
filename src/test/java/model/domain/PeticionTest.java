@@ -3,6 +3,7 @@ package model.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -25,6 +26,16 @@ class PeticionTest {
 		assertEquals("SOL001", peticion.getId());
         assertEquals(LocalDateTime.of(2026, 10, 22, 10, 0), peticion.getFechaSolicitud());
 	}
+
+	@Test
+	void testConstructorParametrosValidos() {
+		assertThrows(IllegalArgumentException.class,
+				() -> new Peticion(null, LocalDateTime.now()));
+		assertThrows(IllegalArgumentException.class,
+				() -> new Peticion("  ", LocalDateTime.now()));
+		assertThrows(IllegalArgumentException.class,
+				() -> new Peticion("SOL002", null));
+	}
 	
 	@Test
 	void testAgregarLineas() {
@@ -36,16 +47,19 @@ class PeticionTest {
         
         assertThrows(IllegalArgumentException.class, () -> peticion.agregarLinea(null));
 	}
-	
-	@Test
-    void peticionPuedeContenerVariosProductos() {
-        peticion.agregarLinea(new LineaPeticion(camiseta, 2));
-        peticion.agregarLinea(new LineaPeticion(pantalon, 1));
 
-        assertEquals(2, peticion.getLineas().size());
-        assertSame(camiseta, peticion.getLineas().get(0).getProducto());
-        assertSame(pantalon, peticion.getLineas().get(1).getProducto());
-    }
+	@Test
+	void testGetLineasVistaNoModificable() {
+		List<LineaPeticion> lineas = peticion.getLineas();
+		LineaPeticion linea = new LineaPeticion(camiseta, 2);
+
+		peticion.agregarLinea(linea);
+
+		assertEquals(List.of(linea), lineas);
+		assertThrows(UnsupportedOperationException.class, () -> lineas.add(linea));
+		assertThrows(UnsupportedOperationException.class, lineas::clear);
+	}
+	
 	
 	
 
