@@ -19,7 +19,10 @@ public final class ResultadoLineaPeticion {
 		}
 		if (alternativas == null || alternativas.stream().anyMatch(Objects::isNull)) {
 			throw new IllegalArgumentException("La lista de alternativas no puede ser nula ni contener nulos");
-		}	
+		}
+		if (estado == null) {
+			throw new IllegalArgumentException("El estado de resolución es obligatorio");
+		}
 		if (mejorAlternativa != null && !alternativas.contains(mejorAlternativa)) {
 			throw new IllegalArgumentException("La mejor alternativa debe estar en la lista de alternativas");
 		}
@@ -31,6 +34,11 @@ public final class ResultadoLineaPeticion {
 		this.alternativas = List.copyOf(alternativas);
 		this.mejorAlternativa = mejorAlternativa;
 		this.estado = estado;
+
+	}
+
+	private boolean invariant() {
+
 	}
 	
 	public LineaPeticion getLinea() {
