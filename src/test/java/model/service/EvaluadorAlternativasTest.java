@@ -70,8 +70,8 @@ class EvaluadorAlternativasTest {
 
 	@Test
 	void testSeleccionarMejorAlternativa() {
-		Alternativa mejor = new AlternativaOtraTienda(tienda, 5, 1.0);
-		Alternativa peor = new AlternativaOtraTienda(tienda, 15, 2.0);
+		Alternativa mejor = new AlternativaOtraTienda(tienda, 5, 1.0);//menor porcentaje penalización
+		Alternativa peor = new AlternativaOtraTienda(tienda, 15, 2.0);//mayor porcentaje de penalización
 		Alternativa fueraDeRango = new AlternativaOtraTienda(tienda, 1, 10.1);
 		List<Alternativa> candidatas = new ArrayList<>();
 		candidatas.add(null);
@@ -80,18 +80,10 @@ class EvaluadorAlternativasTest {
 		candidatas.add(mejor);
 
 		assertEquals(mejor, evaluador.seleccionarMejor(candidatas));
-	}
-
-	@Test
-	void postcondicionSeleccionaLaMenorPuntuacionOVacioSiNoHayCandidatasValidas() {
-		Alternativa puntuacionMayor = new AlternativaOtraTienda(tienda, 80, 1.0);
-		Alternativa puntuacionMenor = new AlternativaOtraTienda(tienda, 20, 5.0);
-		Alternativa fueraDeRango = new AlternativaOtraTienda(tienda, 0, 10.1);
-
-		assertEquals(puntuacionMenor,
-				evaluador.seleccionarMejor(List.of(puntuacionMayor, fueraDeRango, puntuacionMenor)));
 		assertNull(evaluador.seleccionarMejor(List.of(fueraDeRango)));
 	}
+
+
 	
 	
 

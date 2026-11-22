@@ -70,7 +70,42 @@ public class EvaluadorAlternativas {
 	            }
 	        }
 	    }
+	    // Postcondición: devuelve la candidata válida mejor puntuada, o null si no hay ninguna válida.
+	    assert cumplePostcondicion(alternativas, mejorAlternativa)
+		    : "La alternativa seleccionada debe ser la mejor candidata válida";
 	    return mejorAlternativa;
+	}
+
+	private boolean cumplePostcondicion(List<Alternativa> alternativas, Alternativa seleccionada) {
+		if (seleccionada == null) {
+			return alternativas.stream()
+					.filter(Objects::nonNull)
+					.noneMatch(this::cumpleRestricciones);
+		}
+		if (!alternativas.contains(seleccionada) || !cumpleRestricciones(seleccionada)) {
+			return false;
+		}
+
+		double puntuacionSeleccionada = politica.calcularPuntuacion(seleccionada);
+		for (Alternativa candidata : alternativas) {
+			if (candidata == null || !cumpleRestricciones(candidata)) {
+				continue;
+			}
+			double puntuacionCandidata = politica.calcularPuntuacion(candidata);
+			if (puntuacionCandidata < puntuacionSeleccionada) {
+				return false;
+			}
+			if (puntuacionCandidata == puntuacionSeleccionada
+					&& candidata.getTiempoEstimadoMinutos() < seleccionada.getTiempoEstimadoMinutos()) {
+				return false;
+			}
+			if (puntuacionCandidata == puntuacionSeleccionada
+					&& candidata.getTiempoEstimadoMinutos() == seleccionada.getTiempoEstimadoMinutos()
+					&& candidata.getDistanciaKm() < seleccionada.getDistanciaKm()) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	private boolean cumpleRestricciones(Alternativa alternativa) {
