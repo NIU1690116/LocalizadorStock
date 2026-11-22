@@ -2,6 +2,7 @@ package model.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -65,6 +66,11 @@ class EvaluadorAlternativasTest {
 		Alternativa menosTiempo = new AlternativaOtraTienda(tienda, 0, 7.0);
 		Alternativa menosDistancia = new AlternativaOtraTienda(tienda, 36, 0.0);
 		assertEquals(menosTiempo, evaluador.seleccionarMejor(List.of(menosDistancia, menosTiempo)));
+	}
+
+	@Test
+	void testSeleccionarMejorAlternativa() {
+
 	}
 	
 	
