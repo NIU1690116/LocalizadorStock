@@ -31,7 +31,6 @@ public class Inventario {
             throw new IllegalArgumentException("La cantidad supera el máximo representable");
         }
         stock.merge(producto, cantidad, Integer::sum);
-        
     }
 	
 	public void retirarStock(Producto producto, int cantidad) {
@@ -45,7 +44,6 @@ public class Inventario {
 	    }
 		int stockActual = consultarStock(producto);
 	    stock.put(producto, stockActual - cantidad);
-		
 	}
 	
 	public int consultarStock(Producto producto) {
@@ -93,6 +91,15 @@ public class Inventario {
 		if (producto == null) {
 			throw new IllegalArgumentException("El producto no puede ser null");
 		}
+	}
+
+	/**
+	 * Invariante el stock y sus máximos no negativos, y ningún stock
+	 * supera el máximo para su producto.
+	 */
+	private boolean invariant() {
+
+		return false;
 	}
 	
 	
