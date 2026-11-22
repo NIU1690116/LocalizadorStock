@@ -122,6 +122,14 @@ class BuscadorTiendasTest {
         assertEquals(10.0, resultado.get(2).distancia(), 0.001);
         assertEquals(70, resultado.get(2).tiempoEstimadoMinutos());
         //se eliminan las tiendas sin stock y fuera del limite de distancia
+		for (BuscadorTiendas.TiendaConDistancia candidata : resultado) {
+			assertNotEquals(origen.getId(), candidata.tienda().getId());
+			assertTrue(new RestriccionesBusqueda().permiteDistancia(candidata.distancia()));
+			assertTrue(candidata.tienda().getInventario().hayStockSuficiente(producto, 2));
+		}
+		for (int i = 1; i < resultado.size(); i++) {
+			assertTrue(resultado.get(i - 1).distancia() <= resultado.get(i).distancia());
+		}
         
         //Ninguna tienda cumple con las restricciones de stock y distancia
         List<BuscadorTiendas.TiendaConDistancia> resultado1 =
