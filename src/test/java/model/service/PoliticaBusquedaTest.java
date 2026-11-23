@@ -32,11 +32,13 @@ class PoliticaBusquedaTest {
 
 	@Test
 	void testPoliticaBusquedaInvalida() {
+		// Path coverage: ruta de entrada nula y excepción esperada
 		assertThrows(IllegalArgumentException.class,
 				() -> politica.calcularPuntuacion(null));
 	}
 	@Test
     void testCalcularPuntuacion() {
+		// Path coverage: ruta válida de cálculo de puntuación
 		//Alternativa otra tienda, total esperado = 0.50
 		// Tiempo = 60 (mitad de 120) -> 0.70 * 0.5 = 0.35
 		// Distancia = 5.0 (mitad de 10.0) -> 0.30 * 0.5 = 0.15
