@@ -45,6 +45,7 @@ class EvaluadorAlternativasTest {
 	
 	@Test
 	void tesListaAlternativaInvalida() {
+		// Loop testing: cero iteraciones con la lista vacía
 		assertThrows(IllegalArgumentException.class,//lista nula
 				() -> evaluador.seleccionarMejor(null));
 		assertNull(evaluador.seleccionarMejor(List.of()));//null si no hay alternativas(lista vacia)
@@ -52,6 +53,7 @@ class EvaluadorAlternativasTest {
 	
 	@Test
 	void testCumpleRestricciones() {
+		// Loop testing: una iteración y varias alternativas en la lista
 		//desplazamiento tiene un peso del 30% y el de espera de 70%
 		//el dezplazamiento tiene un porcentaje inferior de desfavorilidad
 		Alternativa espera = new AlternativaReposicion(tienda, reposicion, 120, 0.0);
