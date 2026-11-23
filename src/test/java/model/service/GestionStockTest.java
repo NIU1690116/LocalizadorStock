@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -147,8 +148,9 @@ class GestionStockTest {
 				.thenReturn(List.of());
 		when(servicioReposicion.consultarReposicion(origen, producto)).thenReturn(null);
 		when(repositorio.obtenerTiendas()).thenReturn(List.of(origen, tiendaSimilar));
+		// Decision + condition coverage: el filtro recibe una alternativa nula y otra válida.
 		when(buscadorSimilares.buscarSimilares(peticion.getLineas().get(0), origen, List.of(origen, tiendaSimilar)))
-				.thenReturn(List.of(similar));
+				.thenReturn(Arrays.asList(null, similar));
 		
 		ResultadoBusqueda resultado = gestionStock.buscarAlternativas(peticion, origen, restricciones);
 
