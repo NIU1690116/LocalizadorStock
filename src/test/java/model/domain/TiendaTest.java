@@ -61,8 +61,14 @@ class TiendaTest {
 
 	@Test
 	void testLatitudLongitudNoFinita() {
-
+		//latitud no finita
+		assertThrows(IllegalArgumentException.class,
+				() -> new Tienda("T001", "Tienda", Double.NaN, 0, inventarioMock));
+		assertThrows(IllegalArgumentException.class,
+				() -> new Tienda("T001", "Tienda", Double.POSITIVE_INFINITY, 0, inventarioMock));
 	}
+
+
 	
 	@Test
     void testInventarioNuloLanzaExcepcion() {
