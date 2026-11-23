@@ -3,6 +3,9 @@ package model.domain;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -168,6 +171,50 @@ class InventarioTest {
 		assertThrows(IllegalArgumentException.class, () -> inventario.productosConStockSuficiente(0));
 		assertThrows(IllegalArgumentException.class, () -> inventario.productosConStockSuficiente(-1));
 		
+	}
+
+	@Test
+	void invariantDetectaEstadosInternosInvalidos() throws ReflectiveOperationException {
+		// Statement coverage: recorre los retornos defensivos false del invariante con estados corruptos controlados
+		Field stockField = Inventario.class.getDeclaredField("stock");
+		Field maximoField = Inventario.class.getDeclaredField("stockMaximo");
+		stockField.setAccessible(true);
+		maximoField.setAccessible(true);
+		Method invariant = Inventario.class.getDeclaredMethod("invariant");
+		invariant.setAccessible(true);
+
+		Inventario stockNulo = new Inventario();
+		stockField.set(stockNulo, null);
+		assertFalse((boolean) invariant.invoke(stockNulo));
+
+		Inventario cantidadNula = new Inventario();
+		((Map<Producto, Integer>) stockField.get(cantidadNula)).put(producto, null);
+		assertFalse((boolean) invariant.invoke(cantidadNula));
+
+		Inventario stockSobreMaximo = new Inventario();
+		((Map<Producto, Integer>) stockField.get(stockSobreMaximo)).put(producto, 2);
+		((Map<Producto, Integer>) maximoField.get(stockSobreMaximo)).put(producto, 1);
+		assertFalse((boolean) invariant.invoke(stockSobreMaximo));
+
+		Inventario maximoConClaveNula = new Inventario();
+		((Map<Producto, Integer>) maximoField.get(maximoConClaveNula)).put(null, 1);
+		assertFalse((boolean) invariant.invoke(maximoConClaveNula));
+
+		Inventario stockDesacordado = new Inventario();
+		Map<Producto, Integer> mapaDesacordado = new java.util.AbstractMap<>() {
+			@Override
+			public Integer get(Object clave) {
+				return 1;
+			}
+
+			@Override
+			public java.util.Set<Entry<Producto, Integer>> entrySet() {
+				return java.util.Collections.emptySet();
+			}
+		};
+		stockField.set(stockDesacordado, mapaDesacordado);
+		((Map<Producto, Integer>) maximoField.get(stockDesacordado)).put(producto, 0);
+		assertFalse((boolean) invariant.invoke(stockDesacordado));
 	}
 
 }

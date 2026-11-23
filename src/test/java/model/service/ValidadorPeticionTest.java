@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ValidadorPeticionTest {
 	Producto producto;
@@ -49,6 +51,15 @@ class ValidadorPeticionTest {
 
         assertTrue(validador.validarPeticion(peticion));
     }
+
+	@Test
+	void rechazaUnaLineaNulaDentroDeLaPeticion() {
+		// Statement coverage: alcanza el return false interno al detectar una línea null
+		Peticion peticionConLineaNula = mock(Peticion.class);
+		when(peticionConLineaNula.getLineas()).thenReturn(java.util.Arrays.asList((LineaPeticion) null));
+
+		assertFalse(validador.validarPeticion(peticionConLineaNula));
+	}
     
     @Test 
     void testReposicionValida() {

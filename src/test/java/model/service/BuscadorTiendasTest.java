@@ -11,6 +11,7 @@ import model.domain.Tienda;
 import model.repository.RepositorioTiendasMock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,6 +20,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Arrays;
+import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -160,6 +163,37 @@ class BuscadorTiendasTest {
 		assertEquals(1, resultado.size());
 		assertEquals(alternativa, resultado.get(0).tienda());
 		assertNotEquals(origenEnRepositorio.getId(), resultado.get(0).tienda().getId());
+	}
+
+	@Test
+	void omiteTiendasNulasDelRepositorio() {
+		// Statement coverage: ejecuta el continue cuando una entrada del repositorio es null
+		Tienda alternativa = repositorio.crearTiendaConStock("T9", "Alternativa", producto, 3);
+		calculadorDistancia.configurarDistancia(alternativa, 2.0);
+		BuscadorTiendas buscadorConNulo = new BuscadorTiendas(
+				() -> Arrays.asList(null, alternativa), calculadorDistancia, estimadorTiempoViaje);
+
+		List<BuscadorTiendas.TiendaConDistancia> resultado = buscadorConNulo.buscarTiendasConStock(
+				origen, new LineaPeticion(producto, 2), new RestriccionesBusqueda());
+
+		assertEquals(1, resultado.size());
+		assertEquals(alternativa, resultado.get(0).tienda());
+	}
+
+	@Test
+	void postcondicionRechazaResultadosInvalidos() throws ReflectiveOperationException {
+		// Statement coverage: invoca la postcondición para recorrer sus retornos defensivos false
+		Method postcondicion = BuscadorTiendas.class.getDeclaredMethod("cumplePostcondicion",
+				List.class, Tienda.class, LineaPeticion.class, RestriccionesBusqueda.class);
+		postcondicion.setAccessible(true);
+		LineaPeticion linea = new LineaPeticion(producto, 1);
+		RestriccionesBusqueda restricciones = new RestriccionesBusqueda();
+
+		assertFalse((boolean) postcondicion.invoke(buscadorTiendas, null, origen, linea, restricciones));
+		assertFalse((boolean) postcondicion.invoke(buscadorTiendas,
+				List.of(new BuscadorTiendas.TiendaConDistancia(null, 1.0, 1)), origen, linea, restricciones));
+		assertFalse((boolean) postcondicion.invoke(buscadorTiendas,
+				List.of(new BuscadorTiendas.TiendaConDistancia(origen, 1.0, 1)), origen, linea, restricciones));
 	}
 	
 }

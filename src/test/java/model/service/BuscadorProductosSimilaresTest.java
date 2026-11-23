@@ -107,11 +107,14 @@ class BuscadorProductosSimilaresTest {
 	
 	@Test
 	void buscaProductosSimilaresConStockSuficienteEnLaTienda() {
-		// Loop testing: una tienda y varios productos candidatos.
+		// Loop testing: una tienda y varios productos candidatos
+		// Statement coverage: incluye el producto solicitado para ejecutar la rama continue por igualdad.
+		// Statement coverage: una tienda null ejecuta también el continue del bucle exterior.
 		Tienda tienda = mock(Tienda.class);
 		Inventario inventario = mock(Inventario.class);
 		when(tienda.getInventario()).thenReturn(inventario);
 		when(inventario.productosConStockSuficiente(2)).thenReturn(List.of(
+				productoBase,
 				producto3de3,
 				producto2de3,
 				producto1de3,
@@ -120,7 +123,7 @@ class BuscadorProductosSimilaresTest {
 		when(calculadorDistancia.calcularKm(origen, tienda)).thenReturn(3.5);
 		when(estimadorTiempoViaje.estimarMinutos(origen, tienda)).thenReturn(12);
 		List<AlternativaProductoSimilar> alternativas = buscador.buscarSimilares(
-				new LineaPeticion(productoBase, 2), origen, List.of(tienda));
+				new LineaPeticion(productoBase, 2), origen, java.util.Arrays.asList(null, tienda));
 
 		assertNotNull(alternativas);
 		assertEquals(3, alternativas.size());

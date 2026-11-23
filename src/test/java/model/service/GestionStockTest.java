@@ -173,6 +173,31 @@ class GestionStockTest {
 		assertEquals(List.of(), linea_2.getAlternativas());
 		assertFalse(resultado_2.estaResuelta());
 	}
+
+	@Test
+	void buscarSimilaresVaciosONulosDevuelveSinSolucion() {
+		// Statement coverage: ejecuta los retornos tempranos para repositorios null y vacío
+		when(buscadorTiendas.buscarTiendasConStock(origen, peticion.getLineas().get(0), restricciones))
+				.thenReturn(List.of());
+		when(servicioReposicion.consultarReposicion(origen, producto)).thenReturn(null);
+
+		when(repositorio.obtenerTiendas()).thenReturn(null);
+		assertEquals(EstadoResolucion.SIN_SOLUCION,
+				gestionStock.buscarAlternativas(peticion, origen, restricciones)
+						.getResultados().get(0).getEstado());
+
+		when(repositorio.obtenerTiendas()).thenReturn(List.of());
+		assertEquals(EstadoResolucion.SIN_SOLUCION,
+				gestionStock.buscarAlternativas(peticion, origen, restricciones)
+						.getResultados().get(0).getEstado());
+
+		when(repositorio.obtenerTiendas()).thenReturn(List.of(origen));
+		when(buscadorSimilares.buscarSimilares(peticion.getLineas().get(0), origen, List.of(origen)))
+				.thenReturn(null);
+		assertEquals(EstadoResolucion.SIN_SOLUCION,
+				gestionStock.buscarAlternativas(peticion, origen, restricciones)
+						.getResultados().get(0).getEstado());
+	}
 	
 	
 }

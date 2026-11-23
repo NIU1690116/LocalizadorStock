@@ -1,6 +1,7 @@
 package model.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -116,6 +118,30 @@ class EvaluadorAlternativasTest {
 
 		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(menorTiempo, mayorTiempo)));
 		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(menorTiempo, duplicada)));
+	}
+
+	@Test
+	void postcondicionDetectaUnaSeleccionQueNoEsLaMejor() throws ReflectiveOperationException {
+		// Statement coverage: explora los retornos false de la postcondición con candidatos deliberadamente incorrectos
+		Method postcondicion = EvaluadorAlternativas.class.getDeclaredMethod(
+				"cumplePostcondicion", List.class, Alternativa.class);
+		postcondicion.setAccessible(true);
+
+		Alternativa seleccionNoIncluida = new AlternativaOtraTienda(tienda, 5, 1.0);
+		Alternativa candidata = new AlternativaOtraTienda(tienda, 10, 2.0);
+		assertFalse((boolean) postcondicion.invoke(evaluador, List.of(candidata), seleccionNoIncluida));
+
+		Alternativa peor = new AlternativaOtraTienda(tienda, 15, 2.0);
+		Alternativa mejor = new AlternativaOtraTienda(tienda, 5, 1.0);
+		assertFalse((boolean) postcondicion.invoke(evaluador, List.of(peor, mejor), peor));
+
+		Alternativa másTarde = new AlternativaOtraTienda(tienda, 108, 0.0);
+		Alternativa másPronto = new AlternativaOtraTienda(tienda, 72, 7.0);
+		assertFalse((boolean) postcondicion.invoke(evaluador, List.of(másTarde, másPronto), másTarde));
+
+		Alternativa másLejos = new AlternativaOtraTienda(tienda, 120, Math.nextUp(1.0));
+		Alternativa másCerca = new AlternativaOtraTienda(tienda, 120, 1.0);
+		assertFalse((boolean) postcondicion.invoke(evaluador, List.of(másLejos, másCerca), másLejos));
 	}
 
 }
