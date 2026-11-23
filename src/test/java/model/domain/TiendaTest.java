@@ -66,9 +66,12 @@ class TiendaTest {
 				() -> new Tienda("T001", "Tienda", Double.NaN, 0, inventarioMock));
 		assertThrows(IllegalArgumentException.class,
 				() -> new Tienda("T001", "Tienda", Double.POSITIVE_INFINITY, 0, inventarioMock));
+		
+		assertThrows(IllegalArgumentException.class,
+				() -> new Tienda("T001", "Tienda", 0, Double.NaN, inventarioMock));
+		assertThrows(IllegalArgumentException.class,
+				() -> new Tienda("T001", "Tienda", 0, Double.NEGATIVE_INFINITY, inventarioMock));
 	}
-
-
 	
 	@Test
     void testInventarioNuloLanzaExcepcion() {
