@@ -31,6 +31,7 @@ class ValidadorPeticionTest {
 
     @Test
     void testValidaPeticionUnaLinea() {
+        // Loop testing: caso de cero iteraciones (petición vacía) y una iteración (una línea válida)
         Peticion peticion = nuevaPeticion();
         peticion.agregarLinea(new LineaPeticion(producto, 2)); 
         assertTrue(validador.validarPeticion(peticion));//linea valida
@@ -41,6 +42,7 @@ class ValidadorPeticionTest {
     
     @Test
     void testValidaPeticionDosLineas() {
+        // Loop testing: el bucle realiza varias iteraciones para validar todas las líneas
         Peticion peticion = nuevaPeticion();
         peticion.agregarLinea(new LineaPeticion(producto, 2)); 
         peticion.agregarLinea(new LineaPeticion(producto_1, 1));
