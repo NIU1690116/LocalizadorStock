@@ -107,6 +107,7 @@ class BuscadorProductosSimilaresTest {
 	
 	@Test
 	void buscaProductosSimilaresConStockSuficienteEnLaTienda() {
+		// Loop testing: una tienda y varios productos candidatos.
 		Tienda tienda = mock(Tienda.class);
 		Inventario inventario = mock(Inventario.class);
 		when(tienda.getInventario()).thenReturn(inventario);
@@ -134,6 +135,12 @@ class BuscadorProductosSimilaresTest {
 						&& Math.abs(a.gradoSimilitud() - 33.33) < 0.01));
 		assertEquals(12, alternativas.get(0).getTiempoEstimadoMinutos());
 		assertEquals(3.5, alternativas.get(0).getDistanciaKm());
+	}
+
+	@Test
+	void buscarSimilaresConCeroTiendasDevuelveListaVacia() {
+		// Loop testing: cero iteraciones del bucle exterior
+		assertTrue(buscador.buscarSimilares(productoBase, origen, List.of()).isEmpty());
 	}
 
 }
