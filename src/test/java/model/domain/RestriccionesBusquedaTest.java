@@ -15,6 +15,7 @@ class RestriccionesBusquedaTest {
     
     @Test
     void testLimitesDistanciasPermitidos() {
+		// Decision + condition coverage: combina nulo, no finito y ambos límites.
     	assertTrue(restricciones.permiteDistancia(8.5));//inferior al limite
     	assertTrue(restricciones.permiteDistancia(10.0));//justo en el limite
         assertFalse(restricciones.permiteDistancia(10.1)); // superior al limite
@@ -31,6 +32,7 @@ class RestriccionesBusquedaTest {
     
     @Test
     void testLimiteEsperaPermitida() {
+		// Decision + condition coverage: combina nulo, valores negativos y ambos límites.
     	assertTrue(restricciones.permiteEspera(60));//inferior al limite
     	assertTrue(restricciones.permiteEspera(120));//justo en el limite
     	assertFalse(restricciones.permiteEspera(121)); // superior al limite
@@ -41,5 +43,10 @@ class RestriccionesBusquedaTest {
         assertTrue(restricciones.permiteEspera(0));// reposición inmediata
         assertFalse(restricciones.permiteEspera(Integer.MAX_VALUE));
     }
+
+	@Test
+	void testGetDistanciaMaximaKm() {
+		assertEquals(10.0, restricciones.getDistanciaMaximaKm(), 0.0);
+	}
 
 }
