@@ -70,6 +70,7 @@ class BuscadorProductosSimilaresTest {
 	
 	@Test
 	void testNormalizar() {
+		// Path coverage: recorrido para null, texto en blanco y texto válido
 	    assertEquals("camisa", buscador.normalizar("  CAMISA  "));
 	    assertNull(buscador.normalizar(null));
 	    assertNull(buscador.normalizar("   "));
