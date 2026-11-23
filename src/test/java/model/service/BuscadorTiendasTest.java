@@ -82,6 +82,7 @@ class BuscadorTiendasTest {
 	
 	@Test
 	void testBuscarTiendasConStock() {
+		// Decision + condition coverage: distancia y stock se varían independientemente.
 	    Tienda cercana = repositorio.crearTiendaConStock(
                 "T1", "Cercana", producto, 3);
 	    Tienda lejana = repositorio.crearTiendaConStock(
