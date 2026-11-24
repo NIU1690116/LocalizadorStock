@@ -19,7 +19,8 @@ public final class ResultadoLineaPeticion {
 			throw new IllegalArgumentException("La línea de petición es obligatoria");
 		}
 		if (alternativas == null || alternativas.stream().anyMatch(Objects::isNull)) {
-			throw new IllegalArgumentException("La lista de alternativas no puede ser nula ni contener nulos");
+			throw new IllegalArgumentException(
+					"La lista de alternativas no puede ser nula ni contener nulos");
 		}
 		if (estado == null) {
 			throw new IllegalArgumentException("El estado de resolución es obligatorio");
@@ -27,10 +28,12 @@ public final class ResultadoLineaPeticion {
 		// Precondiciones: la mejor opción pertenece a la lista
 		// si se propone una alternativa, debe existir una mejor alternativa
 		if (mejorAlternativa != null && !alternativas.contains(mejorAlternativa)) {
-			throw new IllegalArgumentException("La mejor alternativa debe estar en la lista de alternativas");
+			throw new IllegalArgumentException(
+					"La mejor alternativa debe estar en la lista de alternativas");
 		}
 		if (estado == EstadoResolucion.ALTERNATIVA_PROPUESTA && mejorAlternativa == null) {
-			throw new IllegalArgumentException("Debe existir una mejor alternativa cuando se propone una opción");
+			throw new IllegalArgumentException(
+					"Debe existir una mejor alternativa cuando se propone una opción");
 		}
 
 		this.linea = linea;

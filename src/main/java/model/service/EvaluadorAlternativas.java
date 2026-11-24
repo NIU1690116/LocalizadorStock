@@ -96,11 +96,13 @@ public class EvaluadorAlternativas {
 				return false;
 			}
 			if (puntuacionCandidata == puntuacionSeleccionada
-					&& candidata.getTiempoEstimadoMinutos() < seleccionada.getTiempoEstimadoMinutos()) {
+					&& candidata.getTiempoEstimadoMinutos()
+							< seleccionada.getTiempoEstimadoMinutos()) {
 				return false;
 			}
 			if (puntuacionCandidata == puntuacionSeleccionada
-					&& candidata.getTiempoEstimadoMinutos() == seleccionada.getTiempoEstimadoMinutos()
+					&& candidata.getTiempoEstimadoMinutos()
+							== seleccionada.getTiempoEstimadoMinutos()
 					&& candidata.getDistanciaKm() < seleccionada.getDistanciaKm()) {
 				return false;
 			}

@@ -23,8 +23,10 @@ public class ValidadorPeticion {
         return true;
     }
     
-    public boolean validarReposicion(Peticion peticion, LineaPeticion linea, Reposicion reposicion, RestriccionesBusqueda restricciones) {
-    	if (!validarPeticion(peticion) || linea == null || reposicion == null || restricciones == null || !peticion.getLineas().contains(linea)) {
+    public boolean validarReposicion(Peticion peticion, LineaPeticion linea, Reposicion reposicion,
+            RestriccionesBusqueda restricciones) {
+        if (!validarPeticion(peticion) || linea == null || reposicion == null || restricciones == null
+                || !peticion.getLineas().contains(linea)) {
             return false;
         }
     	
