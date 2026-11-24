@@ -141,9 +141,7 @@ public class Inventario {
 			if (producto == null || maximo == null || maximo < 0) {
 				return false;
 			}
-			if (stock.getOrDefault(producto, 0) > maximo) {
-				return false;
-			}
+			
 		}
 		return true;
 	}
