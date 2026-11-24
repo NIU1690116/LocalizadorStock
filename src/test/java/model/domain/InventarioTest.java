@@ -2,8 +2,6 @@ package model.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,5 +170,15 @@ class InventarioTest {
 		assertThrows(IllegalArgumentException.class, () -> inventario.productosConStockSuficiente(0));
 		assertThrows(IllegalArgumentException.class, () -> inventario.productosConStockSuficiente(-1));
 		
+	}
+
+	@Test
+	void validaEstadosInternosDelInventario() {
+		// Statement coverage: estado válido y mapas ausentes.
+		Map<Producto, Integer> stockValido = new HashMap<>();
+		Map<Producto, Integer> maximosValidos = new HashMap<>();
+		assertTrue(Inventario.estadoInternoValido(stockValido, maximosValidos));
+		assertFalse(Inventario.estadoInternoValido(null, maximosValidos));
+		assertFalse(Inventario.estadoInternoValido(stockValido, null));
 	}
 }
