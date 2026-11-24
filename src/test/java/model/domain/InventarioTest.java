@@ -180,5 +180,18 @@ class InventarioTest {
 		assertTrue(Inventario.estadoInternoValido(stockValido, maximosValidos));
 		assertFalse(Inventario.estadoInternoValido(null, maximosValidos));
 		assertFalse(Inventario.estadoInternoValido(stockValido, null));
+		
+		// Statement coverage: entradas de stock con clave o cantidad inválidas
+		Map<Producto, Integer> stockClaveNula = new HashMap<>();
+		stockClaveNula.put(null, 1);
+		assertFalse(Inventario.estadoInternoValido(stockClaveNula, maximosValidos));
+
+		Map<Producto, Integer> stockCantidadNula = new HashMap<>();
+		stockCantidadNula.put(producto, null);
+		assertFalse(Inventario.estadoInternoValido(stockCantidadNula, maximosValidos));
+
+		Map<Producto, Integer> stockNegativo = new HashMap<>();
+		stockNegativo.put(producto, -1);
+		assertFalse(Inventario.estadoInternoValido(stockNegativo, maximosValidos));
 	}
 }
