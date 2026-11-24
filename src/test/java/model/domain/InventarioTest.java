@@ -193,5 +193,12 @@ class InventarioTest {
 		Map<Producto, Integer> stockNegativo = new HashMap<>();
 		stockNegativo.put(producto, -1);
 		assertFalse(Inventario.estadoInternoValido(stockNegativo, maximosValidos));
+		
+		// Statement coverage: el stock no puede superar el máximo configurado
+		Map<Producto, Integer> stockSobreMaximo = new HashMap<>();
+		stockSobreMaximo.put(producto, 2);
+		Map<Producto, Integer> maximoConfigurado = new HashMap<>();
+		maximoConfigurado.put(producto, 1);
+		assertFalse(Inventario.estadoInternoValido(stockSobreMaximo, maximoConfigurado));
 	}
 }
