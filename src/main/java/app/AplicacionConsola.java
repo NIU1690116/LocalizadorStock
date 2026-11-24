@@ -189,7 +189,8 @@ public class AplicacionConsola {
 		};
 		ProveedorReposicion proveedorReposicion = (tienda, producto) -> {
 			if (tienda.getId().equals("T001")
-					&& (producto.getCodigo().equals("P001") || producto.getCodigo().equals("P002"))) {
+					&& (producto.getCodigo().equals("P001")
+							|| producto.getCodigo().equals("P002"))) {
 				return new Reposicion(producto, 2, LocalDateTime.now().plusMinutes(45));
 			}
 			return null;

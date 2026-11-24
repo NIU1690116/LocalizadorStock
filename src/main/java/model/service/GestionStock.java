@@ -83,13 +83,15 @@ public class GestionStock {
 		if (!similares.isEmpty()) {
 			List<Alternativa> alternativasSimilares = new ArrayList<>(similares);
 			return new ResultadoLineaPeticion(
-					linea, alternativasSimilares, similares.get(0), EstadoResolucion.ALTERNATIVA_PROPUESTA);
+					linea, alternativasSimilares, similares.get(0),
+					EstadoResolucion.ALTERNATIVA_PROPUESTA);
 		}
 		return new ResultadoLineaPeticion(linea, List.of(), null, EstadoResolucion.SIN_SOLUCION);
 	}
 	
 	private List<Alternativa> buscarAlternativasDeStock(
-			Peticion peticion, Tienda origen, LineaPeticion linea, int stockActual, RestriccionesBusqueda restricciones) {
+			Peticion peticion, Tienda origen, LineaPeticion linea, int stockActual,
+			RestriccionesBusqueda restricciones) {
 		List<Alternativa> alternativas = new ArrayList<>();
 		List<BuscadorTiendas.TiendaConDistancia> tiendas =
 				buscadorTiendas.buscarTiendasConStock(origen, linea, restricciones);
@@ -97,7 +99,8 @@ public class GestionStock {
 			for (BuscadorTiendas.TiendaConDistancia candidata : tiendas) {
 				if (candidata != null && candidata.tienda() != null) {
 					alternativas.add(new AlternativaOtraTienda(
-							candidata.tienda(), candidata.tiempoEstimadoMinutos(), candidata.distancia()));
+							candidata.tienda(), candidata.tiempoEstimadoMinutos(),
+							candidata.distancia()));
 				}
 			}
 		}
@@ -106,14 +109,17 @@ public class GestionStock {
 		if (cantidadFaltante > 0) {
 			Reposicion reposicion = servicioReposicion.consultarReposicion(origen, linea.getProducto());
 			if (reposicion != null) {
-				Peticion peticionFaltante = new Peticion(peticion.getId(), peticion.getFechaSolicitud());
+				Peticion peticionFaltante = new Peticion(
+						peticion.getId(), peticion.getFechaSolicitud());
 				LineaPeticion lineaFaltante = new LineaPeticion(linea.getProducto(), cantidadFaltante);
 				peticionFaltante.agregarLinea(lineaFaltante);
 				if (validador.validarReposicion(
 						peticionFaltante, lineaFaltante, reposicion, restricciones)) {
 					int minutosEspera = Math.toIntExact(Duration.between(
-							peticion.getFechaSolicitud(), reposicion.getFechaPrevista()).toMinutes());
-					alternativas.add(new AlternativaReposicion(origen, reposicion, minutosEspera, 0.0));
+							peticion.getFechaSolicitud(),
+							reposicion.getFechaPrevista()).toMinutes());
+					alternativas.add(new AlternativaReposicion(
+							origen, reposicion, minutosEspera, 0.0));
 				}
 			}
 		}
