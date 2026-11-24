@@ -2,6 +2,7 @@ package view;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import model.domain.AlternativaOtraTienda;
+import model.domain.Alternativa;
 import model.domain.AlternativaProductoSimilar;
 import model.domain.AlternativaReposicion;
 import model.domain.EstadoResolucion;
@@ -32,6 +34,12 @@ class VistaLocalizadorStockTest {
 	void setUp() {
 		contenido = new ByteArrayOutputStream();
 		vista = new VistaLocalizadorStock(new PrintStream(contenido, true, StandardCharsets.UTF_8));
+	}
+
+	@Test
+	void constructorPorDefecto() {
+		// Statement coverage: ejecuta el constructor que delega en System.out.
+		assertDoesNotThrow(() -> new VistaLocalizadorStock());
 	}
 
 	@Test
@@ -83,6 +91,20 @@ class VistaLocalizadorStockTest {
 				// Caso: alternativa de producto similar
 				assertTrue(texto.contains("producto similar: Chaqueta azul en Sur (100.0%, 20 min, 4.0 km)"));
 }
+
+	@Test
+	void muestraAlternativaGenerica() {
+		// Statement coverage: ejecuta el último return de describir para un subtipo 
+		Alternativa generica = new Alternativa(7, 1.5) {};
+		ResultadoBusqueda resultado = new ResultadoBusqueda(List.of(
+				new ResultadoLineaPeticion(linea(producto("P006", "Producto"), 2),
+						List.of(generica), generica, EstadoResolucion.ALTERNATIVA_PROPUESTA)));
+
+		vista.mostrarResultado(resultado);
+
+		assertTrue(contenido.toString(StandardCharsets.UTF_8)
+				.contains("alternativa propuesta (7 min, 1.5 km)."));
+	}
 
 	private Producto producto(String codigo, String nombre) {
 		return new Producto(codigo, nombre, "Azul", "Ropa", "Unisex");

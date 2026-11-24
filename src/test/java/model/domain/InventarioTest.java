@@ -2,7 +2,9 @@ package model.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,6 +60,24 @@ class InventarioTest {
 
         // El stock debe permanecer intacto tras el error.
         assertEquals(3, inventario.consultarStock(producto));
+    }
+
+    @Test
+    void retirarCantidadNoPositivaLanzaExcepcion() {
+        // Cubre la rama que rechaza cantidad <= 0 en retirarStock.
+        assertThrows(IllegalArgumentException.class, () -> inventario.retirarStock(producto, 0));
+    }
+
+    @Test
+    void consultarStockSuficienteConCantidadNegativaLanzaExcepcion() {
+        // Cubre la validación específica de hayStockSuficiente para cantidades negativas.
+        assertThrows(IllegalArgumentException.class, () -> inventario.hayStockSuficiente(producto, -1));
+    }
+
+    @Test
+    void consultarStockConProductoNuloLanzaExcepcion() {
+        // Cubre la rama de validarProducto que rechaza producto == null.
+        assertThrows(IllegalArgumentException.class, () -> inventario.consultarStock(null));
     }
 
     @Test
@@ -152,4 +172,46 @@ class InventarioTest {
 		
 	}
 
+	@Test
+	void validaEstadosInternosDelInventario() {
+		// Statement coverage: estado válido y mapas ausentes.
+		Map<Producto, Integer> stockValido = new HashMap<>();
+		Map<Producto, Integer> maximosValidos = new HashMap<>();
+		assertTrue(Inventario.estadoInternoValido(stockValido, maximosValidos));
+		assertFalse(Inventario.estadoInternoValido(null, maximosValidos));
+		assertFalse(Inventario.estadoInternoValido(stockValido, null));
+		
+		// Statement coverage: entradas de stock con clave o cantidad inválidas
+		Map<Producto, Integer> stockClaveNula = new HashMap<>();
+		stockClaveNula.put(null, 1);
+		assertFalse(Inventario.estadoInternoValido(stockClaveNula, maximosValidos));
+
+		Map<Producto, Integer> stockCantidadNula = new HashMap<>();
+		stockCantidadNula.put(producto, null);
+		assertFalse(Inventario.estadoInternoValido(stockCantidadNula, maximosValidos));
+
+		Map<Producto, Integer> stockNegativo = new HashMap<>();
+		stockNegativo.put(producto, -1);
+		assertFalse(Inventario.estadoInternoValido(stockNegativo, maximosValidos));
+		
+		// Statement coverage: el stock no puede superar el máximo configurado
+		Map<Producto, Integer> stockSobreMaximo = new HashMap<>();
+		stockSobreMaximo.put(producto, 2);
+		Map<Producto, Integer> maximoConfigurado = new HashMap<>();
+		maximoConfigurado.put(producto, 1);
+		assertFalse(Inventario.estadoInternoValido(stockSobreMaximo, maximoConfigurado));
+		
+		// Statement coverage: las entradas del máximo también deben ser validas
+		Map<Producto, Integer> maximoClaveNula = new HashMap<>();
+		maximoClaveNula.put(null, 1);
+		assertFalse(Inventario.estadoInternoValido(stockValido, maximoClaveNula));
+
+		Map<Producto, Integer> maximoValorNulo = new HashMap<>();
+		maximoValorNulo.put(producto, null);
+		assertFalse(Inventario.estadoInternoValido(stockValido, maximoValorNulo));
+
+		Map<Producto, Integer> maximoNegativo = new HashMap<>();
+		maximoNegativo.put(producto, -1);
+		assertFalse(Inventario.estadoInternoValido(stockValido, maximoNegativo));
+	}
 }

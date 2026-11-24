@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -147,8 +148,9 @@ class GestionStockTest {
 				.thenReturn(List.of());
 		when(servicioReposicion.consultarReposicion(origen, producto)).thenReturn(null);
 		when(repositorio.obtenerTiendas()).thenReturn(List.of(origen, tiendaSimilar));
+		// Decision + condition coverage: el filtro recibe una alternativa nula y otra válida.
 		when(buscadorSimilares.buscarSimilares(peticion.getLineas().get(0), origen, List.of(origen, tiendaSimilar)))
-				.thenReturn(List.of(similar));
+				.thenReturn(Arrays.asList(null, similar));
 		
 		ResultadoBusqueda resultado = gestionStock.buscarAlternativas(peticion, origen, restricciones);
 
@@ -172,6 +174,31 @@ class GestionStockTest {
 		assertNull(linea_2.getMejorAlternativa());
 		assertEquals(List.of(), linea_2.getAlternativas());
 		assertFalse(resultado_2.estaResuelta());
+	}
+
+	@Test
+	void buscarSimilaresVaciosONulosDevuelveSinSolucion() {
+		// Statement coverage: ejecuta los retornos tempranos para repositorios null y vacío
+		when(buscadorTiendas.buscarTiendasConStock(origen, peticion.getLineas().get(0), restricciones))
+				.thenReturn(List.of());
+		when(servicioReposicion.consultarReposicion(origen, producto)).thenReturn(null);
+
+		when(repositorio.obtenerTiendas()).thenReturn(null);
+		assertEquals(EstadoResolucion.SIN_SOLUCION,
+				gestionStock.buscarAlternativas(peticion, origen, restricciones)
+						.getResultados().get(0).getEstado());
+
+		when(repositorio.obtenerTiendas()).thenReturn(List.of());
+		assertEquals(EstadoResolucion.SIN_SOLUCION,
+				gestionStock.buscarAlternativas(peticion, origen, restricciones)
+						.getResultados().get(0).getEstado());
+
+		when(repositorio.obtenerTiendas()).thenReturn(List.of(origen));
+		when(buscadorSimilares.buscarSimilares(peticion.getLineas().get(0), origen, List.of(origen)))
+				.thenReturn(null);
+		assertEquals(EstadoResolucion.SIN_SOLUCION,
+				gestionStock.buscarAlternativas(peticion, origen, restricciones)
+						.getResultados().get(0).getEstado());
 	}
 	
 	

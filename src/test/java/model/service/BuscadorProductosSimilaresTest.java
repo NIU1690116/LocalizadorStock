@@ -70,6 +70,7 @@ class BuscadorProductosSimilaresTest {
 	
 	@Test
 	void testNormalizar() {
+		// Path coverage: recorrido para null, texto en blanco y texto válido
 	    assertEquals("camisa", buscador.normalizar("  CAMISA  "));
 	    assertNull(buscador.normalizar(null));
 	    assertNull(buscador.normalizar("   "));
@@ -106,10 +107,14 @@ class BuscadorProductosSimilaresTest {
 	
 	@Test
 	void buscaProductosSimilaresConStockSuficienteEnLaTienda() {
+		// Loop testing: una tienda y varios productos candidatos
+		// Statement coverage: incluye el producto solicitado para ejecutar la rama continue por igualdad.
+		// Statement coverage: una tienda null ejecuta también el continue del bucle exterior.
 		Tienda tienda = mock(Tienda.class);
 		Inventario inventario = mock(Inventario.class);
 		when(tienda.getInventario()).thenReturn(inventario);
 		when(inventario.productosConStockSuficiente(2)).thenReturn(List.of(
+				productoBase,
 				producto3de3,
 				producto2de3,
 				producto1de3,
@@ -118,7 +123,7 @@ class BuscadorProductosSimilaresTest {
 		when(calculadorDistancia.calcularKm(origen, tienda)).thenReturn(3.5);
 		when(estimadorTiempoViaje.estimarMinutos(origen, tienda)).thenReturn(12);
 		List<AlternativaProductoSimilar> alternativas = buscador.buscarSimilares(
-				new LineaPeticion(productoBase, 2), origen, List.of(tienda));
+				new LineaPeticion(productoBase, 2), origen, java.util.Arrays.asList(null, tienda));
 
 		assertNotNull(alternativas);
 		assertEquals(3, alternativas.size());
@@ -133,6 +138,12 @@ class BuscadorProductosSimilaresTest {
 						&& Math.abs(a.gradoSimilitud() - 33.33) < 0.01));
 		assertEquals(12, alternativas.get(0).getTiempoEstimadoMinutos());
 		assertEquals(3.5, alternativas.get(0).getDistanciaKm());
+	}
+
+	@Test
+	void buscarSimilaresConCeroTiendasDevuelveListaVacia() {
+		// Loop testing: cero iteraciones del bucle exterior
+		assertTrue(buscador.buscarSimilares(productoBase, origen, List.of()).isEmpty());
 	}
 
 }

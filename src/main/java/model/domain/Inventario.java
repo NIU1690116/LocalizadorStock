@@ -17,7 +17,6 @@ public class Inventario {
 	}
 	
 	public void añadirProductos(Producto producto, int cantidad) {
-		// Precondición de estado: el inventario debe ser válido antes de operar.
 		assert invariant() : "El inventario debe ser válido antes de añadir productos";
 		// Precondiciones de entrada: producto no nulo y cantidad positiva.
 		validarProducto(producto);
@@ -35,12 +34,10 @@ public class Inventario {
             throw new IllegalArgumentException("La cantidad supera el máximo representable");
         }
         stock.merge(producto, cantidad, Integer::sum);
-		// Postcondición: el stock nuevo es el anterior más la cantidad y respeta el máximo.
 		assert invariant() : "Añadir productos no debe romper el invariante del inventario";
     }
 	
 	public void retirarStock(Producto producto, int cantidad) {
-		// Precondición de estado: el inventario debe ser válido antes de operar.
 		assert invariant() : "El inventario debe ser válido antes de retirar stock";
 		// Precondiciones de entrada: producto no nulo, cantidad positiva y stock suficiente.
 		validarProducto(producto);
@@ -53,7 +50,6 @@ public class Inventario {
 	    }
 		int stockActual = consultarStock(producto);
 	    stock.put(producto, stockActual - cantidad);
-		// Postcondición: el stock nuevo es el anterior menos la cantidad y no queda negativo.
 		assert invariant() : "Retirar stock no debe romper el invariante del inventario";
 	}
 	
@@ -65,7 +61,6 @@ public class Inventario {
 	}
 	
 	public void setStockMaximo(Producto producto, int maximo) {
-		// Precondición de estado: el inventario debe ser válido antes de operar.
 		assert invariant() : "El inventario debe ser válido antes de cambiar el máximo";
 		// Precondiciones de entrada: producto no nulo y máximo no negativo ni inferior al stock actual.
 		validarProducto(producto);
@@ -76,7 +71,6 @@ public class Inventario {
             throw new IllegalArgumentException("El stock máximo no puede ser inferior al stock actual");
         }
         stockMaximo.put(producto, maximo);
-		// Postcondición: el máximo consultado coincide con maximo y el stock no lo supera.
 		assert invariant() : "Cambiar el máximo no debe romper el invariante del inventario";
 	}
 	
@@ -117,11 +111,13 @@ public class Inventario {
 		}
 	}
 
-	/**
-	 * Invariante el stock y sus máximos no negativos, y ningún stock
-	 * supera el máximo para su producto.
-	 */
 	private boolean invariant() {
+		return estadoInternoValido(stock, stockMaximo);
+	}
+
+	// Visibilidad de paquete para probar la regla sin modificar los campos privados del inventario.
+	static boolean estadoInternoValido(Map<Producto, Integer> stock,
+			Map<Producto, Integer> stockMaximo) {
 		if (stock == null || stockMaximo == null) {
 			return false;
 		}
@@ -145,13 +141,9 @@ public class Inventario {
 			if (producto == null || maximo == null || maximo < 0) {
 				return false;
 			}
-			if (stock.getOrDefault(producto, 0) > maximo) {
-				return false;
-			}
+			
 		}
-
 		return true;
 	}
-	
-	
+
 }

@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class ValidadorPeticionTest {
 	Producto producto;
@@ -31,6 +33,7 @@ class ValidadorPeticionTest {
 
     @Test
     void testValidaPeticionUnaLinea() {
+        // Loop testing: caso de cero iteraciones (petición vacía) y una iteración (una línea válida)
         Peticion peticion = nuevaPeticion();
         peticion.agregarLinea(new LineaPeticion(producto, 2)); 
         assertTrue(validador.validarPeticion(peticion));//linea valida
@@ -41,12 +44,22 @@ class ValidadorPeticionTest {
     
     @Test
     void testValidaPeticionDosLineas() {
+        // Loop testing: el bucle realiza varias iteraciones para validar todas las líneas
         Peticion peticion = nuevaPeticion();
         peticion.agregarLinea(new LineaPeticion(producto, 2)); 
         peticion.agregarLinea(new LineaPeticion(producto_1, 1));
 
         assertTrue(validador.validarPeticion(peticion));
     }
+
+	@Test
+	void rechazaUnaLineaNulaDentroDeLaPeticion() {
+		// Statement coverage: alcanza el return false interno al detectar una línea null
+		Peticion peticionConLineaNula = mock(Peticion.class);
+		when(peticionConLineaNula.getLineas()).thenReturn(java.util.Arrays.asList((LineaPeticion) null));
+
+		assertFalse(validador.validarPeticion(peticionConLineaNula));
+	}
     
     @Test 
     void testReposicionValida() {

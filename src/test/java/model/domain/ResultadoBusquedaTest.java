@@ -18,6 +18,15 @@ class ResultadoBusquedaTest {
 	}
 
 	@Test
+	void testResultadoBusquedaRechazaElementosNulos() {
+		//caja blanca: Cubre la validación que rechaza una lista no vacía que contiene un resultado nulo
+		List<ResultadoLineaPeticion> resultadosConNulo = new ArrayList<>();
+		resultadosConNulo.add(null);
+
+		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(resultadosConNulo));
+	}
+
+	@Test
 	void testResultadosListaNoModificable() {
 		ArrayList<ResultadoLineaPeticion> resultadosEntrada = new ArrayList<>();
 		ResultadoLineaPeticion resultadoLinea = resultadoLinea("P001", EstadoResolucion.RESUELTA);

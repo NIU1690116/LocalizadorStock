@@ -1,6 +1,7 @@
 package model.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.reflect.Method;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +47,7 @@ class EvaluadorAlternativasTest {
 	
 	@Test
 	void tesListaAlternativaInvalida() {
+		// Loop testing: cero iteraciones con la lista vacía
 		assertThrows(IllegalArgumentException.class,//lista nula
 				() -> evaluador.seleccionarMejor(null));
 		assertNull(evaluador.seleccionarMejor(List.of()));//null si no hay alternativas(lista vacia)
@@ -52,6 +55,7 @@ class EvaluadorAlternativasTest {
 	
 	@Test
 	void testCumpleRestricciones() {
+		// Loop testing: una iteración y varias alternativas en la lista
 		//desplazamiento tiene un peso del 30% y el de espera de 70%
 		//el dezplazamiento tiene un porcentaje inferior de desfavorilidad
 		Alternativa espera = new AlternativaReposicion(tienda, reposicion, 120, 0.0);
@@ -83,8 +87,61 @@ class EvaluadorAlternativasTest {
 		assertNull(evaluador.seleccionarMejor(List.of(fueraDeRango)));
 	}
 
+	@Test
+	void testDesempataPorMenorTiempoCuandoLaPuntuacionEsIgual() {
+		// Las dos alternativas puntúan exactamente igual; debe ganar la de menor tiempo.
+		Alternativa mayorTiempo = new AlternativaOtraTienda(tienda, 108, 0.0);
+		Alternativa menorTiempo = new AlternativaOtraTienda(tienda, 72, 7.0);
+		PoliticaBusqueda politica = new PoliticaBusqueda();
+		assertEquals(politica.calcularPuntuacion(mayorTiempo), politica.calcularPuntuacion(menorTiempo), 0.0);
 
-	
-	
+		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(mayorTiempo, menorTiempo)));
+	}
+
+	@Test
+	void estDesempataPorMenorDistanciaCuandoTiempoYPuntuacionEmpatan() {
+		// A 120 minutos, estas distancias adyacentes producen la misma puntuación double.
+		Alternativa mayorDistancia = new AlternativaOtraTienda(tienda, 120, Math.nextUp(1.0));
+		Alternativa menorDistancia = new AlternativaOtraTienda(tienda, 120, 1.0);
+		PoliticaBusqueda politica = new PoliticaBusqueda();
+		assertEquals(politica.calcularPuntuacion(mayorDistancia), politica.calcularPuntuacion(menorDistancia), 0.0);
+
+		assertEquals(menorDistancia, evaluador.seleccionarMejor(List.of(mayorDistancia, menorDistancia)));
+	}
+
+	@Test
+	void tetConservaLaPrimeraAlternativaSiElTiempoDelEmpateNoMejora() {
+		// Cubre el empate de puntuación con mayor tiempo y el empate exacto sin mejora de distancia.
+		Alternativa menorTiempo = new AlternativaOtraTienda(tienda, 72, 7.0);
+		Alternativa mayorTiempo = new AlternativaOtraTienda(tienda, 108, 0.0);
+		Alternativa duplicada = new AlternativaOtraTienda(tienda, 72, 7.0);
+
+		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(menorTiempo, mayorTiempo)));
+		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(menorTiempo, duplicada)));
+	}
+
+	@Test
+	void postcondicionDetectaUnaSeleccionQueNoEsLaMejor() throws ReflectiveOperationException {
+		// Statement coverage: explora los retornos false de la postcondición con candidatos deliberadamente incorrectos
+		Method postcondicion = EvaluadorAlternativas.class.getDeclaredMethod(
+				"cumplePostcondicion", List.class, Alternativa.class);
+		postcondicion.setAccessible(true);
+
+		Alternativa seleccionNoIncluida = new AlternativaOtraTienda(tienda, 5, 1.0);
+		Alternativa candidata = new AlternativaOtraTienda(tienda, 10, 2.0);
+		assertFalse((boolean) postcondicion.invoke(evaluador, List.of(candidata), seleccionNoIncluida));
+
+		Alternativa peor = new AlternativaOtraTienda(tienda, 15, 2.0);
+		Alternativa mejor = new AlternativaOtraTienda(tienda, 5, 1.0);
+		assertFalse((boolean) postcondicion.invoke(evaluador, List.of(peor, mejor), peor));
+
+		Alternativa másTarde = new AlternativaOtraTienda(tienda, 108, 0.0);
+		Alternativa másPronto = new AlternativaOtraTienda(tienda, 72, 7.0);
+		assertFalse((boolean) postcondicion.invoke(evaluador, List.of(másTarde, másPronto), másTarde));
+
+		Alternativa másLejos = new AlternativaOtraTienda(tienda, 120, Math.nextUp(1.0));
+		Alternativa másCerca = new AlternativaOtraTienda(tienda, 120, 1.0);
+		assertFalse((boolean) postcondicion.invoke(evaluador, List.of(másLejos, másCerca), másLejos));
+	}
 
 }

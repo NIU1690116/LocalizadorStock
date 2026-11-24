@@ -7,11 +7,6 @@ import org.junit.jupiter.api.Test;
 
 class ProductoTest {
 	
-	@BeforeEach
-	public void setup() {
-		
-	}
-
 	@Test
     void dosProductosConElMismoCodigoSonIguales() {
         Producto a = new Producto("P001", "Camiseta", "rojo", "camisetas", "hombre");
@@ -20,7 +15,6 @@ class ProductoTest {
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }
-	
 	
 	@Test
     void exponeSusAtributos() {
@@ -81,5 +75,7 @@ class ProductoTest {
 		Producto b = new Producto("P002", "Camiseta", "rojo", "camisetas", "hombre");
 
 		assertNotEquals(a, b);
+		// Statement coverage: cubre equals al compararlo con un tipo que no es Producto
+		assertNotEquals(a, "P001");
 	}
 }
