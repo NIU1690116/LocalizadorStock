@@ -7,6 +7,12 @@ import model.domain.Alternativa;
 import model.domain.AlternativaReposicion;
 import model.domain.RestriccionesBusqueda;
 
+/**
+ * Filtra y ordena alternativas de stock según política de puntuación y sus
+ * restricciones. Evalúa la distancia de todas las alternativas y la espera de
+ * las reposiciones y entonces selecciona la de menor puntuación y aplica desempates por
+ * tiempo y distancia
+ */
 public class EvaluadorAlternativas {
 	private final PoliticaBusqueda politica;
 	private final RestriccionesBusqueda restricciones;
@@ -25,10 +31,24 @@ public class EvaluadorAlternativas {
 		assert invariant() : "El evaluador debe tener política y restricciones";
 	}
 
+	/**
+	 * Comprueba que las dependencias obligatorias del evaluador estén inicializadas.
+	 * @return true si hay política y restricciones,  false caso contrario
+	 * Lógica: comprueba que ambas referencias no sean nulas
+	 */
 	private boolean invariant() {
 		return politica != null && restricciones != null;
 	}
 	
+	/**
+	 * Selecciona la alternativa valida con menor puntuación
+	 * @param alternativas alternativas candidata, los elementos nulos se ignoran
+	 * @return mejor alternativa válida, o null si ninguna cumple las restricciones
+	 * @throws IllegalArgumentException si la lista es null}ç
+	 * Lógica: filtra candidatas por restricciones, calcula sus puntuaciones y conserva
+	 * la menor. Si hay empate, gana menor tiempo y luego menor distancia, al final
+	 * comprueba mediante una aserción que la selección cumple la postcondición
+	 */
 	public Alternativa seleccionarMejor(List<Alternativa> alternativas) {
 		// Precondición: la lista debe existir; sus elementos nulos se ignoran.
 		if (alternativas == null) {
@@ -70,12 +90,21 @@ public class EvaluadorAlternativas {
 	            }
 	        }
 	    }
-	    // Postcondición: devuelve la candidata válida mejor puntuada, o null si no hay ninguna válida.
+	    // Postcondición: devuelve la candidata válida mejor puntuada, o null si no hay ninguna válida
 	    assert cumplePostcondicion(alternativas, mejorAlternativa)
 		    : "La alternativa seleccionada debe ser la mejor candidata válida";
 	    return mejorAlternativa;
 	}
 
+	/**
+	 * Comprueba que la selección pertenece a la lista y es la mejor candidata admisible
+	 * @param alternativas lista original de candidatas
+	 * @param seleccionada alternativa elegida, o {@code null} si no se eligió ninguna
+	 * @return true si no existe una candidata admisible mejor, false en caso contrario
+	 * Lógica: si no hay selección verifica que ninguna alternativa no nula cumpla las
+	 * restricciones. Si hay selección, comprueba que está en la lista, es admisible y
+	 * que ninguna candidata la supera por puntuación o por criterios de desempate
+	 */
 	private boolean cumplePostcondicion(List<Alternativa> alternativas, Alternativa seleccionada) {
 		if (seleccionada == null) {
 			return alternativas.stream()
@@ -110,6 +139,13 @@ public class EvaluadorAlternativas {
 		return true;
 	}
 	
+	/**
+	 * Comprueba las restricciones aplicables a una alternativa
+	 * @param alternativa alternativa que se evalúa, debe ser no nula
+	 * @return true si respeta la distancia máxima y si es reposición la espera máxima
+	 * Lógica: rechaza primero las alternativas que exceden la distancia, para una
+	 * reposición, comprueba tambien el tiempo de espera
+	 */
 	private boolean cumpleRestricciones(Alternativa alternativa) {
 		if (!restricciones.permiteDistancia(alternativa.getDistanciaKm())) {
 			return false;
