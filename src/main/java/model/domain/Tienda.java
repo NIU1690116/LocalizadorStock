@@ -1,5 +1,9 @@
 package model.domain;
 
+/**
+ * Representa una tienda con id, nombre, ubicación geográfica e inventario.
+ * Valida sus datos al construirse y ofrece acceso a ellos y al stock de sus productos
+ */
 public class Tienda {
 	private final String id;
 	private final String nombre;
@@ -22,13 +26,11 @@ public class Tienda {
 		if (!Double.isFinite(longitud) || longitud < -180 || longitud > 180) {
             throw new IllegalArgumentException("Longitud no válida");
         }
-		
 		if (inventario == null) {
             throw new IllegalArgumentException(
                 "El inventario no puede ser null"
             );
         }
-		
 		this.id = id;
 		this.nombre = nombre;
 		this.latitud = latitud;
@@ -38,6 +40,12 @@ public class Tienda {
 		assert invariant() : "La tienda debe cumplir sus invariantes después de construirse";
 	}
 
+	/**
+	 * Comprueba que la identidad, la ubicación y el inventario sean válidos
+	 * @return true si todos los campos cumplen sus condiciones, false en caso contrario
+	 * Lógica: verifica que los textos no sean nulos ni vacíos, que las coordenadas
+	 * sean finitas y estén dentro de sus rangos geográficos y que exista inventario
+	 */
 	private boolean invariant() {
 		return id != null && !id.trim().isEmpty()
 				&& nombre != null && !nombre.trim().isEmpty()
@@ -46,7 +54,6 @@ public class Tienda {
 				&& inventario != null;
 	}
 	
-    // getters and setters
 	public String getId() {
 		return id;
 	}
@@ -63,12 +70,22 @@ public class Tienda {
 		return longitud;
 	}
 
+	/**
+	 * Obtiene el inventario asociado a la tienda.
+	 * @return inventario de la tienda
+	 * Lógica: devuelve la referencia al inventario almacenado
+	 */
 	public Inventario getInventario() {
 		return inventario;
 	}
 	
+	/**
+	 * Consulta cuántas unidades de un producto hay en esta tienda
+	 * @param producto producto cuyo stock se consulta
+	 * @return número de unidades que informa el inventario
+	 * Lógica: delega la consulta en el inventario asociado y devuelve su resultado
+	 */
 	public int consultarStock(Producto producto) {
-		// Postcondición: devuelve el stock que ese inventario registra para el producto
         return inventario.consultarStock(producto);
     }	
 

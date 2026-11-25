@@ -1,10 +1,14 @@
 package model.domain;
 
+/**
+ * Representa una línea de una petición, un producto y la cantidad solicitada
+ * Ambos valores son inmutables y la cantidad debe ser positiva
+ */
 public class LineaPeticion {
 	private final Producto producto;
     private final int cantidad;
     
-    public LineaPeticion(Producto producto, int cantidad) {
+	public LineaPeticion(Producto producto, int cantidad) {
 		// Precondiciones: el producto es obligatorio y la cantidad debe ser positiva
     	if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
@@ -18,22 +22,22 @@ public class LineaPeticion {
 		assert invariant() : "La línea de petición debe ser válida después de construirse";
     }
 
+	//Comprueba que la línea tenga producto y cantidad válida.
 	private boolean invariant() {
 		return producto != null && cantidad > 0;
     }
 
+	//Obtiene el producto asociado a la línea.
 	public Producto getProducto() {
 		// Postcondición: devuelve el producto asociado a esta línea
 		assert invariant();
 		return producto;
 	}
 
+	// Obtiene la cantidad solicitada
 	public int getCantidad() {
 		// Postcondición: devuelve la cantidad positiva asociada a esta línea
 		assert invariant();
 		return cantidad;
 	}
-    
-
-
 }
