@@ -14,6 +14,12 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ * Pruebas de validación de peticiones y reposiciones
+ * Usa particiones de equivalencia para argumentos nulos, peticiones vacías y
+ * líneas válidas o inválidas, además de pruebas de límite para la espera y la
+ * cantidad
+ */
 class ValidadorPeticionTest {
 	Producto producto;
 	Producto producto_1;
@@ -31,6 +37,11 @@ class ValidadorPeticionTest {
 		restricciones = new RestriccionesBusqueda();
 	}
 
+    /**
+     * Comprueba las particiones de petición nula, vacía y con una línea válida
+     * Tipo: particiones de equivalencia, cubre además el bucle con cero y una
+     * iteración y la aceptación de una petición válida --> caja negra
+     */
     @Test
     void testValidaPeticionUnaLinea() {
         // Loop testing: caso de cero iteraciones (petición vacía) y una iteración (una línea válida)
@@ -42,6 +53,11 @@ class ValidadorPeticionTest {
         assertFalse(validador.validarPeticion(nuevaPeticion()));//petició vacia
     }
     
+    /**
+     * Comprueba la validación de una petición con varias líneas válidas.
+     * Tipo: caja blanca, prueba de bucle con varias iteraciones, y caja negra
+     * sobre la aceptación de la petición.
+     */
     @Test
     void testValidaPeticionDosLineas() {
         // Loop testing: el bucle realiza varias iteraciones para validar todas las líneas
@@ -52,6 +68,11 @@ class ValidadorPeticionTest {
         assertTrue(validador.validarPeticion(peticion));
     }
 
+	/**
+	 * Comprueba que una petición cuya lista contiene una línea nula se rechaza.
+	 * Tipo: caja blanca, cobertura de la rama de rechazo de línea inválida, usa
+	 * un mock para construir el estado normal de Peticion impide crear
+	 */
 	@Test
 	void rechazaUnaLineaNulaDentroDeLaPeticion() {
 		// Statement coverage: alcanza el return false interno al detectar una línea null
@@ -61,6 +82,13 @@ class ValidadorPeticionTest {
 		assertFalse(validador.validarPeticion(peticionConLineaNula));
 	}
     
+    /**
+     * Comprueba una reposición válida justo en el máximo de espera y el rechazo
+     * de fechas anteriores a la solicitud.
+     * Tipo: prueba de límite en 120 minutos y partición válida/no válida de fechas
+     * Los dos casos rechazados están antes de la solicitud; este test no cubre
+     * una fecha posterior al máximo permitido.
+     */
     @Test 
     void testReposicionValida() {
     	Peticion peticion = nuevaPeticion();
@@ -77,6 +105,12 @@ class ValidadorPeticionTest {
         assertFalse(validador.validarReposicion(peticion, linea, reposicion_2, restricciones)); 
     }
     
+    /**
+     * Comprueba que se rechaza la reposición cuando falta cualquiera de los
+     * argumentos obligatorios.
+     * Tipo: particiones de equivalencia para cada argumento nulo, prueba de
+     * (DbC) observada desde el resultado 
+     */
     @Test
     void testArgumentosNulos() {//particiones equivalentes
     	Peticion peticion = nuevaPeticion();
@@ -90,6 +124,12 @@ class ValidadorPeticionTest {
         assertFalse(validador.validarReposicion(peticion, linea, null, restricciones));
     }
     
+    /**
+     * Comprueba que la reposición debe corresponder al producto solicitado y
+     * cubrir toda la cantidad requerida.
+     * Tipo: particiones de equivalencia para producto coincidente/no coincidente
+     * y cantidad suficiente/insuficiente.
+     */
     @Test
     void testValidarReposion() {
         Peticion peticion = nuevaPeticion();
@@ -110,6 +150,7 @@ class ValidadorPeticionTest {
         
     }
     
+    //dependencias
     private Peticion nuevaPeticion() {
         return new Peticion("R001", solicitud);
     }

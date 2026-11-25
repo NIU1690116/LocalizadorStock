@@ -24,6 +24,12 @@ import model.domain.Reposicion;
 import model.domain.RestriccionesBusqueda;
 import model.domain.Tienda;
 
+/**
+ * Pruebas unitarias de selección y validación de alternativas.
+ * Cubren particiones válidas e inválidas, límites de distancia y espera,
+ * desempates y la postcondición del evaluador. Combinan resultados observables
+ * de caja negra con cobertura de ramas y comprobaciones DbC .
+ */
 class EvaluadorAlternativasTest {
 	private EvaluadorAlternativas evaluador;
 	private Tienda tienda;
@@ -37,6 +43,11 @@ class EvaluadorAlternativasTest {
 		reposicion = new Reposicion(producto, 2, LocalDateTime.of(2026, 11, 15, 10, 0));
 	}
 	
+	/**
+	 * Comprueba que el constructor rechaza una política o unas restricciones nulas
+	 * Tipo: particiones de equivalencia para dependencias obligatorias y prueba
+	 * de contrato (DbC) de las precondiciones del evaluador.
+	 */
 	@Test
 	void testPoliticaYRestriccionesValidas() {
 		assertThrows(IllegalArgumentException.class,
@@ -45,6 +56,11 @@ class EvaluadorAlternativasTest {
 				() -> new EvaluadorAlternativas(new PoliticaBusqueda(), null));
 	}
 	
+	/**
+	 * Comprueba el rechazo de una lista nula y el resultado cuando la lista está vacía.
+	 * Tipo: particiones de equivalencia de entrada inválida y lista válida sin
+	 * candidatas, incluye el caso de cero iteraciones del recorrido.
+	 */
 	@Test
 	void tesListaAlternativaInvalida() {
 		// Loop testing: cero iteraciones con la lista vacía
@@ -53,6 +69,13 @@ class EvaluadorAlternativasTest {
 		assertNull(evaluador.seleccionarMejor(List.of()));//null si no hay alternativas(lista vacia)
 	}
 	
+	/**
+	 * Comprueba la aceptación de una reposición en el límite de espera, la elección
+	 * entre tipos de alternativa, el rechazo por distancia y espera y la
+	 * selección ante puntuaciones diferentes
+	 * Tipo: pruebas de límite (120 minutos y más de 10 km), particiones válidas/no
+	 * válidas y caja blanca del recorrido con una y varias candidatas.
+	 */
 	@Test
 	void testCumpleRestricciones() {
 		// Loop testing: una iteración y varias alternativas en la lista
@@ -72,6 +95,12 @@ class EvaluadorAlternativasTest {
 		assertEquals(menosTiempo, evaluador.seleccionarMejor(List.of(menosDistancia, menosTiempo)));
 	}
 
+	/**
+	 * Comprueba que se ignoran elementos nulos y alternativas fuera de rango, se
+	 * elige la mejor candidata válida y se devuelve ausencia de selección si todas no son validas
+	 * Tipo: caja negra y particiones de equivalencia para candidatas nulas,
+	 * validas y no validas.
+	 */
 	@Test
 	void testSeleccionarMejorAlternativa() {
 		Alternativa mejor = new AlternativaOtraTienda(tienda, 5, 1.0);//menor porcentaje penalización
@@ -87,6 +116,10 @@ class EvaluadorAlternativasTest {
 		assertNull(evaluador.seleccionarMejor(List.of(fueraDeRango)));
 	}
 
+	/**
+	 * Comprueba el primer criterio de desempate: menor tiempo ante puntuaciones iguales
+	 * Tipo: prueba de caja negra de igualdad de puntuación y rama de desempate por tiempo
+	 */
 	@Test
 	void testDesempataPorMenorTiempoCuandoLaPuntuacionEsIgual() {
 		// Las dos alternativas puntúan exactamente igual; debe ganar la de menor tiempo.
@@ -98,6 +131,11 @@ class EvaluadorAlternativasTest {
 		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(mayorTiempo, menorTiempo)));
 	}
 
+	/**
+	 * Comprueba el segundo criterio de desempate: menor distancia cuando tiempo y
+	 * puntuación empatan
+	 * Tipo: prueba de caja negra de empate y cobertura de la rama de desempate por distancia
+	 */
 	@Test
 	void estDesempataPorMenorDistanciaCuandoTiempoYPuntuacionEmpatan() {
 		// A 120 minutos, estas distancias adyacentes producen la misma puntuación double.
@@ -109,6 +147,11 @@ class EvaluadorAlternativasTest {
 		assertEquals(menorDistancia, evaluador.seleccionarMejor(List.of(mayorDistancia, menorDistancia)));
 	}
 
+	/**
+	 * Comprueba que el orden inicial se conserva cuando el tiempo no mejora o
+	 * cuando también empata la distancia.
+	 * Tipo: cobertura de las ramas de empate sin sustitución de la alternativa actual
+	 */
 	@Test
 	void tetConservaLaPrimeraAlternativaSiElTiempoDelEmpateNoMejora() {
 		// Cubre el empate de puntuación con mayor tiempo y el empate exacto sin mejora de distancia.
@@ -120,6 +163,11 @@ class EvaluadorAlternativasTest {
 		assertEquals(menorTiempo, evaluador.seleccionarMejor(List.of(menorTiempo, duplicada)));
 	}
 
+	/**
+	 * Comprueba que la postcondición rechaza selecciones ausentes, peor puntuadas
+	 * o inferiores en los criterios de desempate
+	 * Tipo: caja blanca de cobertura de retornos falsos y prueba DbC
+	 */
 	@Test
 	void postcondicionDetectaUnaSeleccionQueNoEsLaMejor() throws ReflectiveOperationException {
 		// Statement coverage: explora los retornos false de la postcondición con candidatos deliberadamente incorrectos

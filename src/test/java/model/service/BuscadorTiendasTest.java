@@ -26,6 +26,12 @@ import java.lang.reflect.Method;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
+/**
+ * Pruebas del filtrado, orden y validación de tiendas candidatas
+ * Combinan caja negra con variación independiente de distancia y stock,
+ * particiones de entradas nulas, pruebas de límite y comprobación DbC de la
+ * postcondición del buscador
+ */
 class BuscadorTiendasTest {
 	private CalculadorDistanciaMock calculadorDistancia;
 	private RepositorioTiendasMock repositorio;
@@ -48,6 +54,12 @@ class BuscadorTiendasTest {
 	    origen = new Tienda("T001", "Origen", 41.0, 2.0, new Inventario());
 	}
 
+	/**
+	 * Comprueba que el constructor acepta dependencias válidas y rechaza cada
+	 * dependencia obligatoria nula.
+	 * Tipo: particiones de equivalencia para dependencias válidas/no válidas y
+	 * prueba de contrato de precondiciones.
+	 */
 	@Test
 	void testBuscadorTiendasConstructor() {
 		assertDoesNotThrow(() -> new BuscadorTiendas(
@@ -66,6 +78,11 @@ class BuscadorTiendasTest {
 		);
 	}
 	
+	/**
+	 * Comprueba que la búsqueda rechaza un origen, una línea o restricciones nulos.
+	 * Tipo: particiones de equivalencia para argumentos obligatorios y contrato
+	 * DbC observado mediante las excepciones.
+	 */
 	@Test
 	void testBuscadorTiendasConStockParametrosNulos() {
 		LineaPeticion lineaValida = new LineaPeticion(producto, 2);
@@ -83,6 +100,14 @@ class BuscadorTiendasTest {
         );
 	}
 	
+	/**
+	 * Comprueba el filtro combinado por stock y distancia, incluida la aceptación
+	 * exacta de 10 km y el rechazo de una distancia superior y verifica también
+	 * el orden ascendente y el resultado vacío cuando no hay candidatas.
+	 * Tipo: caja negra, cobertura de decisión y condición, prueba de límite y
+	 * particiones de equivalencia de stock suficiente/insuficiente y distancia
+	 * dentro/fuera del rango.
+	 */
 	@Test
 	void testBuscarTiendasConStock() {
 		// Decision + condition coverage: distancia y stock se varían independientemente.
@@ -146,6 +171,12 @@ class BuscadorTiendasTest {
           
 	}
 
+	/**
+	 * Comprueba que la tienda de origen se excluye aunque aparezca en el repositorio
+	 * y tenga stock suficiente.
+	 * Tipo: caja negra de particiones de equivalencia entre tienda de origen y
+	 * tienda candidata.
+	 */
 	@Test
 	void testExcluirTiendaOrigen() {
 		Tienda origenEnRepositorio = repositorio.crearTiendaConStock(
@@ -165,6 +196,11 @@ class BuscadorTiendasTest {
 		assertNotEquals(origenEnRepositorio.getId(), resultado.get(0).tienda().getId());
 	}
 
+	/**
+	 * Comprueba que las entradas nulas del repositorio se omiten y no impiden
+	 * devolver una tienda candidata válida
+	 * Tipo: caja blanca de cobertura de rama continue y caja negra del resultado
+	 */
 	@Test
 	void omiteTiendasNulasDelRepositorio() {
 		// Statement coverage: ejecuta el continue cuando una entrada del repositorio es null
@@ -180,6 +216,11 @@ class BuscadorTiendasTest {
 		assertEquals(alternativa, resultado.get(0).tienda());
 	}
 
+	/**
+	 * Comprueba que la postcondición rechaza un resultado nulo, una candidata sin
+	 * tienda y la inclusión de la tienda de origen.
+	 * Tipo: caja blanca sobre retornos defensivos y prueba DbC de la postcondición
+	 */
 	@Test
 	void postcondicionRechazaResultadosInvalidos() throws ReflectiveOperationException {
 		// Statement coverage: invoca la postcondición para recorrer sus retornos defensivos false

@@ -16,11 +16,17 @@ import model.domain.Producto;
 import model.domain.Reposicion;
 import model.domain.Tienda;
 
+/**
+ * Pruebas unitarias de la fórmula de puntuación de PoliticaBusqueda
+ * Comprueban la partición de entrada nula y valores representativos, incluidos
+ * límites combinaciones de tiempo y distancia, con resultados esperados.
+ */
 class PoliticaBusquedaTest {
 	private PoliticaBusqueda politica;
 	private Tienda tienda;
 	private Producto producto;
 
+	/** política y los datos compartidos para evitar repetir su creación */
 	@BeforeEach
 	void setUp() {
 		politica = new PoliticaBusqueda();
@@ -30,12 +36,23 @@ class PoliticaBusquedaTest {
 	//El rechazo de opciones que superan los 120 minutos o los 10 km le corresponde
 	// al evaluador, antes de aplicar la política
 
+	/**
+	 * Comprueba que una alternativa nula pertenece a la partición inválida.
+	 * Tipo: caja negra sobre la precondición y caja blanca de la ruta que lanza
+	 * la excepción.
+	 */
 	@Test
 	void testPoliticaBusquedaInvalida() {
 		// Path coverage: ruta de entrada nula y excepción esperada
 		assertThrows(IllegalArgumentException.class,
 				() -> politica.calcularPuntuacion(null));
 	}
+	/**
+	 * Comprueba la fórmula ponderada con valores intermedios, mínimos y máximos
+	 * de tiempo y distancia, tanto por separado como combinados.
+	 * Tipo: caja negra con valores esperados y pruebas de límites, verifica las
+	 * ponderacions de tiempo y distancia y sus extremos.
+	 */
 	@Test
     void testCalcularPuntuacion() {
 		// Path coverage: ruta válida de cálculo de puntuación
@@ -72,7 +89,5 @@ class PoliticaBusquedaTest {
 		assertEquals(1.0, politica.calcularPuntuacion(alternativa_5), 0.0001);
 		
     }
-
-
 	
 }
