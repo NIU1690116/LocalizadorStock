@@ -30,7 +30,14 @@ import model.service.ServicioReposicion;
 import model.service.ValidadorPeticion;
 import view.VistaLocalizadorStock;
 
+/**
+ * Pruebas de integración de la aplicación de consola (test de consola para cubrir statement coverage)
+ * Comprueba la validación de dependencias, el flujo de entrada y salida, la
+ * creación de la demo y la coordinación con controlador y vista mediante datos
+ * de ejemplo 
+ */
 class AplicacionConsolaTest {
+	//Verifica que el constructor rechaza las dependencias obligatorias nulas.
 	@Test
 	void rechazaDependenciasNulas() {
 		// Statement coverage: ejecuta la excepción del constructor ante dependencias obligatorias nulas.
@@ -38,6 +45,7 @@ class AplicacionConsolaTest {
 				() -> new AplicacionConsola(null, null, null, null, null));
 	}
 
+	//Comprueba que el menú termina limpiamente cuando la entrada se agota
 	@Test
 	void salirConEntradaAgotadaEnElMenu() {
 		// Statement coverage: cubre la salida del menú cuando no hay otra línea que leer.
@@ -47,6 +55,7 @@ class AplicacionConsolaTest {
 		assertTrue(salida.toString(StandardCharsets.UTF_8).contains("LOCALIZADOR DE STOCK"));
 	}
 
+	//Verifica los mensajes cuando no hay tiendas o productos disponibles
 	@Test
 	void informaCuandoNoHayTiendasNiProductosYOmiteTiendasNulas() {
 		// Statement coverage: cubre tiendas vacías y el continue del catálogo al encontrar null.
@@ -60,6 +69,7 @@ class AplicacionConsolaTest {
 		assertTrue(sinCatalogo.toString(StandardCharsets.UTF_8).contains("No hay productos disponibles"));
 	}
 
+	//Comprueba que cada selección finaliza la búsqueda si se agota la entrada
 	@Test
 	void finalizaLaBusquedaSiSeAgotaLaEntradaEnCadaSeleccion() {
 		// Statement coverage: ejecuta las tres salidas tempranas por EOF en tienda, producto y cantidad.
@@ -74,6 +84,7 @@ class AplicacionConsolaTest {
 		crearAplicacion("1\n1\n1\n", new ByteArrayOutputStream(), tiendas).ejecutar();
 	}
 
+	//Comprueba el tratamiento de una respuesta afirmativa y el fin de entrada posterior
 	@Test
 	void procesaRespuestaAfirmativaYRespuestaFinalAgotada() {
 		// Statement coverage: cubre el true de leerSiNo y el false devuelto al agotarse la entrada.
@@ -83,6 +94,7 @@ class AplicacionConsolaTest {
 		assertTrue(salida.toString(StandardCharsets.UTF_8).contains("Camiseta básica x 1"));
 	}
 
+	//Verifica que el método main construye y ejecuta la aplicación
 	@Test
 	void mainCreaYEjecutaLaAplicacionConLasEntradasDelSistema() {
 		// Statement coverage: ejecuta el punto de entrada main con sus streams estándar.
@@ -100,6 +112,7 @@ class AplicacionConsolaTest {
 		assertTrue(salidaCapturada.toString(StandardCharsets.UTF_8).contains("Hasta pronto."));
 	}
 
+	//Comprueba que se puede seleccionar una tienda, producto y cantidad
 	@Test
 	void permiteElegirTiendaProductoYCantidadYVerElResultado() {
 		// Loop testing (bucle anidado 2): una tienda y un producto en el catálogo.
@@ -118,6 +131,10 @@ class AplicacionConsolaTest {
 		assertTrue(texto.contains("Camiseta básica x 3: resuelta en la tienda actual."));
 	}
 
+	/**
+	 * Verifica los casos de stock local, otra tienda, reposición, producto similar
+	 * y ausencia de solución que ofrece la configuración demo
+	 */
 	@Test
 	void laDemoPermiteProbarStockReposicionSimilarYSinSolucion() {
 		// Loop testing (bucle anidado 2): varias tiendas, cada una con varios productos disponibles.
@@ -147,6 +164,7 @@ class AplicacionConsolaTest {
 		assertTrue(texto.contains("Botas de montaña x 1: no se encontró una solución."));
 	}
 
+	// Comprueba que las entradas numéricas y de sí/no inválidas se vuelven a pedir
 	@Test
 	void vuelveAPedirDatosCuandoLaEntradaNoEsValida() {
 		ByteArrayOutputStream salida = new ByteArrayOutputStream();
@@ -162,6 +180,7 @@ class AplicacionConsolaTest {
 		assertTrue(texto.contains("Camiseta básica x 2: resuelta en la tienda actual."));
 	}
 
+	//Crea una aplicación de prueba con una tienda que tiene stock de camiseta
 	private AplicacionConsola crearAplicacion(String textoEntrada, ByteArrayOutputStream salidaBytes) {
 		Producto camiseta = new Producto("P001", "Camiseta básica", "Rojo", "Camiseta", "Unisex");
 		Inventario inventario = new Inventario();
@@ -170,6 +189,7 @@ class AplicacionConsolaTest {
 		return crearAplicacion(textoEntrada, salidaBytes, List.of(tienda));
 	}
 
+	//Construye una aplicación de prueba con las tiendas recibidas y dependencias reales o simples
 	private AplicacionConsola crearAplicacion(
 			String textoEntrada, ByteArrayOutputStream salidaBytes, List<Tienda> tiendas) {
 		RepositorioTiendas repositorio = () -> tiendas;
