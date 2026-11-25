@@ -9,7 +9,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+/**
+ * Pruebas de construcción, protección de la lista y estado global de una búsqueda
+ * Combinan particiones de equivalencia de listas inválidas, caja blanca de una
+ * validación interna, caja negra de inmutabilidad y estados resueltos/no resueltos.
+ */
 class ResultadoBusquedaTest {
+	/**
+	 * Comprueba el rechazo de una lista nula o vacía.
+	 * Tipo: particiones de equivalencia para colecciones inválidas y contrato DbC
+	 * del constructor.
+	 */
 	@Test
 	void testResultadoBusquedaParametrosNulos() {
 		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(null));
@@ -17,6 +27,11 @@ class ResultadoBusquedaTest {
 
 	}
 
+	/**
+	 * Comprueba que el constructor rechaza una lista no vacía que contiene un resultado nulo
+	 * Tipo: caja blanca de cobertura de la validación de elementos nulos y partición
+	 * de equivalencia de lista mal hecha
+	 */
 	@Test
 	void testResultadoBusquedaRechazaElementosNulos() {
 		//caja blanca: Cubre la validación que rechaza una lista no vacía que contiene un resultado nulo
@@ -26,6 +41,11 @@ class ResultadoBusquedaTest {
 		assertThrows(IllegalArgumentException.class, () -> new ResultadoBusqueda(resultadosConNulo));
 	}
 
+	/**
+	 * Comprueba que modificar la lista original no cambia el resultado y que la
+	 * lista obtenida no admite modificaciones.
+	 * Tipo: caja negra de inmutabilidad y copia defensiva
+	 */
 	@Test
 	void testResultadosListaNoModificable() {
 		ArrayList<ResultadoLineaPeticion> resultadosEntrada = new ArrayList<>();
@@ -39,6 +59,11 @@ class ResultadoBusquedaTest {
 		assertThrows(UnsupportedOperationException.class, () -> resultado.getResultados().clear());
 	}
 	
+	/**
+	 * Comprueba que una búsqueda se considera resuelta si todas sus líneas están
+	 * resueltas o tienen alternativa, y no resuelta si alguna no tiene solución.
+	 * Tipo: particiones de equivalencia de estados y caja negra del resultado agregado
+	 */
 	@Test
 	void testResultadoBusqueda() {
 		//un resultado de busqueda esta resuelto si cada resultado linea tiene 
@@ -61,12 +86,20 @@ class ResultadoBusquedaTest {
 		
 	}
 
+	/**
+	 * Construye una línea de resultado sencilla para reutilizarla al probar estados
+	 * sin duplicar la preparación de productos y líneas
+	 */
 	private ResultadoLineaPeticion resultadoLinea(String codigo, EstadoResolucion estado) {
 		Producto producto = new Producto(codigo, "Producto", "rojo", "camisetas", "mujer");
 		return new ResultadoLineaPeticion(
 				new LineaPeticion(producto, 1), List.of(), null, estado);
 	}
 
+	/**
+	 * Construye una línea válida con alternativa propuesta para cubrir el estado
+	 * resuelto por alternativa sin repetir la preparación del dominio
+	 */
 	private ResultadoLineaPeticion resultadoConAlternativa(String codigo) {
 		Producto producto = new Producto(codigo, "Producto", "rojo", "camisetas", "mujer");
 		LineaPeticion linea = new LineaPeticion(producto, 1);
