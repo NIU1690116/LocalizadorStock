@@ -23,6 +23,11 @@ import model.domain.ResultadoLineaPeticion;
 import model.domain.Tienda;
 import model.service.GestionStock;
 
+/**
+ * Prueba unitaria del controlador con GestionStock simulado
+ * Comprueba la delegación de la consulta y la propagación del resultado usando
+ * una prueba de caja negra con el mock
+ */
 class StockControllerTest {
 	private GestionStock gestionStock;
 	private StockController controlador;
@@ -31,6 +36,7 @@ class StockControllerTest {
 	private RestriccionesBusqueda restricciones;
 	private ResultadoBusqueda resultado;
 
+	/** Prepara el controlador, el mock y los datos válidos compartidos por el caso. */
 	@BeforeEach
 	void setUp() {
 		gestionStock = mock(GestionStock.class);
@@ -45,6 +51,11 @@ class StockControllerTest {
 		resultado = new ResultadoBusqueda(List.of(linea));
 	}
 
+	/**
+	 * Comprueba que consultar delega los mismos datos al servicio y devuelve su resultado
+	 * Tipo: prueba unitaria de caja negra con mockito, verifica la interacción con el
+	 * servicio y que la respuesta sea la misma instancia configurada
+	 */
 	@Test
 	void testGestionController() {
 		when(gestionStock.buscarAlternativas(peticion, tienda, restricciones)).thenReturn(resultado);
