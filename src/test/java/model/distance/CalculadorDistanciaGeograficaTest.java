@@ -7,6 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Pruebas de entradas y cálculo de CalculadorDistanciaGeografica
+ * Combinan particiones de argumentos nulos con caja negra sobre distancias de
+ * referencia, ubicación coincidente y simetría del cálculo
+ */
 class CalculadorDistanciaGeograficaTest {
 	CalculadorDistanciaGeografica calculador;
 	Tienda origen;
@@ -21,7 +26,7 @@ class CalculadorDistanciaGeograficaTest {
 
 	@Test
 	void testCalcularKmTiendaNulas() {
-		//destino y origen no pueden ser null
+		// Particiones inválidas, DbC: se rechazan origen y destino nulos, juntos o por separado
 		assertThrows(IllegalArgumentException.class, 
 				() -> calculador.calcularKm(null, null));
 		assertThrows(IllegalArgumentException.class, 
@@ -32,18 +37,18 @@ class CalculadorDistanciaGeograficaTest {
 	
 	@Test
 	void testCalcularKm() {
-		//misma ubicación -> distancia es igual a 0
+		// Límite inferior: dos tiendas con coordenadas iguales tienen distancia cero
 		Tienda origen_1 = tienda("T1", 41.0, 2.0);
         Tienda destino_2 = tienda("T2", 41.0, 2.0);
 
         assertEquals(0.0, calculador.calcularKm(origen_1, destino_2), 0.000001);
         
-        // Un grado de longitud en el Ecuador -> 111 km
+        // Caso de referencia: un grado de longitud en el ecuador equivale aproximadamente a 111.195 km
         double distancia = calculador.calcularKm(origen, destino);
 
         assertEquals(111.195, distancia, 0.1);
         
-        //distancia simetrica, la distancia de A hasta B deberia ser exactamente igual que de B hasta A
+        // Propiedad de simetría: intercambiar origen y destino no cambia la distancia
         Tienda primera = tienda("T1", 41.0, 2.0);
         Tienda segunda = tienda("T2", 40.0, 3.0);
 
@@ -53,6 +58,10 @@ class CalculadorDistanciaGeograficaTest {
         assertEquals(primeraASegunda, segundaAPrimera, 0.000001);
 	}
 	
+	/**
+	 * Reduce la repetición al construir tiendas de prueba con coordenadas variables
+	 * e inventario vacío, irrelevante para el cálculo geográfico
+	 */
 	private Tienda tienda(String id, double latitud, double longitud) {
         return new Tienda(
                 id, id, latitud, longitud, new Inventario());
