@@ -37,6 +37,12 @@ import model.domain.ResultadoLineaPeticion;
 import model.domain.Tienda;
 import model.repository.RepositorioTiendas;
 
+/**
+ * Pruebas unitarias del flujo de coordinación de GestionStock
+ * mocks para aislar sus colaboradores y cubre validaciones,
+ * resolución por stock local, alternativas de stock, productos similares y
+ * ausencia de solución mediante caja negra y cobertura de ramas
+ */
 class GestionStockTest {
 	private ValidadorPeticion validador;
 	private BuscadorTiendas buscadorTiendas;
@@ -50,6 +56,10 @@ class GestionStockTest {
 	private Peticion peticion;
 	private RestriccionesBusqueda restricciones;
 
+	/**
+	 * Crea los dobles y datos compartidos para que cada caso pruebe el gestor de
+	 * forma aislada y parta de una petición válida.
+	 */
 	@BeforeEach
 	void setUp() {
 		validador = mock(ValidadorPeticion.class);
@@ -69,6 +79,12 @@ class GestionStockTest {
 		when(validador.validarPeticion(peticion)).thenReturn(true);
 	}
 	
+	/**
+	 * Comprueba el rechazo de cada dependencia nula y de argumentos obligatorios
+	 * nulos o de una petición que el validador declara inválida.
+	 * Tipo: particiones de equivalencia para cada entrada inválida y prueba de
+	 * contrato (DbC) sobre las precondiciones del gestor.
+	 */
 	@Test
 	void testGestionStockDependenciasNulas() {
 		assertThrows(IllegalArgumentException.class,
@@ -102,6 +118,12 @@ class GestionStockTest {
 	            () -> gestionStock.buscarAlternativas(peticion, origen, restricciones));
 	}
 	
+	/**
+	 * Comprueba que el stock suficiente en origen resuelve la línea sin buscar
+	 * alternativas ni invocar a los colaboradores externos.
+	 * Tipo: caja negra sobre el estado resultante y caja blanca de la rama de stock
+	 * local, con verificación de que los otros colaboradores no interactúan
+	 */
 	@Test
 	void testResolverLinea() {
 	    origen.getInventario().añadirProductos(producto, 2);
@@ -116,6 +138,12 @@ class GestionStockTest {
 	    verifyNoInteractions(buscadorTiendas, servicioReposicion, buscadorSimilares, evaluador, repositorio);
 	}
 	
+	/**
+	 * Comprueba que, si el stock local es insuficiente se reúnen alternativas
+	 * de otra tienda y reposición y se conserva la seleccionada por el evaluador.
+	 * Tipo: caja negra de integración aislada con mocks y cobertura de la ruta de
+	 * alternativas de stock.
+	 */
 	@Test
 	void testResolverLineaTiendaSinStock() {
 		origen.getInventario().añadirProductos(producto, 1);
@@ -138,6 +166,13 @@ class GestionStockTest {
 		assertSame(linea.getAlternativas().get(0), linea.getMejorAlternativa());
 	}
 	
+	/**
+	 * Comprueba la propuesta de un producto similar tras no hallar alternativa
+	 * de stock, el filtrado de un resultado nulo y el estado sin solución cuando
+	 * no existe ninguna alternativa válida.
+	 * Tipo: caja negra y cobertura de ramas del filtrado y de resolución; cubre
+	 * además la partición de resultado nulo en el buscador.
+	 */
 	@Test
 	void testBuscarProductosSimilares() {
 		Tienda tiendaSimilar = new Tienda("T003", "Sur", 41.02, 2.02, new Inventario());
@@ -176,6 +211,12 @@ class GestionStockTest {
 		assertFalse(resultado_2.estaResuelta());
 	}
 
+	/**
+	 * Comprueba que un repositorio nulo o vacío, o una respuesta nula del buscador
+	 * de similares, termina en el estado sin solución.
+	 * Tipo: caja blanca de cobertura de retornos tempranos y particiones de
+	 * equivalencia para resultados nulos y vacíos.
+	 */
 	@Test
 	void buscarSimilaresVaciosONulosDevuelveSinSolucion() {
 		// Statement coverage: ejecuta los retornos tempranos para repositorios null y vacío
@@ -200,6 +241,5 @@ class GestionStockTest {
 				gestionStock.buscarAlternativas(peticion, origen, restricciones)
 						.getResultados().get(0).getEstado());
 	}
-	
 	
 }

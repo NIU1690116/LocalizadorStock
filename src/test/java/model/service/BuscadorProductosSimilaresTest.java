@@ -23,6 +23,12 @@ import model.domain.LineaPeticion;
 import model.domain.Producto;
 import model.domain.Tienda;
 
+/**
+ * Pruebas de validación, normalización, similitud y búsqueda de productos similares
+ * Combinan caja negra sobre porcentajes y resultados con particiones de entradas,
+ * límites de similitud, pruebas de bucle y cobertura de ramas para productos y
+ * tiendas omitidos.
+ */
 class BuscadorProductosSimilaresTest {
 	//se utilizara mockito
 	private BuscadorProductosSimilares buscador;
@@ -33,6 +39,7 @@ class BuscadorProductosSimilaresTest {
 
 	@BeforeEach
 	void setUp() {
+		//mockito
 		calculadorDistancia = mock(CalculadorDistancia.class);
 		estimadorTiempoViaje = mock(EstimadorTiempoViaje.class);
 		buscador = new BuscadorProductosSimilares(calculadorDistancia, estimadorTiempoViaje);
@@ -48,6 +55,12 @@ class BuscadorProductosSimilaresTest {
 	}
 
 
+	/**
+	 * Comprueba el rechazo de dependencias, producto, origen y lista de tiendas nulos,
+	 * tanto en las sobrecargas de búsqueda como en el constructor
+	 * Tipo: particiones de equivalencia para argumentos obligatorios nulos y
+	 * comprobación de contrato (DbC) sobre las precondiciones.
+	 */
 	@Test
 	void testArgumentosObligatoriosNulos() {
 		assertThrows(IllegalArgumentException.class,
@@ -68,6 +81,11 @@ class BuscadorProductosSimilaresTest {
 				() -> buscador.buscarSimilares(productoBase, null, List.of()));
 	}
 	
+	/**
+	 * Comprueba las tres particiones de normalización: nulo, texto en blanco y
+	 * texto con contenido y espacios externos.
+	 * Tipo: particiones de equivalencia y caja negra sobre el valor normalizado
+	 */
 	@Test
 	void testNormalizar() {
 		// Path coverage: recorrido para null, texto en blanco y texto válido
@@ -76,12 +94,24 @@ class BuscadorProductosSimilaresTest {
 	    assertNull(buscador.normalizar("   "));
     }
 	
+	/**
+	 * Comprueba que dos textos iguales tras normalizar coinciden y que textos
+	 * distintos no coinciden
+	 * Tipo: particiones de equivalencia para coincidencia/no coincidencia y
+	 * caja negra sobre el resultado booleano
+	 */
 	@Test
 	void testCoincide() {
 		assertTrue(buscador.coincide("  Camisa ", "camisa"));
 		assertFalse(buscador.coincide("Camisa", "Pantalon"));
     }
 	
+	/**
+	 * Comprueba los cuatro resultados posibles de las tres características
+	 * comparadas: cero, una, dos o tres coincidencias.
+	 * Tipo: particiones de equivalencia y valores límite del porcentaje (0 % y
+	 * 100 %), con valores intermedios de 33,33 % y 66,67 %.
+	 */
 	@Test
 	void testCalcularSimilitud() {
 		BuscadorProductosSimilares buscador = new BuscadorProductosSimilares(
@@ -105,6 +135,13 @@ class BuscadorProductosSimilaresTest {
 	    
     }
 	
+	/**
+	 * Comprueba la búsqueda con stock suficiente, la omisión de tienda nula, del
+	 * producto solicitado y de candidatos con similitud cero, además del cálculo
+	 * de distancia y tiempo en las alternativas encontradas.
+	 * Tipo: caja negra, prueba de bucle con varias iteraciones y cobertura de ramas
+	 * para las condiciones que excluyen candidatos.
+	 */
 	@Test
 	void buscaProductosSimilaresConStockSuficienteEnLaTienda() {
 		// Loop testing: una tienda y varios productos candidatos
@@ -140,6 +177,11 @@ class BuscadorProductosSimilaresTest {
 		assertEquals(3.5, alternativas.get(0).getDistanciaKm());
 	}
 
+	/**
+	 * Comprueba que una lista de tiendas vacía produce una lista vacía de resultados
+	 * Tipo: prueba de bucle con cero iteraciones y partición de equivalencia de
+	 * colección vacía
+	 */
 	@Test
 	void buscarSimilaresConCeroTiendasDevuelveListaVacia() {
 		// Loop testing: cero iteraciones del bucle exterior

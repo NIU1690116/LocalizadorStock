@@ -29,6 +29,13 @@ import model.service.ServicioReposicion;
 import model.service.ValidadorPeticion;
 import view.VistaLocalizadorStock;
 
+/**
+ * Coordina la interacción por consola para realizar búsquedas de stock
+ * Recibe las dependencias de entrada, salida, presentación, consulta y acceso
+ * a tiendas, presenta las opciones, recoge los datos de la petición y delega
+ * la búsqueda en el controlador. También ayuda a construir una configuración
+ * para demostrar el funcionamiento con tiendas, inventarios y servicios de ejemplo
+ */
 public class AplicacionConsola {
 	private final StockController controlador;
 	private final VistaLocalizadorStock vista;
@@ -37,6 +44,17 @@ public class AplicacionConsola {
 	private final PrintStream salida;
 	private int siguienteIdPeticion = 1;
 
+	/**
+	 * Crea la aplicación con las dependencias necesarias para ejecutarla.
+	 * @param controlador componente que consulta las alternativas de stock
+	 * @param vista componente que presenta el resultado de la búsqueda
+	 * @param repositorioTiendas fuente de las tiendas disponibles
+	 * @param entrada flujo desde el que se leen las respuestas del usuario
+	 * @param salida flujo en el que se muestran menús y mensajes
+	 * @throws IllegalArgumentException si alguna dependencia es null
+	 * Lógica: valida que ninguna dependencia falte y guarda todas para su uso
+	 * durante la interacción.
+	 */
 	public AplicacionConsola(
 			StockController controlador,
 			VistaLocalizadorStock vista,
@@ -54,6 +72,11 @@ public class AplicacionConsola {
 		this.salida = salida;
 	}
 
+	/**
+	 * Ejecuta el menú principal hasta que el usuario elige salir o termina la entrada
+	 * Lógica: muestra el encabezado y ofrece iniciar búsquedas o salir; para una
+	 * opción válida de búsqueda invoca {@link #realizarBusqueda()}.
+	 */
 	public void ejecutar() {
 		salida.println("LOCALIZADOR DE STOCK");
 		salida.println("Demo con datos de ejemplo y tiempos de viaje aproximados.");
@@ -70,6 +93,12 @@ public class AplicacionConsola {
 		}
 	}
 
+	/**
+	 * Recoge los datos de una búsqueda, crea su petición y muestra el resultado
+	 * Lógica: comprueba que haya tiendas y productos, solicita tienda, productos
+	 * y cantidades, crea líneas de petición y delega la consulta y presentación.
+	 * Si faltan datos disponibles o se termina la entrada, vuelve al menú
+	 */
 	private void realizarBusqueda() {
 		List<Tienda> tiendas = repositorioTiendas.obtenerTiendas();
 		if (tiendas == null || tiendas.isEmpty()) {
@@ -111,6 +140,13 @@ public class AplicacionConsola {
 				peticion, tiendaActual, new RestriccionesBusqueda()));
 	}
 
+	/**
+	 * Construye un catálogo único con productos que tienen al menos una unidad
+	 * @param tiendas tiendas cuyos inventarios se consultan
+	 * @return productos sin duplicados, ordenados por código
+	 * Lógica: recorre tiendas no nulas y añade el primer producto de cada código
+	 * a un mapa ordenado; devuelve sus valores como lista.
+	 */
 	private List<Producto> obtenerCatalogo(List<Tienda> tiendas) {
 		Map<String, Producto> productosPorCodigo = new TreeMap<>();
 		for (Tienda tienda : tiendas) {
@@ -124,6 +160,11 @@ public class AplicacionConsola {
 		return new ArrayList<>(productosPorCodigo.values());
 	}
 
+	/**
+	 * Imprime las tiendas numeradas con su nombre y coordenadas
+	 * @param tiendas lista de tiendas que se muestra
+	 * Lógica: recorre la lista y escribe cada tienda con un índice empezando en 1.
+	 */
 	private void mostrarTiendas(List<Tienda> tiendas) {
 		salida.println("Tiendas disponibles:");
 		for (int indice = 0; indice < tiendas.size(); indice++) {
@@ -133,6 +174,11 @@ public class AplicacionConsola {
 		}
 	}
 
+	/**
+	 * Imprime los productos numerados por su nombre
+	 * @param productos lista de productos que se muestra
+	 * Lógica: recorre la lista y escribe cada producto con un índice empezando en 1
+	 */
 	private void mostrarProductos(List<Producto> productos) {
 		salida.println("Productos disponibles:");
 		for (int indice = 0; indice < productos.size(); indice++) {
@@ -141,6 +187,15 @@ public class AplicacionConsola {
 		}
 	}
 
+	/**
+	 * Lee un entero comprendido entre los límites indicados
+	 * @param mensaje texto que se muestra antes de cada lectura
+	 * @param minimo valor mínimo aceptado, inclusive
+	 * @param maximo valor máximo aceptado, inclusive
+	 * @return el entero válido o null si se agota la entrada
+	 * Lógica: repite la lectura ante texto no numérico o valores fuera del rango,
+	 * mostrando el rango esperado
+	 */
 	private Integer leerEntero(String mensaje, int minimo, int maximo) {
 		while (entrada.hasNextLine()) {
 			salida.print(mensaje);
@@ -151,13 +206,19 @@ public class AplicacionConsola {
 					return numero;
 				}
 			} catch (NumberFormatException excepcion) {
-				// Se repite el aviso de entrada inválida y se vuelve a pedir el dato.
+				// Se repite el aviso de entrada inválida y se vuelve a pedir el dato
 			}
 			salida.printf(Locale.ROOT, "Introduce un número entre %d y %d.%n", minimo, maximo);
 		}
 		return null;
 	}
 
+	/**
+	 * Lee una respuesta afirmativa o negativa
+	 * @param mensaje texto que se muestra antes de cada lectura
+	 * @return true para s/si/sí, false para n/no o fin de entrada
+	 * Lógica: normaliza la respuesta y repite mientras no reconozca una opción
+	 */
 	private boolean leerSiNo(String mensaje) {
 		while (entrada.hasNextLine()) {
 			salida.print(mensaje);
@@ -173,12 +234,26 @@ public class AplicacionConsola {
 		return false;
 	}
 
+	/**
+	 * Punto de entrada del programa de consola.
+	 * @param argumentos de línea de comandos
+	 * Lógica: crea los flujos UTF-8, construye la demo y ejecuta su menú
+	 */
 	public static void main(String[] args) {
 		Scanner entrada = new Scanner(System.in, java.nio.charset.StandardCharsets.UTF_8);
 		PrintStream salida = new PrintStream(System.out, true, java.nio.charset.StandardCharsets.UTF_8);
 		crearDemo(entrada, salida).ejecutar();
 	}
 
+	/**
+	 * Construye una aplicación completa con datos y servicios de demostración
+	 * @param entrada flujo desde el que se leerán las respuestas
+	 * @param salida flujo donde se mostrarán los mensajes
+	 * @return aplicación configurada para ejecutarse
+	 * Lógica: crea tiendas e inventarios de ejemplo, configura repositorio,
+	 * distancia, tiempo y reposición, ensambla los servicios y devuelve la
+	 * aplicación con su controlador y vista
+	 */
 	public static AplicacionConsola crearDemo(Scanner entrada, PrintStream salida) {
 		List<Tienda> tiendas = crearTiendasDemo();
 		RepositorioTiendas repositorio = () -> tiendas;
@@ -208,6 +283,12 @@ public class AplicacionConsola {
 				controlador, new VistaLocalizadorStock(salida), repositorio, entrada, salida);
 	}
 
+	/**
+	 * Genera las tiendas e inventarios usados por la configuración de demostración
+	 * @return lista de tiendas de ejemplo
+	 * Lógica: crea productos, asigna existencias a varios inventarios y construye
+	 * cuatro tiendas con identificadores y coordenadas predefinidos
+	 */
 	private static List<Tienda> crearTiendasDemo() {
 		Producto camiseta = new Producto("P001", "Camiseta básica", "Rojo", "Camiseta", "Unisex");
 		Producto pantalon = new Producto("P002", "Pantalón de vestir", "Negro", "Pantalón", "Hombre");

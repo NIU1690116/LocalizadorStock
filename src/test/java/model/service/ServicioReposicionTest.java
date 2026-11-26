@@ -18,12 +18,19 @@ import model.domain.Reposicion;
 import model.domain.Tienda;
 import model.repository.ProveedorReposicion;
 
+/**
+ * Pruebas unitarias de ServicioReposicion con un proveedor simulado.
+ * Cubren particiones nulas de dependencias y argumentos, además de la delegación
+ * y propagación del resultado, incluida la no reposición, son pruebas
+ * de caja negra con Mockito
+ */
 class ServicioReposicionTest {
 	private ProveedorReposicion proveedor;
 	private ServicioReposicion servicio;
 	private Tienda tienda;
 	private Producto producto;
 
+	/** Prepara un proveedor mock y datos válidos compartidos por los casos. */
 	@BeforeEach
 	void setUp() {
 		proveedor = org.mockito.Mockito.mock(ProveedorReposicion.class);
@@ -32,6 +39,11 @@ class ServicioReposicionTest {
 		producto = new Producto("P001", "Camisa", "Rojo", "Camisa", "Unisex");
 	}
 
+	/**
+	 * Comprueba que el servicio rechaza un proveedor, una tienda o un producto nulos.
+	 * Tipo: particiones de equivalencia para cada dependencia o argumento nulo y
+	 * DbC sobre las precondiciones públicas
+	 */
 	@Test
 	void testDependenciaYArgumentosNulos() {
 		assertThrows(IllegalArgumentException.class, () -> new ServicioReposicion(null));
@@ -39,6 +51,12 @@ class ServicioReposicionTest {
 		assertThrows(IllegalArgumentException.class, () -> servicio.consultarReposicion(tienda, null));
 	}
 	
+	/**
+	 * Comprueba que el servicio delega la consulta, propaga la reposición sin
+	 * alterarla y devuelve null cuando el proveedor no encuentra ninguna
+	 * Tipo: prueba unitaria de caja negra con mock; verifica interacción,
+	 * identidad del objeto propagado y la partición sin reposición.
+	 */
 	@Test
 	void testConsultaReposicion() {
 		Reposicion esperada = new Reposicion(producto, 4, LocalDateTime.of(2026, 11, 16, 12, 0));

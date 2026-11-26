@@ -1,5 +1,11 @@
 package model.domain;
 
+/**
+ * Clase abstracta para una alternativa de resolución de stock
+ * Todas las alternativas comparten un tiempo estimado y una distancia, que
+ * deben ser no negativos y finitos, las subclases aportan los datos específicos
+ * de cada tipo de opción
+ */
 public abstract class Alternativa {
 	private final int tiempoEstimadoMinutos;
 	private final double distanciaKm;
@@ -13,29 +19,28 @@ public abstract class Alternativa {
 		if (!Double.isFinite(distanciaKm) || distanciaKm < 0.0) {
 			throw new IllegalArgumentException("La distancia debe ser finita y no negativa");
 		}
+		// Postcondición: los valores recibidos quedan almacenados y cumplen el invariante
 		this.tiempoEstimadoMinutos = tiempoEstimadoMinutos;
 		this.distanciaKm = distanciaKm;	
-		// Postcondición: los valores recibidos quedan almacenados y cumplen el invariante
 		assert invariant() : "La alternativa debe tener tiempo y distancia válidos";
 	}
 
+	// Comprueba que el tiempo y la distancia almacenados sean válidos
 	private boolean invariant() {
 		return tiempoEstimadoMinutos >= 0
 				&& Double.isFinite(distanciaKm)
 				&& distanciaKm >= 0.0;
 	}
 	
+	//Obtiene el tiempo estimado de la alternativa
 	public int getTiempoEstimadoMinutos() {
-		// Precondición de estado: la alternativa conserva su invariante
 		assert invariant();
-		// Postcondición: devuelve el tiempo estimado almacenado
 		return tiempoEstimadoMinutos;
 	}
 
+	//Obtiene la distancia estimada de la alternativa
 	public double getDistanciaKm() {
-		// Precondición de estado: la alternativa conserva su invariante
 		assert invariant();
-		// Postcondición: devuelve la distancia almacenada
 		return distanciaKm;
 	}
 

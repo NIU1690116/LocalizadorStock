@@ -1,5 +1,9 @@
 package model.domain;
 
+/**
+ * Alternativa que propone recoger el producto en una tienda distinta de la actual
+ * Almacena la tienda destino y las métricas de desplazamiento definidas por Alternativa
+ */
 public final class AlternativaOtraTienda extends Alternativa {
 	private final Tienda tienda;
 
@@ -11,6 +15,7 @@ public final class AlternativaOtraTienda extends Alternativa {
 		this.tienda = tienda;
 	}
 
+	//Obtiene la tienda destino de la alternativa
 	public Tienda getTienda() {
 		return tienda;
 	}

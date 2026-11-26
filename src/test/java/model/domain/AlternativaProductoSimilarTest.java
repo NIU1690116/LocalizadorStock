@@ -7,6 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Pruebas de validación y datos conservados por AlternativaProductoSimilar
+ * Test caja negra para los atributos observables, particiones de equivalencia
+ * para referencias obligatorias y similitudes inválidas, y límites para las
+ * métricas heredadas de viaje
+ */
 class AlternativaProductoSimilarTest {
 	private Producto producto;
 	private Tienda tienda;
@@ -19,6 +25,7 @@ class AlternativaProductoSimilarTest {
 
 	@Test
 	void rechazaProductoOTiendaNulos() {
+		// Particiones inválidas, DbC: producto y tienda son referencias obligatorias.
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(null, tienda, 50.0, 12, 3.5));
 		assertThrows(IllegalArgumentException.class,
@@ -27,12 +34,15 @@ class AlternativaProductoSimilarTest {
 
 	@Test
 	void rechazaGradosDeSimilitudFueraDelRango() {
+		// Límite inferior excluido y partición negativa: la similitud debe ser mayor que cero
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 0.0, 12, 3.5));
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, -1.0, 12, 3.5));
+		// Límite superior: un porcentaje mayor que 100 no es válido
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 100.01, 12, 3.5));
+		// Particiones no finitas: NaN e infinito positivo se rechazan
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, Double.NaN, 12, 3.5));
 		assertThrows(IllegalArgumentException.class,
@@ -41,6 +51,7 @@ class AlternativaProductoSimilarTest {
 
 	@Test
 	void esUnaAlternativaConTiempoYDistanciaEstimados() {
+		// Caja negra: un porcentaje intermedio válido y sus datos se conservan
 		AlternativaProductoSimilar alternativa =
 				new AlternativaProductoSimilar(producto, tienda, 66.7, 12, 3.5);
 
@@ -53,10 +64,13 @@ class AlternativaProductoSimilarTest {
 
 	@Test
 	void rechazaMetricasDeViajeInvalidas() {
+		// Partición inválida, límite: el tiempo de viaje no puede ser negativo
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 50.0, -1, 3.5));
+		// Partición inválida / límite: la distancia no puede ser negativa
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 50.0, 12, -1.0));
+		// Partición no finita: la distancia NaN no es admisible
 		assertThrows(IllegalArgumentException.class,
 				() -> new AlternativaProductoSimilar(producto, tienda, 50.0, 12, Double.NaN));
 	}

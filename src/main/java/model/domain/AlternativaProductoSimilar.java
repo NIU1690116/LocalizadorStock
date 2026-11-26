@@ -1,5 +1,9 @@
 package model.domain;
 
+/**
+ * Alternativa que propone un producto similar disponible en una tienda.
+ * Incluye el grado de similitud y las medidas de desplazamiento heredadas de Alternativa
+ */
 public final class AlternativaProductoSimilar extends Alternativa {
 	private final Producto productoSimilar;
 	private final Tienda tienda;
@@ -26,14 +30,17 @@ public final class AlternativaProductoSimilar extends Alternativa {
 		this.gradoSimilitud = gradoSimilitud;
 	}
 
+	//Obtiene el producto propuesto como similar
 	public Producto productoSimilar() {
 		return productoSimilar;
 	}
 
+	//Obtiene la tienda donde está disponible el producto similar
 	public Tienda tienda() {
 		return tienda;
 	}
 
+	// Obtiene el porcentaje de similitud calculado para el producto
 	public double gradoSimilitud() {
 		return gradoSimilitud;
 	}

@@ -26,6 +26,11 @@ import model.domain.ResultadoBusqueda;
 import model.domain.ResultadoLineaPeticion;
 import model.domain.Tienda;
 
+/**
+ * Pruebas de la presentación de resultados en consola (test de vista para cumplir ststement coverage)
+ * Combinan pruebas de caja negra, con caja blanca orientada a ramas,
+ * se recorren los estados de resolución y los tipos de alternativa
+ */
 class VistaLocalizadorStockTest {
 	private ByteArrayOutputStream contenido;
 	private VistaLocalizadorStock vista;
@@ -36,12 +41,22 @@ class VistaLocalizadorStockTest {
 		vista = new VistaLocalizadorStock(new PrintStream(contenido, true, StandardCharsets.UTF_8));
 	}
 
+	/**
+	 * Comprueba que el constructor sin argumentos puede crear la vista.
+	 * Tipo: caja blanca, cobertura de sentencia del constructor que delega en
+	 */
 	@Test
 	void constructorPorDefecto() {
 		// Statement coverage: ejecuta el constructor que delega en System.out.
 		assertDoesNotThrow(() -> new VistaLocalizadorStock());
 	}
 
+	/**
+	 * Comprueba la salida para los cinco resultados: resuelto en tienda actual,
+	 * sin solución, recogida en otra tienda, reposición y producto similar.
+	 * Tipo: caja negra por verificación del texto impreso y caja blanca por
+	 * cobertura de las ramas de estado y de tipo de alternativa de la vista.
+	 */
 	@Test
 	void VistaLocalizadorStockTest() {
 		//definición productos y tienda
@@ -92,6 +107,11 @@ class VistaLocalizadorStockTest {
 				assertTrue(texto.contains("producto similar: Chaqueta azul en Sur (100.0%, 20 min, 4.0 km)"));
 }
 
+	/**
+	 * Comprueba el texto de respaldo cuando la alternativa no pertenece a ninguno
+	 * de los subtipos reconocidos por la vista.
+	 * Tipo: caja negra sobre la salida y caja blanca de cobertura de la rama final
+	 */
 	@Test
 	void muestraAlternativaGenerica() {
 		// Statement coverage: ejecuta el último return de describir para un subtipo 
@@ -106,6 +126,7 @@ class VistaLocalizadorStockTest {
 				.contains("alternativa propuesta (7 min, 1.5 km)."));
 	}
 
+	//dependencias
 	private Producto producto(String codigo, String nombre) {
 		return new Producto(codigo, nombre, "Azul", "Ropa", "Unisex");
 	}
